@@ -29,7 +29,7 @@ class node
 {
 	struct puzzle_rep
 	{
-		int val[2];
+		int32_t val[2];
 	} rep;
 	
 	/***
