@@ -34,6 +34,13 @@ public:
 
 public:
 	/***
+	 * Constructor nodo padre+accion
+	*/
+	node(node *padre, int accion);
+
+	node(unsigned long int representacion);
+
+	/***
 	 * Genera una estructura de
 	 * datos que representa el estado i
 	*/

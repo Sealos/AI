@@ -1,6 +1,22 @@
 // Nodo de 15 puzzle
 #include "node.h"
 
+node::node(node *padre, int accion)
+{
+	this->padre = padre;
+}
+
+node::node(unsigned long int representacion)
+{
+	this->padre = nullptr;
+#ifdef X_64
+	this->val = representacion;
+#else
+	this->val[0] = (int)(representacion >> 32);
+	this->val[1] = (int)(representacion & 0xFFFFFFFF);
+#endif
+}
+
 bool node::is_goal()
 {
 #ifdef X_64
@@ -9,11 +25,6 @@ bool node::is_goal()
 	return (this->val[0] == 0x12345678 && this->val[1] == 0x9ABCDEF0);
 #endif
 }
-
-#define MOV_ARRIBA	0
-#define MOV_ABAJO	1
-#define MOV_DER		2
-#define MOV_IZQ		3
 
 std::list<int> node::succ()
 {
