@@ -21,7 +21,6 @@ int main(int argc, const char* argv[])
 		while (iss >> n)
 		{
 			if (i > 7) {
-				printf("%X\n", representacion[0]);
 				representacion[0] = representacion[0] | n << 4*i ; 
 			} else {
 				representacion[1] = representacion[1] | n << 4*i ;
