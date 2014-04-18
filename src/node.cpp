@@ -10,7 +10,8 @@ node::node(unsigned int val0, unsigned int val1)
 {
 	this->padre = nullptr;
 #ifdef X_64
-	unsigned long int temp = (val0 << 32);
+	unsigned long int temp = val0;
+	temp = (temp << 32);
 	this->val = temp + val1;
 #else
 	this->val[0] = val0;
@@ -84,4 +85,25 @@ std::list<int> node::succ()
 	}
 
 	return l_moves;
+}
+
+int node::get_value(int n)
+{
+	//if (n > 15 || n < 0)
+	//	return -1;
+#ifdef X_64
+	unsigned long int val;
+	val = this->val & pos_mask[n];
+	int val0 = val >> (n*4);
+	return val0;
+#else
+	int val;
+	if (n > 7)
+		val = this->val[1];
+	else
+		val = this->val[0];
+	n = n % 8;
+	val = (val & pos_mask[n])
+	return val >> (n*4);
+#endif
 }
