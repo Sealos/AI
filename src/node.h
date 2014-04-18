@@ -38,7 +38,7 @@ public:
 	*/
 	node(node *padre, int accion);
 
-	node(unsigned long int representacion);
+	node(unsigned int val0, unsigned int val1);
 
 	/***
 	 * Genera una estructura de

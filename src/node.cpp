@@ -6,14 +6,15 @@ node::node(node *padre, int accion)
 	this->padre = padre;
 }
 
-node::node(unsigned long int representacion)
+node::node(unsigned int val0, unsigned int val1)
 {
 	this->padre = nullptr;
 #ifdef X_64
-	this->val = representacion;
+	unsigned long int temp = (val0 << 32);
+	this->val = temp + val1;
 #else
-	this->val[0] = (int)(representacion >> 32);
-	this->val[1] = (int)(representacion & 0xFFFFFFFF);
+	this->val[0] = val0;
+	this->val[1] = val1;
 #endif
 }
 
