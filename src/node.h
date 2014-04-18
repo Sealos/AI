@@ -59,6 +59,11 @@ public:
 	std::list<int> succ();
 
 	/***
+	 * Obtiene el valor de la ficha de la posicion n
+	 */
+	int get_value(int n);
+
+	/***
 	 * Construye la raíz del arbol de
 	 * búsqueda:
 	 *
