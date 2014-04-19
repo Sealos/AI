@@ -1,5 +1,20 @@
 #include "search.h"
 
+int manhattan(node *n)
+{
+	int val = 0;
+	for (int i = 0; i < 16; ++i)
+	{
+		int x = i mod 4;
+		int y = i div 4;
+		int valor = n->get_value(i);
+		int xs = valor mod 4;
+		int ys = valor div 4;
+		val += abs(x - xs) + abs(y - ys);
+	}
+	return val;
+}
+
 search::search()
 {
 	//ctor

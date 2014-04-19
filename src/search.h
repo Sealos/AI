@@ -7,6 +7,8 @@
 
 using namespace std;
 
+int manhattan(node *n);
+
 struct v_ida
 {
 	list<unsigned char> path;
