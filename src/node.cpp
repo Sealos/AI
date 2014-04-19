@@ -39,14 +39,19 @@ unsigned int pos_mask[8] =
 
 #endif
 
-node::node(node *p, int accion)
+node::node(node *p, unsigned char a)
 {
 	this->padre = p;
+	this->accion = a;
+	this->g = p->g + 1;
+	//swap
 }
 
 node::node(unsigned int val0, unsigned int val1)
 {
 	this->padre = NULL;
+	this->accion = MOV_NULL;
+	this->g = 0;
 #ifdef X_64
 	unsigned long int temp = val0;
 	temp = (temp << 32);
@@ -66,9 +71,9 @@ bool node::is_goal()
 #endif
 }
 
-std::list<int> node::succ()
+std::list<unsigned char> node::succ()
 {
-	std::list<int> l_moves;
+	std::list<unsigned char> l_moves;
 	switch(this->pos_cero)
 	{
 	case 0:
@@ -144,4 +149,17 @@ int node::get_value(int n)
 	val = (val & pos_mask[n])
 	return val >> (n*4);
 #endif
+}
+
+std::list<unsigned char> node::extract_solution()
+{
+	std::list<unsigned char> path;
+	node *n = this;
+	while (n->padre != NULL)
+	{
+		path.push_front(n->accion);
+		n = n->padre;
+	}
+
+	return path;
 }
