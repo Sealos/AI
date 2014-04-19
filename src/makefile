@@ -1,4 +1,4 @@
-DEP = node.o SnD.o
+DEP = node.o search.o
 TARGET = main
 CC = g++
 DFLAGS = -g
