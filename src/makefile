@@ -1,3 +1,4 @@
+DEP = node.o SnD.o
 TARGET = main
 CC = g++
 DFLAGS = -g
@@ -10,17 +11,17 @@ else
 	CPPFLAGS = -Wall
 endif
 
-all: node.o
-	$(CC) $(LIBS) main.cpp node.o $(DFLAGS) $(CPPFLAGS) -o main
+all: $(DEP)
+	$(CC) $(LIBS) main.cpp $(DEP) $(DFLAGS) $(CPPFLAGS) -o main
 
 %.o: %.cpp
-	$(CC) -c $(LIBS) $(DFLAGS) $(CPPFLAGS) $< -o $@
+	$(CC) $(LIBS) -c $(DFLAGS) $(CPPFLAGS) $< -o $@
 
 clean:
 	rm -f *.o
 
 rebuild: clean all
 
-debug: node.o
-	$(CC) $(LIBS) main.cpp node.o $(DFLAGS) $(LIBS) $(CPPFLAGS) -o main
+debug: $(DEP)
+	$(CC) $(LIBS) main.cpp $(DEP) $(DFLAGS) $(LIBS) $(CPPFLAGS) -o main
 

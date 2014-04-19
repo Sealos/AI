@@ -1,11 +1,15 @@
 // Nodo de 15 puzzle
-#include <stdio.h>
-#include <cstdlib>
 #include "define.h"
 #include <list>
+#include <stdio.h>
 
 #ifndef NODE_H
 #define NODE_H
+
+#define MOV_ARRIBA	0
+#define MOV_ABAJO	1
+#define MOV_DER		2
+#define MOV_IZQ		3
 
 /***
  * La información que se guarda en un
@@ -23,7 +27,7 @@
 class node
 {
 public:
-	int8_t pos_cero;
+	unsigned char pos_cero;
 	node *padre;
 
 #ifdef X_64
