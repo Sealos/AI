@@ -35,15 +35,14 @@ int main(int argc, const char* argv[])
 		printf("%X, %X \n", representacion[0], representacion[1]);
 		node *nodo = new node(representacion[0], representacion[1], p_cero);
 		printf("Manhattan: %d | PDB: %d | is_goal: %d\n",manhattan(nodo) , pdb(nodo), nodo->is_goal());
+		nodo->print();
+		node *nodo2 = new node(nodo, MOV_IZQ);
+		nodo2->print();
 		search *s = new search();
 		list<unsigned char> succ = s->ida_star(nodo, pdb);
-		unsigned char a;
-		printf("%d", succ.size());
-		/*for (list<unsigned char>::const_iterator iterator = succ.begin(), end = succ.end(); iterator != end; ++iterator)
-		{
-			printf();
-		}
-		return 0;*/
+		//unsigned char a;
+		//printf("%d", succ.size());
+		return 0;
 
 		//printf("%X, %X, %d\n", nodo->val[0], nodo->val[1], nodo->g);
 		//printf("%X, %X, %d\n", nodo->val[0], nodo->val[1], nodo->g);

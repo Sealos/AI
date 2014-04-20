@@ -61,14 +61,20 @@ node::node(node *p, unsigned char a)
 		break;
 	}
 
-	int val = get_value(this->pos_cero);
+	int val = p->get_value(this->pos_cero);
+#ifdef X_64
+	this->val = p->val;
+#else
+	this->val[0] = p->val[0];
+	this->val[1] = p->val[1];
+#endif
 	set_value(0, this->pos_cero);
 	set_value(val, p->pos_cero);
 
 }
 
 //Funciona
-node::node(unsigned int val0, unsigned int val1,unsigned char p_cero)
+node::node(unsigned int val0, unsigned int val1, unsigned char p_cero)
 {
 	this->pos_cero = p_cero;
 	this->padre = NULL;
@@ -229,4 +235,13 @@ std::list<unsigned char> node::extract_solution()
 bool compare_node::operator()(node* n1, node* n2)
 {
 	return false;
+}
+
+void node::print()
+{
+	for (int i = 0; i < 16; ++i)
+	{
+		printf("%d ", this->get_value(i));
+	}
+	printf("\n");
 }

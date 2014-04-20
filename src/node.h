@@ -110,6 +110,8 @@ public:
 	 * 	return path
 	 */
 	std::list<unsigned char> extract_solution();
+
+	void print();
 };
 
 class compare_node
