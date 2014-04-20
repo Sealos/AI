@@ -1,6 +1,7 @@
 // Nodo de 15 puzzle
 #include <list>
 #include <stdio.h>
+#include <climits>
 
 #ifndef NODE_H
 #define NODE_H
@@ -89,6 +90,8 @@ public:
 	 * Obtiene el valor de la ficha de la posicion n
 	 */
 	int get_value(int n);
+
+	void set_value(unsigned char val, unsigned char pos);
 
 	/***
 	 * Construye el unico camino

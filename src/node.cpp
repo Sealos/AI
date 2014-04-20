@@ -45,6 +45,26 @@ node::node(node *p, unsigned char a)
 	this->accion = a;
 	this->g = p->g + 1;
 	//swap
+	switch (a)
+	{
+	case MOV_ARRIBA:
+		this->pos_cero = p->pos_cero - 4;
+		break;
+	case MOV_ABAJO:
+		this->pos_cero = p->pos_cero + 4;
+		break;
+	case MOV_DER:
+		this->pos_cero = p->pos_cero + 1;
+		break;
+	case MOV_IZQ:
+		this->pos_cero = p->pos_cero - 1;
+		break;
+	}
+
+	int val = get_value(this->pos_cero);
+	set_value(0, this->pos_cero);
+	set_value(val, p->pos_cero);
+
 }
 
 node::node(unsigned int val0, unsigned int val1)
@@ -65,9 +85,9 @@ node::node(unsigned int val0, unsigned int val1)
 bool node::is_goal()
 {
 #ifdef X_64
-	return this->val == 0x123456789ABCDEF0;
+	return this->val == 0x0123456789ABCDEF;
 #else
-	return (this->val[0] == 0x12345678 && this->val[1] == 0x9ABCDEF0);
+	return (this->val[0] == 0x01234567 && this->val[1] == 0x89ABCDEF);
 #endif
 }
 
@@ -137,7 +157,7 @@ int node::get_value(int n)
 #ifdef X_64
 	unsigned long int val;
 	val = this->val & pos_mask[n];
-	int val0 = val >> (n*4);
+	int val0 = val >> (n * 4);
 	return val0;
 #else
 	int val;
@@ -147,7 +167,37 @@ int node::get_value(int n)
 		val = this->val[0];
 	n = n % 8;
 	val = (val & pos_mask[n])
-	return val >> (n*4);
+	return val >> (n * 4);
+#endif
+}
+
+void node::set_value(unsigned char val, unsigned char pos)
+{
+#ifdef X_64
+	unsigned long int mask = ULONG_MAX - pos_mask[pos];
+	unsigned long int sum_val = (this->val & mask);
+	if (val != 0)
+	{
+		unsigned long int new_val = val;
+		new_val = new_val << ((15 - pos) * 4);
+		this->val = new_val + sum_val;
+	}
+	else
+		this->val = sum_val;
+
+#else
+
+	unsigned char n = pos % 8;
+	unsigned char i = pos / 8;
+	unsigned int mask = UINT_MAX - pos_mask[n];
+	this->val[i] = this->val[i] & mask;
+	if (val != 0)
+	{
+		unsigned int new_val = val;
+		new_val = new_val << ((7 - n) * 4);
+		this->val[i] += new_val;
+	}
+
 #endif
 }
 

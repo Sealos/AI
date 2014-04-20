@@ -26,6 +26,7 @@ int main(int argc, const char* argv[])
 			i--;
 		}
 		printf("%X, %X \n", representacion[0], representacion[1]);
+		//new node(representacion[0], representacion[1]);
 		//node::node(representacion[0], representacion[1])
 	}
 
