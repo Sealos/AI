@@ -41,7 +41,6 @@ public:
 
 public:
 	/***
-	 * - SIN REVISAR -
 	 * Construye un nodo que
 	 * representa al estado s que
 	 * es hijo del estado n a traves
@@ -98,7 +97,7 @@ public:
 	void set_value(unsigned char val, unsigned char pos);
 
 	/***
-	 * - SIN REVISAR -
+	 * - SIN PROBAR -
 	 * Construye el unico camino
 	 * de la raíz a al nodo n:
 	 *

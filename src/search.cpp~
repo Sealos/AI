@@ -1,5 +1,5 @@
 #include "search.h"
-/*
+
 int manhattan(node *n)
 {
 	int val = 0;
@@ -13,7 +13,7 @@ int manhattan(node *n)
 		val += abs(x - xs) + abs(y - ys);
 	}
 	return val;
-}*/
+}
 
 search::search()
 {
