@@ -1,4 +1,7 @@
 #include "search.h"
+<<<<<<< HEAD
+/*
+=======
 
 unsigned char man_data[16][16] =
 {
@@ -20,18 +23,17 @@ unsigned char man_data[16][16] =
 	{6, 5, 4, 3, 5, 4, 3, 2, 4, 3, 2, 1, 3, 2, 1, 0}
 };
 
+>>>>>>> 8d5e6c4eaa1a23eba5823b7d6cd053146c266f99
 int manhattan(node *n)
 {
 	int val = 0;
 	for (int i = 0; i < 16; ++i)
 	{
-		int x = i % 4;
-		int y = i / 4;
 		int valor = n->get_value(i);
 		val += man_data[i][valor];
 	}
 	return val;
-}
+}*/
 
 search::search()
 {
