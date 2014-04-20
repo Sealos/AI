@@ -1,7 +1,7 @@
 DEP = node.o search.o pdb.o
 TARGET = main
 CC = g++
-DFLAGS = -g
+DFLAGS = -g -O3 -O2
 LIBS = -std=c++11
 
 LBITS = $(shell getconf LONG_BIT)

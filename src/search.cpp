@@ -72,7 +72,7 @@ search::search()
 
 list<unsigned char> search::ida_star(node *n, int (*h)(node *))
 {
-	int t = n->g + h(n);
+	int t = h(n);
 	while (t != INT_MAX)
 	{
 		v_ida vec = bonded_dfs(n, 0, t, h);
@@ -88,7 +88,7 @@ list<unsigned char> search::ida_star(node *n, int (*h)(node *))
 
 v_ida search::bonded_dfs(node *n, int g, int t, int (*h)(node *))
 {
-	int f = g + h(n);
+	int f = n->g + h(n);
 	v_ida v;
 
 	if (f > t)

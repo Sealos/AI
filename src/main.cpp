@@ -2,6 +2,8 @@
 #include <fstream>
 #include <sstream>
 #include "node.h"
+#include "pdb.h"
+#include "search.h"
 
 int main(int argc, const char* argv[])
 {
@@ -30,11 +32,22 @@ int main(int argc, const char* argv[])
 			}
 			i--;
 		}
-/*		printf("%X, %X \n", representacion[0], representacion[1]);
+		printf("%X, %X \n", representacion[0], representacion[1]);
 		node *nodo = new node(representacion[0], representacion[1], p_cero);
-		printf("%X, %X, %d\n", nodo->val[0], nodo->val[1], nodo->g);
-		printf("%X, %X, %d\n", nodo->val[0], nodo->val[1], nodo->g);
- 		std::list<unsigned char>::iterator vec_int_iter;
+		printf("Manhattan: %d | PDB: %d | is_goal: %d\n",manhattan(nodo) , pdb(nodo), nodo->is_goal());
+		search *s = new search();
+		list<unsigned char> succ = s->ida_star(nodo, pdb);
+		unsigned char a;
+		printf("%d", succ.size());
+		/*for (list<unsigned char>::const_iterator iterator = succ.begin(), end = succ.end(); iterator != end; ++iterator)
+		{
+			printf();
+		}
+		return 0;*/
+
+		//printf("%X, %X, %d\n", nodo->val[0], nodo->val[1], nodo->g);
+		//printf("%X, %X, %d\n", nodo->val[0], nodo->val[1], nodo->g);
+ /*		std::list<unsigned char>::iterator vec_int_iter;
  		vec_int_iter = k.begin();
  		for(; vec_int_iter != k.end(); vec_int_iter++)
  			printf("%u\n", *vec_int_iter);
