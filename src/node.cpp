@@ -215,11 +215,13 @@ std::list<unsigned char> node::extract_solution()
 {
 	std::list<unsigned char> path;
 	node *n = this;
+	path.push_front(n->accion);
 	while (n->padre != NULL)
 	{
+        n = n->padre;
 		path.push_front(n->accion);
-		n = n->padre;
 	}
+
 
 	return path;
 }

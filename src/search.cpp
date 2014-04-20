@@ -61,7 +61,8 @@ search::search()
 				a = *iterator;
 				if (h(s)<INT_MAX) //s debe ser el estado que se produce de aplicar la accion a sobre n
 				{
-					q.push(node(*n,a));
+				    node *np = new node(n,a)
+					q.push(node(np));
 				}
 			}
 		}
