@@ -223,3 +223,8 @@ std::list<unsigned char> node::extract_solution()
 
 	return path;
 }
+
+bool compare_node::operator()(node* n1, node* n2)
+{
+	return false;
+}

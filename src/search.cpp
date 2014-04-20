@@ -38,29 +38,30 @@ search::search()
 	//ctor
 }
 
-list<unsigned char> search::a_star(node *n, int (*heuristic)(node *))
+ list<unsigned char> search::a_star(node *n, int (*heuristic)(node *))
 {
-	/*std::priority_queue<node, CONTENEDOR, COMPARADOR> q;
+	/*priority_queue<node*, vector<node*>, compare_node> q;
 	q.push(n);
-	unordered_map<> closed;
-	while (!q.empty)
+	unordered_map<key,valuetype,hashfunc,equalfunc> closed;
+	while (!q.empty())
 	{
-		n << q.pop
-		if (closed.find(n.val) != closed.end() || g(n)<dist[n.val] closed[n.val]?)
+		n = q.pop();
+		if (closed.find(n->val) != closed.end() || n->g<dist[n->val] )//closed[n->val]?
 		{
-			closed.insert(n.val); //closed[n.val] = g(n) ?
-			dist[n.val] = g(n); //
-			if (n.is_goal())
+			closed.insert(n->val); //closed[n->val] = n->g ?
+			dist[n->val] = n->g; //
+			if (n->is_goal())
 			{
-				return n.extract_solution()
+				return n->extract_solution();
 			}
-			std::list succe = n.succ(); //Lista de las acciones para obtener los sucesores
-			for (std::list<int>::const_iterator i = succe.begin(); fin = succe.end(); i!=fin; ++i)
+			list<unsigned char> succ = n->succ(); //Lista de las acciones para obtener los sucesores
+			unsigned char a;
+			for (list<unsigned char>::const_iterator iterator = succ.begin(), end = succ.end(); iterator!=end; ++iterator)
 			{
-				a << *i
+				a = *iterator;
 				if (h(s)<INT_MAX) //s debe ser el estado que se produce de aplicar la accion a sobre n
 				{
-					q.push(node(n,a))
+					q.push(node(*n,a));
 				}
 			}
 		}
