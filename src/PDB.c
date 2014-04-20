@@ -1,7 +1,41 @@
 #include <stdio.h>
+#include <stdlib.h>
+
+
+int calcular_manhattan(int val1, int val2, int val3, int val4, int pos1, int pos2, int pos3, int pos4)
+{
+	int val = 0;
+
+	int x = (val1) % 4;
+	int y = (val1) / 4;
+	int xs = (pos1) % 4;
+	int ys = (pos1) / 4;
+	val += abs(x - xs) + abs(y - ys);
+
+	x = (val2) % 4;
+	y = (val2) / 4;
+	xs = (pos2) % 4;
+	ys = (pos2) / 4;
+	val += abs(x - xs) + abs(y - ys);
+
+	x = (val3) % 4;
+	y = (val3) / 4;
+	xs = (pos3) % 4;
+	ys = (pos3) / 4;
+	val += abs(x - xs) + abs(y - ys);
+
+	x = (val4) % 4;
+	y = (val4) / 4;
+	xs = (pos4) % 4;
+	ys = (pos4) / 4;
+	val += abs(x - xs) + abs(y - ys);
+
+	return val;
+}
 
 int main(int argc, const char* argv[])
 {
+	int a, b, c, d;
 	for (int i = 0; i < 16; ++i)
 	{
 		for (int j = 0; j < 16; ++j)
@@ -13,7 +47,13 @@ int main(int argc, const char* argv[])
 					for (int l = 0; l < 16; ++l)
 						{
 							if (l != k && l != j && l != i)
-								printf("{%d, %d, %d, %d},\n", i, j, k, l);
+							{
+								a = calcular_manhattan(i, j, k, l, 0, 1, 4, 5);
+								b = calcular_manhattan(i, j, k, l, 2, 3, 6, 7);
+								c = calcular_manhattan(i, j, k, l, 8, 9, 12, 13);
+								d = calcular_manhattan(i, j, k, l, 10, 11, 14, 15);
+								printf("{%d, %d, %d, %d}, {%d, %d, %d, %d}\n", i, j, k, l, a, b, c, d);
+							}
 						}
 				}
 		}
