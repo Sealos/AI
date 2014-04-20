@@ -4,10 +4,24 @@ int pdb_data[16][16][16][16][1] = {{{{{0x00000000}, {0x00000000}, {0x00000000}, 
 int pdb(node *n)
 {
 	int val = 0;
-	val += pdb_data[n->get_value(0)][n->get_value(1)][n->get_value(4)][n->get_value(5)][1];
-	val += pdb_data[n->get_value(2)][n->get_value(3)][n->get_value(6)][n->get_value(7)][1];
-	val += pdb_data[n->get_value(8)][n->get_value(9)][n->get_value(12)][n->get_value(13)][1];
-	val += pdb_data[n->get_value(12)][n->get_value(11)][n->get_value(14)][n->get_value(15)][1];
+	int data = pdb_data[n->get_value(0)][n->get_value(1)][n->get_value(4)][n->get_value(5)][1];
+	data = data & 0xFF000000;
+	data = data >> 6;
+	val += data;
+
+	data = pdb_data[n->get_value(2)][n->get_value(3)][n->get_value(6)][n->get_value(7)][1];
+	data = data & 0x00FF0000;
+	data = data >> 4;
+	val += data;
+
+	data = pdb_data[n->get_value(8)][n->get_value(9)][n->get_value(12)][n->get_value(13)][1];
+	data = data & 0x0000FF00;
+	data = data >> 2;
+	val += data;
+
+	data = pdb_data[n->get_value(12)][n->get_value(11)][n->get_value(14)][n->get_value(15)][1];
+	data = data & 0x000000FF;
+	val += data;
 
 	return val;
 }
