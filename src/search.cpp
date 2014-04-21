@@ -1,5 +1,6 @@
 #include "search.h"
 
+
 unsigned char man_data[16][16] =
 {
 	{0, 1, 2, 3, 1, 2, 3, 4, 2, 3, 4, 5, 3, 4, 5, 6},
@@ -23,14 +24,22 @@ unsigned char man_data[16][16] =
 int manhattan(node *n)
 {
 	int val = 0;
+	int valor;
 	for (int i = 0; i < 16; ++i)
 	{
-		int x = i % 4;
-		int y = i / 4;
-		int valor = n->get_value(i);
+		valor = n->get_value(i);
 		val += man_data[i][valor];
 	}
 	return val;
+}
+
+int hashie(node* n)
+{
+#ifdef X_64
+	return n->val;
+#else
+	return (n->val[0] ^ n->val[1]);
+#endif
 }
 
 search::search()
@@ -38,30 +47,40 @@ search::search()
 	//ctor
 }
 
- list<unsigned char> search::a_star(node *n, int (*heuristic)(node *))
+ list<unsigned char> search::a_star(node *n, int (*h)(node *))
 {
-	/*priority_queue<node*, vector<node*>, compare_node> q;
+	priority_queue<node*, vector<node*>, compare_node_mh> q;
+
+	if (h == pdb)
+		priority_queue<node*, vector<node*>, compare_node_pdb> q;
+	
 	q.push(n);
-	unordered_map<key,valuetype,hashfunc,equalfunc> closed;
-	while (!q.empty())
+	
+	unordered_map<n, int, hashie> dist;
+	//unordered_set<n, hashie> closed;
+	
+	/*while (!q.empty())
 	{
 		n = q.pop();
-		if (closed.find(n->val) != closed.end() || n->g<dist[n->val] )//closed[n->val]?
+		if (closed.find(n->val) != closed.end() || n->g < dist[n->val])
 		{
-			closed.insert(n->val); //closed[n->val] = n->g ?
-			dist[n->val] = n->g; //
+			closed.insert(n->val);
+			dist[n->val] = n->g;
+			
 			if (n->is_goal())
 			{
 				return n->extract_solution();
 			}
+			
 			list<unsigned char> succ = n->succ(); //Lista de las acciones para obtener los sucesores
 			unsigned char a;
+			
 			for (list<unsigned char>::const_iterator iterator = succ.begin(), end = succ.end(); iterator!=end; ++iterator)
 			{
 				a = *iterator;
-				if (h(s)<INT_MAX) //s debe ser el estado que se produce de aplicar la accion a sobre n
+				node *np = new node(n,a);
+				if (h(np) < INT_MAX) //s debe ser el estado que se produce de aplicar la accion a sobre n
 				{
-				    node *np = new node(n,a)
 					q.push(node(np));
 				}
 			}
@@ -91,7 +110,14 @@ v_ida search::bonded_dfs(node *n, int g, int t, int (*h)(node *))
 {
 	int f = n->g + h(n);
 	v_ida v;
-
+	if (h==manhattan) 
+	{
+		printf("manhattan\n");
+	}
+	if (h==pdb)
+	{
+		printf("pdb\n");
+	}
 	if (f > t)
 	{
 		list<unsigned char> k;
@@ -114,7 +140,11 @@ v_ida search::bonded_dfs(node *n, int g, int t, int (*h)(node *))
 	{
 		a = *iterator;
 		node *np = new node(n, a);
+		//printf("%u \n", a );
+		//np->print();
+		//printf(" ------ \n");
 		v_ida vec = bonded_dfs(np, np->g, t, h);
+		delete np;
 		if (!vec.path.empty())
 		{
 			return vec;
@@ -123,4 +153,18 @@ v_ida search::bonded_dfs(node *n, int g, int t, int (*h)(node *))
 	}
 	v_ida l;
 	return l;
+}
+
+bool compare_node_mh::operator()(node* n1, node* n2)
+{
+	if ((n1->g + manhattan(n1)) < (n2->g + manhattan(n2)))
+		return true;
+	return false;
+}
+
+bool compare_node_pdb::operator()(node* n1, node* n2)
+{
+	if ((n1->g + pdb(n1)) < (n2->g + pdb(n2)))
+		return true;
+	return false;
 }

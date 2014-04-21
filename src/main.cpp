@@ -17,7 +17,7 @@ int main(int argc, const char* argv[])
 		representacion[1] = 0x00000000;
 		std::istringstream iss(line);
 		int n;
-		unsigned char p_cero;
+		unsigned char p_cero = 0;
 		int i = 15;
 
 		while (iss >> n)
@@ -36,10 +36,14 @@ int main(int argc, const char* argv[])
 		node *nodo = new node(representacion[0], representacion[1], p_cero);
 		printf("Manhattan: %d | PDB: %d | is_goal: %d\n",manhattan(nodo) , pdb(nodo), nodo->is_goal());
 		nodo->print();
-		node *nodo2 = new node(nodo, MOV_IZQ);
-		nodo2->print();
+		
 		search *s = new search();
-		list<unsigned char> succ = s->ida_star(nodo, pdb);
+		list<unsigned char> succ = s->ida_star(nodo, manhattan);
+		
+		std::list<unsigned char>::iterator vec_int_iter;
+ 		vec_int_iter = succ.begin();
+ 		for(; vec_int_iter != succ.end(); vec_int_iter++)
+ 			printf("%u\n", *vec_int_iter);
 		//unsigned char a;
 		//printf("%d", succ.size());
 		return 0;

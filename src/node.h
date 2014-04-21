@@ -112,12 +112,8 @@ public:
 	std::list<unsigned char> extract_solution();
 
 	void print();
+	
 };
 
-class compare_node
-{
-public:
-	bool operator()(node* n1, node* n2);
-};
 
 #endif /* NODE_H */
