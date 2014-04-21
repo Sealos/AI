@@ -1,6 +1,5 @@
 #include "search.h"
 
-
 unsigned char man_data[16][16] =
 {
 	{0, 1, 2, 3, 1, 2, 3, 4, 2, 3, 4, 5, 3, 4, 5, 6},
@@ -48,7 +47,7 @@ search::search()
 
 	q.push(n);
 
-	unordered_map<node*, int> dist;
+	//unordered_map<node*, int> dist;
 	//unordered_set<n, hashie> closed;
 
 	/*while (!q.empty())
@@ -102,14 +101,7 @@ v_ida search::bonded_dfs(node *n, int g, int t, int (*h)(node *))
 {
 	int f = n->g + h(n);
 	v_ida v;
-	if (h==manhattan)
-	{
-		printf("manhattan\n");
-	}
-	if (h==pdb)
-	{
-		printf("pdb\n");
-	}
+	
 	if (f > t)
 	{
 		list<unsigned char> k;
@@ -132,9 +124,6 @@ v_ida search::bonded_dfs(node *n, int g, int t, int (*h)(node *))
 	{
 		a = *iterator;
 		node *np = new node(n, a);
-		//printf("%u \n", a );
-		//np->print();
-		//printf(" ------ \n");
 		v_ida vec = bonded_dfs(np, np->g, t, h);
 		delete np;
 		if (!vec.path.empty())

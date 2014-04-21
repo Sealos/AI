@@ -115,7 +115,7 @@ public:
 
 };
 
-namespace std
+/*namespace std
 {
 	template <>
 		class hash<node>
@@ -133,6 +133,6 @@ namespace std
 			}
 		};
 };
-
+*/
 
 #endif /* NODE_H */

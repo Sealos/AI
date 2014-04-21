@@ -1,4 +1,10 @@
 #include "node.h"
+#include <ctime>
+#include <cstdio>
+#include <chrono>
+#include <iostream>
+
+unsigned int cant_nodos = 0;
 
 #ifdef X_64
 
@@ -39,8 +45,13 @@ unsigned int pos_mask[8] =
 #endif
 
 //Sin revisar
+
 node::node(node *p, unsigned char a)
 {
+	cant_nodos++;
+	printf("Cant. nodos: %u\n", cant_nodos);
+	auto start = std::chrono::steady_clock::now();
+	
 	this->padre = p;
 	this->accion = a;
 	this->g = p->g + 1;
@@ -70,12 +81,21 @@ node::node(node *p, unsigned char a)
 #endif
 	set_value(0, this->pos_cero);
 	set_value(val, p->pos_cero);
-
+	
+    auto finish = std::chrono::high_resolution_clock::now();
+    std::cout << "Tiempo: " << std::chrono::duration_cast<std::chrono::nanoseconds>(finish-start).count() << "ns\n";
 }
 
+
 //Funciona
+
 node::node(unsigned int val0, unsigned int val1, unsigned char p_cero)
 {
+	cant_nodos++;
+	printf("Cant. nodos: %u\n", cant_nodos);
+	 clock_t start;
+	 double diff;
+	 start = clock();
 	this->pos_cero = p_cero;
 	this->padre = NULL;
 	this->accion = MOV_NULL;
@@ -88,7 +108,10 @@ node::node(unsigned int val0, unsigned int val1, unsigned char p_cero)
 	this->val[0] = val0;
 	this->val[1] = val1;
 #endif
+  diff = ( std::clock() - start ) / (double)CLOCKS_PER_SEC;
+  std::cout<<"printf: "<< diff <<'\n';
 }
+
 
 //Funciona
 bool node::is_goal()
