@@ -112,7 +112,26 @@ public:
 	std::list<unsigned char> extract_solution();
 
 	void print();
-	
+
+};
+
+namespace std
+{
+	template <>
+		class hash<node>
+		{
+		public :
+			size_t operator()(const node &n ) const
+			{
+				#ifdef X_64
+						int val1 = (n.val & 0xFFFFFFFF00000000) >> 32;
+						int val2 = (n.val & 0x00000000FFFFFFFF);
+						return val1 ^ val2;
+				#else
+						return (n.val[0] ^ n.val[1]);
+				#endif
+			}
+		};
 };
 
 

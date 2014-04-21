@@ -33,19 +33,11 @@ int manhattan(node *n)
 	return val;
 }
 
-int hashie(node* n)
-{
-#ifdef X_64
-	return n->val;
-#else
-	return (n->val[0] ^ n->val[1]);
-#endif
-}
-
 search::search()
 {
 	//ctor
 }
+
 
  list<unsigned char> search::a_star(node *n, int (*h)(node *))
 {
@@ -53,12 +45,12 @@ search::search()
 
 	if (h == pdb)
 		priority_queue<node*, vector<node*>, compare_node_pdb> q;
-	
+
 	q.push(n);
-	
-	unordered_map<n, int, hashie> dist;
+
+	unordered_map<node*, int> dist;
 	//unordered_set<n, hashie> closed;
-	
+
 	/*while (!q.empty())
 	{
 		n = q.pop();
@@ -66,15 +58,15 @@ search::search()
 		{
 			closed.insert(n->val);
 			dist[n->val] = n->g;
-			
+
 			if (n->is_goal())
 			{
 				return n->extract_solution();
 			}
-			
+
 			list<unsigned char> succ = n->succ(); //Lista de las acciones para obtener los sucesores
 			unsigned char a;
-			
+
 			for (list<unsigned char>::const_iterator iterator = succ.begin(), end = succ.end(); iterator!=end; ++iterator)
 			{
 				a = *iterator;
@@ -110,7 +102,7 @@ v_ida search::bonded_dfs(node *n, int g, int t, int (*h)(node *))
 {
 	int f = n->g + h(n);
 	v_ida v;
-	if (h==manhattan) 
+	if (h==manhattan)
 	{
 		printf("manhattan\n");
 	}
