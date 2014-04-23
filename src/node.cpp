@@ -48,14 +48,20 @@ unsigned int pos_mask[8] =
 
 node::node(node *p, unsigned char a)
 {
-	cant_nodos++;
-	printf("Cant. nodos: %u\n", cant_nodos);
-	auto start = std::chrono::steady_clock::now();
+// 	cant_nodos++;
+// 	printf("Cant. nodos: %u\n", cant_nodos);
+	//auto start = std::chrono::steady_clock::now();
 	
 	this->padre = p;
 	this->accion = a;
 	this->g = p->g + 1;
-	//swap
+#ifdef X_64
+	this->val = p->val;
+#else
+	this->val[0] = p->val[0];
+	this->val[1] = p->val[1];
+#endif
+
 	switch (a)
 	{
 	case MOV_ARRIBA:
@@ -70,20 +76,17 @@ node::node(node *p, unsigned char a)
 	case MOV_IZQ:
 		this->pos_cero = p->pos_cero - 1;
 		break;
+	case MOV_NULL:
+		this->pos_cero = p->pos_cero;
+		return;
 	}
 
 	int val = p->get_value(this->pos_cero);
-#ifdef X_64
-	this->val = p->val;
-#else
-	this->val[0] = p->val[0];
-	this->val[1] = p->val[1];
-#endif
 	set_value(0, this->pos_cero);
 	set_value(val, p->pos_cero);
 	
-    auto finish = std::chrono::high_resolution_clock::now();
-    std::cout << "Tiempo: " << std::chrono::duration_cast<std::chrono::nanoseconds>(finish-start).count() << "ns\n";
+   // auto finish = std::chrono::high_resolution_clock::now();
+   // std::cout << "Tiempo: " << std::chrono::duration_cast<std::chrono::nanoseconds>(finish-start).count() << "ns\n";
 }
 
 
@@ -91,11 +94,8 @@ node::node(node *p, unsigned char a)
 
 node::node(unsigned int val0, unsigned int val1, unsigned char p_cero)
 {
-	cant_nodos++;
-	printf("Cant. nodos: %u\n", cant_nodos);
-	 clock_t start;
-	 double diff;
-	 start = clock();
+// 	cant_nodos++;
+// 	printf("Cant. nodos: %u\n", cant_nodos);
 	this->pos_cero = p_cero;
 	this->padre = NULL;
 	this->accion = MOV_NULL;
@@ -108,8 +108,6 @@ node::node(unsigned int val0, unsigned int val1, unsigned char p_cero)
 	this->val[0] = val0;
 	this->val[1] = val1;
 #endif
-  diff = ( std::clock() - start ) / (double)CLOCKS_PER_SEC;
-  std::cout<<"printf: "<< diff <<'\n';
 }
 
 
@@ -263,4 +261,16 @@ void node::print()
 		printf("%d ", this->get_value(i));
 	}
 	printf("\n");
+}
+
+int node::hash()
+{
+	printf("n.val : %x %x", this->val[0], this->val[1]);
+	#ifdef X_64
+			int val1 = (this->val & 0xFFFFFFFF00000000) >> 32;
+			int val2 = (this->val & 0x00000000FFFFFFFF);
+			return val1 ^ val2;
+	#else
+			return (this->val[0] ^ this->val[1]);
+	#endif
 }

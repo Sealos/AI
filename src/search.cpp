@@ -2,7 +2,7 @@
 
 unsigned char man_data[16][16] =
 {
-	{0, 1, 2, 3, 1, 2, 3, 4, 2, 3, 4, 5, 3, 4, 5, 6},
+	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 	{1, 0, 1, 2, 2, 1, 2, 3, 3, 2, 3, 4, 4, 3, 4, 5},
 	{2, 1, 0, 1, 3, 2, 1, 2, 4, 3, 2, 3, 5, 4, 3, 4},
 	{3, 2, 1, 0, 4, 3, 2, 1, 5, 4, 3, 2, 6, 5, 4, 3},
@@ -46,18 +46,28 @@ search::search()
 		priority_queue<node*, vector<node*>, compare_node_pdb> q;
 
 	q.push(n);
+	unordered_map<int, int> dist;
+	unordered_set<node*> closed;
+	/*node *n1 = new node(n, 0);
+	dist[n1->hash()] = 20;
+	printf("%d %d\n", n->g, n1->g);
+	n->print();
+	n1->print();
+	printf("Guardia: %d \n", dist[n->hash()]);*/
 
-	//unordered_map<node*, int> dist;
-	//unordered_set<n, hashie> closed;
-
-	/*while (!q.empty())
+	while (!q.empty())
 	{
-		n = q.pop();
-		if (closed.find(n->val) != closed.end() || n->g < dist[n->val])
+		n = q.top();
+		q.pop();
+		
+		if (closed.find(n) == closed.end() || n->g < dist[n->hash()])
 		{
-			closed.insert(n->val);
-			dist[n->val] = n->g;
-
+			if (n->g < dist[n->hash()])
+			{		printf("Guardia: %d \n", n->g);
+				n->print();
+		}
+			closed.insert(n);
+			dist[n->hash()] = n->g;
 			if (n->is_goal())
 			{
 				return n->extract_solution();
@@ -72,11 +82,11 @@ search::search()
 				node *np = new node(n,a);
 				if (h(np) < INT_MAX) //s debe ser el estado que se produce de aplicar la accion a sobre n
 				{
-					q.push(node(np));
+					q.push(np);
 				}
 			}
 		}
-	}*/
+	}
 	list<unsigned char> l_moves;
 	return l_moves;
 }
@@ -138,14 +148,14 @@ v_ida search::bonded_dfs(node *n, int g, int t, int (*h)(node *))
 
 bool compare_node_mh::operator()(node* n1, node* n2)
 {
-	if ((n1->g + manhattan(n1)) < (n2->g + manhattan(n2)))
+	if ((n1->g + manhattan(n1)) > (n2->g + manhattan(n2)))
 		return true;
 	return false;
 }
 
 bool compare_node_pdb::operator()(node* n1, node* n2)
 {
-	if ((n1->g + pdb(n1)) < (n2->g + pdb(n2)))
+	if ((n1->g + pdb(n1)) > (n2->g + pdb(n2)))
 		return true;
 	return false;
 }

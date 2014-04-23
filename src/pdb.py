@@ -1,29 +1,33 @@
 def calcular_manhattan( val1,  val2,  val3,  val4,  pos1,  pos2,  pos3,  pos4):
 	val = 0;
 
-	x = (val1) % 4;
-	y = (val1) / 4;
-	xs = (pos1) % 4;
-	ys = (pos1) / 4;
-	val += abs(x - xs) + abs(y - ys);
+	if (val1 != 0):
+		x = (val1) % 4;
+		y = (val1) / 4;
+		xs = (pos1) % 4;
+		ys = (pos1) / 4;
+		val += abs(x - xs) + abs(y - ys);
 
-	x = (val2) % 4;
-	y = (val2) / 4;
-	xs = (pos2) % 4;
-	ys = (pos2) / 4;
-	val += abs(x - xs) + abs(y - ys);
+	if (val2 != 0):
+		x = (val2) % 4;
+		y = (val2) / 4;
+		xs = (pos2) % 4;
+		ys = (pos2) / 4;
+		val += abs(x - xs) + abs(y - ys);
 
-	x = (val3) % 4;
-	y = (val3) / 4;
-	xs = (pos3) % 4;
-	ys = (pos3) / 4;
-	val += abs(x - xs) + abs(y - ys);
-
-	x = (val4) % 4;
-	y = (val4) / 4;
-	xs = (pos4) % 4;
-	ys = (pos4) / 4;
-	val += abs(x - xs) + abs(y - ys);
+	if (val3 != 0):
+		x = (val3) % 4;
+		y = (val3) / 4;
+		xs = (pos3) % 4;
+		ys = (pos3) / 4;
+		val += abs(x - xs) + abs(y - ys);
+	
+	if (val4 != 0):
+		x = (val4) % 4;
+		y = (val4) / 4;
+		xs = (pos4) % 4;
+		ys = (pos4) / 4;
+		val += abs(x - xs) + abs(y - ys);
 
 	return val;
 

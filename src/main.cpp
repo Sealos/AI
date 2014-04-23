@@ -32,16 +32,17 @@ int main(int argc, const char* argv[])
 			}
 			i--;
 		}
-		printf("%X, %X \n", representacion[0], representacion[1]);
+		//printf("%X, %X \n", representacion[0], representacion[1]);
 		node *nodo = new node(representacion[0], representacion[1], p_cero);
 		printf("Manhattan: %d | PDB: %d | is_goal: %d\n",manhattan(nodo) , pdb(nodo), nodo->is_goal());
 		nodo->print();
 		
 		search *s = new search();
-		list<unsigned char> succ = s->ida_star(nodo, manhattan);
+		list<unsigned char> succ = s->a_star(nodo, manhattan);
 		
 		std::list<unsigned char>::iterator vec_int_iter;
  		vec_int_iter = succ.begin();
+		printf("Tamano: %u\n", succ.size());
  		for(; vec_int_iter != succ.end(); vec_int_iter++)
  			printf("%u\n", *vec_int_iter);
 		//unsigned char a;
