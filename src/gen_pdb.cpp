@@ -1,6 +1,6 @@
 #include "gen_pdb.h"
 
-#define  EQUIS	0xF
+#define  EQUIS	0x1
 
 #define MOV_NULL	0
 #define MOV_ARRIBA	1
@@ -8,7 +8,7 @@
 #define MOV_DER		3
 #define MOV_IZQ		4
 
-#define MAX_VALUE	57657600
+#define MAX_VALUE	5765760
 
 long unsigned int pos_mask[16] =
 {
@@ -102,7 +102,7 @@ void node::set_value(unsigned char val, unsigned char pos)
 
 unsigned long int node::get_rank()
 {
-	std::vector<int> freq(15);
+	std::vector<int> freq(16);
 	unsigned long int den = 1;
 	unsigned long int ret = 0;
 	for(int i = 15; i >= 0; --i)
@@ -232,8 +232,11 @@ void node::print()
 	printf("\n--\n");
 }
 
-void node::write_bin(std::string fname, unsigned int size)
+void write_bin(std::string fname)
 {
+	std::ofstream myfile;
+	myfile.open (fname);
+	myfile.write((const char*)&pdb_data, MAX_VALUE);
 }
 
 void bfs(node *p)
@@ -279,10 +282,15 @@ int main(int argc, const char* argv[])
 {
 	for(int i = 1; i <= 15; ++i)
 		factorial[i] = i * factorial[i-1];
-	unsigned long int val = 0x012345FFFFFFFFFF;
+	unsigned long int val = 0x0111111111BCDEF;
 	node *np = new node(val, 0);
 	rellenar_arreglo();
 	bfs(np);
 	printf("Termine\n");
 	printf("Nodos generados: %lu\n", counter);
+	write_bin("pdb_data_BCDEF.bin");
+	/*for (unsigned long int i = 0; i < MAX_VALUE; ++i)
+	{
+		printf("Rank %lu, Val %d\n", i, pdb_data[i]);
+	}*/
 }

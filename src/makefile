@@ -26,4 +26,4 @@ debug: $(DEP)
 	$(CC) $(LIBS) main.cpp $(DEP) $(DFLAGS) $(LIBS) $(CPPFLAGS) -o main
 
 gen:
-	g++ -std=c++11 -D X_64 -Wall   gen_pdb.cpp   -o gen_pdb
+	g++ -std=c++11 -D X_64 -Wall -g -O3 -O2 gen_pdb.cpp  -g -O3 -O2 -o gen_pdb

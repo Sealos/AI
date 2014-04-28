@@ -6,6 +6,8 @@
 #include <queue>
 #include <vector>
 #include <unordered_set>
+#include <iostream>
+#include <fstream>
 
 class node
 {
@@ -31,8 +33,6 @@ public:
 	bool valid_action(unsigned char a);
 
 	void print();
-	
-	void write_bin(std::string fname, unsigned int size);
 };
 
 #endif // PDB_H
