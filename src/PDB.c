@@ -1,6 +1,34 @@
 #include <stdio.h>
 #include <stdlib.h>
+#define SWAP(a,b) do{t=(a);(a)=(b);(b)=t;}while(0)
 
+int _mr_rank1(int n, int *vec, int *inv)
+{
+    int s, t;
+    if (n < 2) return 0;
+ 
+    s = vec[n-1];
+    SWAP(vec[n-1], vec[inv[n-1]]);
+    SWAP(inv[s], inv[n-1]);
+    return s + n * _mr_rank1(n-1, vec, inv);
+}
+
+long int get_rank(int n, unsigned char *vec)
+{
+    int i, r, *v, *inv;
+ 
+    v = malloc(n * sizeof(int));
+    inv = malloc(n * sizeof(int));
+ 
+    for (i = 0; i < n; ++i) {
+        v[i] = vec[i];
+        inv[vec[i]] = i;
+    }
+    r = _mr_rank1(n, v, inv);
+    free(inv);
+    free(v);
+    return r;
+}
 
 int calcular_manhattan(int val1, int val2, int val3, int val4, int pos1, int pos2, int pos3, int pos4)
 {
