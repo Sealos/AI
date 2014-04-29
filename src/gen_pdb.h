@@ -25,6 +25,7 @@ public:
 	int get_value(int n);
 
 	unsigned long int get_rank();
+	unsigned long int get_rank_blai();
 
 	void set_value(unsigned char val, unsigned char pos);
 
