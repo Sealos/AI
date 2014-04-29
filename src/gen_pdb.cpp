@@ -1,6 +1,6 @@
 #include "gen_pdb.h"
 
-#define  EQUIS	0xF
+#define  EQUIS	0x1
 
 #define MOV_NULL	0
 #define MOV_ARRIBA	1
@@ -8,7 +8,7 @@
 #define MOV_DER		3
 #define MOV_IZQ		4
 
-#define MAX_VALUE	5765760
+#define MAX_VALUE	43680
 
 typedef unsigned char byte;
 
@@ -325,18 +325,13 @@ void rellenar_arreglo()
 
 int main(int argc, const char* argv[])
 {
-	for(int i = 1; i <= 15; ++i)
+	for(int i = 1; i < 16; ++i)
 		factorial[i] = i * factorial[i-1];
-	unsigned long int val = 0x012345FFFFFFFFFF;
+	unsigned long int val = 0x0111111111111DEF;
 	node *np = new node(val, 0);
-	printf("Rank: %lu | Rank Blai: %lu\n", np->get_rank(), np->get_rank_blai());
 	rellenar_arreglo();
-	//bfs(np);
+	bfs(np);
 	printf("Termine\n");
 	printf("Nodos generados: %lu\n", counter);
-	//write_bin("pdb_data_BCDEF.bin");
-	/*for (unsigned long int i = 0; i < MAX_VALUE; ++i)
-	{
-		printf("Rank %lu, Val %d\n", i, pdb_data[i]);
-	}*/
+	write_bin("pdb_data_DEF.bin");
 }
