@@ -39,11 +39,11 @@ std::unordered_set<unsigned long int> closed;
 
 std::vector<unsigned long int> factorial(16,1);
 
-node::node(node *p, unsigned char a)
+node::node(node *p, unsigned char a, byte b)
 {
-	this->padre = p;
 	this->accion = a;
 	this->val = p->val;
+	this->acc_padre = b;
 
 	switch (a)
 	{
@@ -74,7 +74,7 @@ node::node(node *p, unsigned char a)
 node::node(unsigned long int val0, unsigned char p_cero)
 {
 	this->pos_cero = p_cero;
-	this->padre = NULL;
+	this->acc_padre = 0;
 	this->accion = MOV_NULL;
 	this->g = 0;
 	this->val = val0;
@@ -116,12 +116,12 @@ unsigned long int node::get_rank()
 			if(freq[c] > 0) 
 				ret += factorial[15-i] / (den / freq[c]);
 	}
-	return ret + 1;
+	return ret;
 }
 
 unsigned long int node::get_rank_blai()
 {
-	byte k = 4;	// log 16 = 4
+	byte k = 4;
 	unsigned long int rank = 0;
 	int T[32];
 	for (int i = 0; i < 31; ++i)
@@ -135,7 +135,7 @@ unsigned long int node::get_rank_blai()
 		for (int j = 0; j < k; ++j)
 		{
 			if ((node % 2) == 1)
-				ctr = ctr - T[(node >> 1) << 1];
+				ctr = ctr - T[(node >> 1) << 1]; //Resta uno
 			T[node] = T[node] + 1;
 			node = node >> 1;
 		}
@@ -145,10 +145,26 @@ unsigned long int node::get_rank_blai()
 	return rank;
 }
 
+byte inv(byte a)
+{
+	switch(a)
+	{
+	case MOV_ABAJO:
+		return MOV_ARRIBA;
+	case MOV_ARRIBA:
+		return MOV_ABAJO;
+	case MOV_DER:
+		return MOV_IZQ;
+	case MOV_IZQ:
+		return MOV_DER;
+	default:
+		return MOV_NULL;
+	}
+}
+
 bool node::valid_action(unsigned char a)
 {
-	unsigned char b = this->padre == NULL ? MOV_NULL : this->padre->accion;
-	if (a == b)
+	if (inv(a) == this->acc_padre)
 		return false;
 
 	switch(this->pos_cero)
@@ -289,12 +305,13 @@ void bfs(node *p)
 			{
 				if (actual->valid_action(i))
 				{
-					p = new node(actual, i);
+					p = new node(actual, i, actual->accion);
 					Q.push(p);
 				}
 
 			}
 		}
+		delete actual;
 	}
 }
 

@@ -14,11 +14,11 @@ class node
 public:
 	unsigned char pos_cero;
 	unsigned char accion;
-	node *padre;
+	unsigned char acc_padre;
 	unsigned char g;
 	unsigned long int val;
 
-	node(node *p, unsigned char a);
+	node(node *p, unsigned char a, unsigned char b);
 
 	node(unsigned long int val0, unsigned char p_cero);
 
