@@ -17,7 +17,7 @@ int main(int argc, const char* argv[])
 		representacion[1] = 0x00000000;
 		std::istringstream iss(line);
 		int n;
-		unsigned char p_cero = 0;
+		byte p_cero = 0;
 		int i = 15;
 
 		while (iss >> n)
@@ -38,20 +38,20 @@ int main(int argc, const char* argv[])
 		nodo->print();
 		
 		search *s = new search();
-		list<unsigned char> succ = s->a_star(nodo, manhattan);
+		list<byte> succ = s->a_star(nodo, manhattan);
 		
-		std::list<unsigned char>::iterator vec_int_iter;
+		std::list<byte>::iterator vec_int_iter;
  		vec_int_iter = succ.begin();
 		printf("Tamano: %u\n", succ.size());
  		for(; vec_int_iter != succ.end(); vec_int_iter++)
  			printf("%u\n", *vec_int_iter);
-		//unsigned char a;
+		//byte a;
 		//printf("%d", succ.size());
 		return 0;
 
 		//printf("%X, %X, %d\n", nodo->val[0], nodo->val[1], nodo->g);
 		//printf("%X, %X, %d\n", nodo->val[0], nodo->val[1], nodo->g);
- /*		std::list<unsigned char>::iterator vec_int_iter;
+ /*		std::list<byte>::iterator vec_int_iter;
  		vec_int_iter = k.begin();
  		for(; vec_int_iter != k.end(); vec_int_iter++)
  			printf("%u\n", *vec_int_iter);

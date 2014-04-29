@@ -1,6 +1,6 @@
 #include "search.h"
 
-unsigned char man_data[16][16] =
+byte man_data[16][16] =
 {
 	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 	{1, 0, 1, 2, 2, 1, 2, 3, 3, 2, 3, 4, 4, 3, 4, 5},
@@ -38,7 +38,7 @@ search::search()
 }
 
 
- list<unsigned char> search::a_star(node *n, int (*h)(node *))
+ list<byte> search::a_star(node *n, int (*h)(node *))
 {
 	priority_queue<node*, vector<node*>, compare_node_mh> q;
 
@@ -73,10 +73,10 @@ search::search()
 				return n->extract_solution();
 			}
 
-			list<unsigned char> succ = n->succ(); //Lista de las acciones para obtener los sucesores
-			unsigned char a;
+			list<byte> succ = n->succ(); //Lista de las acciones para obtener los sucesores
+			byte a;
 
-			for (list<unsigned char>::const_iterator iterator = succ.begin(), end = succ.end(); iterator!=end; ++iterator)
+			for (list<byte>::const_iterator iterator = succ.begin(), end = succ.end(); iterator!=end; ++iterator)
 			{
 				a = *iterator;
 				node *np = new node(n,a);
@@ -87,11 +87,11 @@ search::search()
 			}
 		}
 	}
-	list<unsigned char> l_moves;
+	list<byte> l_moves;
 	return l_moves;
 }
 
-list<unsigned char> search::ida_star(node *n, int (*h)(node *))
+list<byte> search::ida_star(node *n, int (*h)(node *))
 {
 	int t = h(n);
 	while (t != INT_MAX)
@@ -103,7 +103,7 @@ list<unsigned char> search::ida_star(node *n, int (*h)(node *))
 		}
 		t = vec.g;
 	}
-	list<unsigned char> a;
+	list<byte> a;
 	return a;
 }
 
@@ -114,7 +114,7 @@ v_ida search::bonded_dfs(node *n, int g, int t, int (*h)(node *))
 	
 	if (f > t)
 	{
-		list<unsigned char> k;
+		list<byte> k;
 		v.path = k;
 		v.g = f;
 		return v;
@@ -128,9 +128,9 @@ v_ida search::bonded_dfs(node *n, int g, int t, int (*h)(node *))
 	}
 
 	int new_t = INT_MAX;
-	list<unsigned char> succ = n->succ();
-	unsigned char a;
-	for (list<unsigned char>::const_iterator iterator = succ.begin(), end = succ.end(); iterator != end; ++iterator)
+	list<byte> succ = n->succ();
+	byte a;
+	for (list<byte>::const_iterator iterator = succ.begin(), end = succ.end(); iterator != end; ++iterator)
 	{
 		a = *iterator;
 		node *np = new node(n, a);

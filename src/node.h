@@ -13,6 +13,8 @@
 #define MOV_DER		3
 #define MOV_IZQ		4
 
+typedef unsigned char byte;
+
 /***
  * La información que se guarda en un
  * nodo n contiene:
@@ -29,8 +31,8 @@
 class node
 {
 public:
-	unsigned char pos_cero;
-	unsigned char accion;
+	byte pos_cero;
+	byte accion;
 	node *padre;
 	int g;
 
@@ -55,7 +57,7 @@ public:
 	 * 	g(n ) := g(n) + cost(state(n), a)
 	 * 	return n
 	 */
-	node(node *p, unsigned char a);
+	node(node *p, byte a);
 
 	/***
 	 * - FUNCIONA -
@@ -69,7 +71,7 @@ public:
 	 * 	g(n) := null
 	 * 	return n
 	 */
-	node(unsigned int val0, unsigned int val1, unsigned char p_cero);
+	node(unsigned int val0, unsigned int val1, byte p_cero);
 
 
 	/***
@@ -84,7 +86,7 @@ public:
 	 * del estado s y las acciones
 	 * correspondientes
 	 */
-	std::list<unsigned char> succ();
+	std::list<byte> succ();
 
 	/***
 	 * - FUNCIONA -
@@ -96,7 +98,7 @@ public:
 	 * - FUNCIONA -
 	 * Coloca el valor val de la posicion pos
 	 */
-	void set_value(unsigned char val, unsigned char pos);
+	void set_value(byte val, byte pos);
 
 	/***
 	 * - SIN REVISAR -
@@ -110,7 +112,7 @@ public:
 	 * 	end while
 	 * 	return path
 	 */
-	std::list<unsigned char> extract_solution();
+	std::list<byte> extract_solution();
 
 	void print();
 	

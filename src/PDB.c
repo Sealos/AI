@@ -13,7 +13,7 @@ int _mr_rank1(int n, int *vec, int *inv)
     return s + n * _mr_rank1(n-1, vec, inv);
 }
 
-long int get_rank(int n, unsigned char *vec)
+long int get_rank(int n, byte *vec)
 {
     int i, r, *v, *inv;
  

@@ -10,7 +10,7 @@
 
 #define MAX_VALUE	43680
 
-typedef unsigned char byte;
+typedef byte byte;
 
 long unsigned int pos_mask[16] =
 {
@@ -32,14 +32,14 @@ long unsigned int pos_mask[16] =
 	0x000000000000000F
 };
 
-unsigned char pdb_data[MAX_VALUE];
+byte pdb_data[MAX_VALUE];
 
 long unsigned int counter = 0;
 std::unordered_set<unsigned long int> closed;
 
 std::vector<unsigned long int> factorial(16,1);
 
-node::node(node *p, unsigned char a, byte b)
+node::node(node *p, byte a, byte b)
 {
 	this->accion = a;
 	this->val = p->val;
@@ -71,7 +71,7 @@ node::node(node *p, unsigned char a, byte b)
 	set_value(val, p->pos_cero);
 }
 
-node::node(unsigned long int val0, unsigned char p_cero)
+node::node(unsigned long int val0, byte p_cero)
 {
 	this->pos_cero = p_cero;
 	this->acc_padre = 0;
@@ -88,7 +88,7 @@ int node::get_value(int n)
 	return value;
 }
 
-void node::set_value(unsigned char val, unsigned char pos)
+void node::set_value(byte val, byte pos)
 {
 	unsigned long int mask = ULONG_MAX - pos_mask[pos];
 	unsigned long int sum_val = (this->val & mask);
@@ -162,7 +162,7 @@ byte inv(byte a)
 	}
 }
 
-bool node::valid_action(unsigned char a)
+bool node::valid_action(byte a)
 {
 	if (inv(a) == this->acc_padre)
 		return false;
@@ -301,7 +301,7 @@ void bfs(node *p)
 			++counter;
 			closed.insert(actual->val);
 			pdb_data[actual->get_rank()] = actual->g;
-			for (unsigned char i = 1; i <= 4; ++i)
+			for (byte i = 1; i <= 4; ++i)
 			{
 				if (actual->valid_action(i))
 				{

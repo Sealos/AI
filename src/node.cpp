@@ -46,7 +46,7 @@ unsigned int pos_mask[8] =
 
 //Sin revisar
 
-node::node(node *p, unsigned char a)
+node::node(node *p, byte a)
 {
 // 	cant_nodos++;
 // 	printf("Cant. nodos: %u\n", cant_nodos);
@@ -92,7 +92,7 @@ node::node(node *p, unsigned char a)
 
 //Funciona
 
-node::node(unsigned int val0, unsigned int val1, unsigned char p_cero)
+node::node(unsigned int val0, unsigned int val1, byte p_cero)
 {
 // 	cant_nodos++;
 // 	printf("Cant. nodos: %u\n", cant_nodos);
@@ -122,9 +122,9 @@ bool node::is_goal()
 }
 
 //Funciona
-std::list<unsigned char> node::succ()
+std::list<byte> node::succ()
 {
-	std::list<unsigned char> l_moves;
+	std::list<byte> l_moves;
 	switch(this->pos_cero)
 	{
 	case 0:
@@ -207,7 +207,7 @@ int node::get_value(int n)
 }
 
 //Funciona
-void node::set_value(unsigned char val, unsigned char pos)
+void node::set_value(byte val, byte pos)
 {
 #ifdef X_64
 	unsigned long int mask = ULONG_MAX - pos_mask[pos];
@@ -223,8 +223,8 @@ void node::set_value(unsigned char val, unsigned char pos)
 
 #else
 
-	unsigned char n = pos % 8;
-	unsigned char i = pos / 8;
+	byte n = pos % 8;
+	byte i = pos / 8;
 	unsigned int mask = UINT_MAX - pos_mask[n];
 	this->val[i] = this->val[i] & mask;
 	if (val != 0)
@@ -238,9 +238,9 @@ void node::set_value(unsigned char val, unsigned char pos)
 }
 
 //Sin revisar
-std::list<unsigned char> node::extract_solution()
+std::list<byte> node::extract_solution()
 {
-	std::list<unsigned char> path;
+	std::list<byte> path;
 	node *n = this;
 	path.push_front(n->accion);
 	while (n->padre != NULL)
@@ -265,12 +265,12 @@ void node::print()
 
 int node::hash()
 {
-	printf("n.val : %x %x", this->val[0], this->val[1]);
-	#ifdef X_64
-			int val1 = (this->val & 0xFFFFFFFF00000000) >> 32;
-			int val2 = (this->val & 0x00000000FFFFFFFF);
-			return val1 ^ val2;
-	#else
-			return (this->val[0] ^ this->val[1]);
-	#endif
+#ifdef X_64
+		int val1 = (this->val & 0xFFFFFFFF00000000) >> 32;
+		int val2 = (this->val & 0x00000000FFFFFFFF);
+		return val1 ^ val2;
+#else
+		printf("n.val : %x %x", this->val[0], this->val[1]);
+		return (this->val[0] ^ this->val[1]);
+#endif
 }
