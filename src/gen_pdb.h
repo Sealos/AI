@@ -9,6 +9,8 @@
 #include <iostream>
 #include <fstream>
 
+typedef unsigned char byte;
+
 class node
 {
 public:

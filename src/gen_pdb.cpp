@@ -1,6 +1,6 @@
 #include "gen_pdb.h"
 
-#define  EQUIS	0x1
+#define  EQUIS	0xF
 
 #define MOV_NULL	0
 #define MOV_ARRIBA	1
@@ -8,9 +8,7 @@
 #define MOV_DER		3
 #define MOV_IZQ		4
 
-#define MAX_VALUE	43680
-
-typedef byte byte;
+#define MAX_VALUE	57657600
 
 long unsigned int pos_mask[16] =
 {
@@ -327,11 +325,11 @@ int main(int argc, const char* argv[])
 {
 	for(int i = 1; i < 16; ++i)
 		factorial[i] = i * factorial[i-1];
-	unsigned long int val = 0x0111111111111DEF;
+	unsigned long int val = 0x0123456FFFFFFFFF;
 	node *np = new node(val, 0);
 	rellenar_arreglo();
 	bfs(np);
 	printf("Termine\n");
 	printf("Nodos generados: %lu\n", counter);
-	write_bin("pdb_data_DEF.bin");
+	write_bin("pdb_data_123456.bin");
 }
