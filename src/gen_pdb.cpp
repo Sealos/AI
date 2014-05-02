@@ -35,9 +35,9 @@ long unsigned int pos_mask[16] =
 byte pdb_data[MAX_VALUE];
 
 long unsigned int counter = 0;
-unordered_set<unsigned long int> closed;
+unordered_set<long unsigned int> closed;
 
-vector<unsigned long int> factorial(16,1);
+vector<long unsigned int> factorial(16,1);
 
 node::node(node *p, byte a, byte b)
 {
@@ -71,7 +71,7 @@ node::node(node *p, byte a, byte b)
 	set_value(val, p->pos_cero);
 }
 
-node::node(unsigned long int val0, byte p_cero)
+node::node(long unsigned int val0, byte p_cero)
 {
 	this->pos_cero = p_cero;
 	this->acc_padre = 0;
@@ -82,7 +82,7 @@ node::node(unsigned long int val0, byte p_cero)
 
 int node::get_value(int n)
 {
-	unsigned long int val;
+	long unsigned int val;
 	val = this->val & pos_mask[n];
 	int value = val >> ((15 - n) * 4);
 	return value;
@@ -90,11 +90,11 @@ int node::get_value(int n)
 
 void node::set_value(byte val, byte pos)
 {
-	unsigned long int mask = ULONG_MAX - pos_mask[pos];
-	unsigned long int sum_val = (this->val & mask);
+	long unsigned int mask = ULONG_MAX - pos_mask[pos];
+	long unsigned int sum_val = (this->val & mask);
 	if (val != 0)
 	{
-		unsigned long int new_val = val;
+		long unsigned int new_val = val;
 		new_val = new_val << ((15 - pos) * 4);
 		this->val = new_val + sum_val;
 	}
@@ -102,11 +102,11 @@ void node::set_value(byte val, byte pos)
 		this->val = sum_val;
 }
 
-unsigned long int node::get_rank()
+long unsigned int node::get_rank()
 {
 	vector<int> freq(16);
-	unsigned long int den = 1;
-	unsigned long int ret = 0;
+	long unsigned int den = 1;
+	long unsigned int ret = 0;
 	for(int i = 15; i >= 0; --i)
 	{
 		int si = this->get_value(i);
@@ -119,10 +119,10 @@ unsigned long int node::get_rank()
 	return ret;
 }
 
-unsigned long int node::get_rank_blai()
+long unsigned int node::get_rank_blai()
 {
 	byte k = 4;
-	unsigned long int rank = 0;
+	long unsigned int rank = 0;
 	int T[32];
 	for (int i = 0; i < 31; ++i)
 		T[i] = 0;
@@ -401,7 +401,7 @@ list<unsigned char> node::succ()
 
 void rellenar_arreglo()
 {
-	for (unsigned long int i = 0; i < MAX_VALUE; ++i)
+	for (long unsigned int i = 0; i < MAX_VALUE; ++i)
 	{
 		pdb_data[i] = 0xFF;
 	}
@@ -411,7 +411,7 @@ int main(int argc, const char* argv[])
 {
 	for(int i = 1; i < 16; ++i)
 		factorial[i] = i * factorial[i-1];
-	unsigned long int val = 0x0123456789ABCDEF;
+	long unsigned int val = 0x0123456789ABCDEF;
 	node *np = new node(val, 0);
 
 	for (int i = 0; i < 16; ++i)

@@ -8,7 +8,7 @@ unsigned int cant_nodos = 0;
 
 #ifdef X_64
 
-unsigned long int pos_mask[16] =
+long unsigned int pos_mask[16] =
 {
 	0xF000000000000000,
 	0x0F00000000000000,
@@ -94,7 +94,7 @@ node::node(unsigned int val0, unsigned int val1, byte p_cero)
 	this->padre = NULL;
 	this->g = 0;
 #ifdef X_64
-	unsigned long int temp = val0;
+	long unsigned int temp = val0;
 	temp = (temp << 32);
 	this->val = temp + val1;
 #else
@@ -284,7 +284,7 @@ bool node::valid_action(byte a)
 int node::get_value(int n)
 {
 #ifdef X_64
-	unsigned long int val;
+	long unsigned int val;
 	val = this->val & pos_mask[n];
 	int value = val >> ((15 - n) * 4);
 	return value;
@@ -309,11 +309,11 @@ int node::get_value(int n)
 void node::set_value(byte val, byte pos)
 {
 #ifdef X_64
-	unsigned long int mask = ULONG_MAX - pos_mask[pos];
-	unsigned long int sum_val = (this->val & mask);
+	long unsigned int mask = ULONG_MAX - pos_mask[pos];
+	long unsigned int sum_val = (this->val & mask);
 	if (val != 0)
 	{
-		unsigned long int new_val = val;
+		long unsigned int new_val = val;
 		new_val = new_val << ((15 - pos) * 4);
 		this->val = new_val + sum_val;
 	}

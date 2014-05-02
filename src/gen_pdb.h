@@ -19,20 +19,20 @@ public:
 	byte accion;
 	byte acc_padre;
 	byte g;
-	unsigned long int val;
+	long unsigned int val;
 
 	node(node *p, byte a, byte b);
 
-	node(unsigned long int val0, byte p_cero);
+	node(long unsigned int val0, byte p_cero);
 
 	int get_value(int n);
 
-	unsigned long int get_rank();
-	unsigned long int get_rank_blai();
+	long unsigned int get_rank();
+	long unsigned int get_rank_blai();
 
 	void set_value(byte val, byte pos);
 
-	unsigned long int get_rank(node *p);
+	long unsigned int get_rank(node *p);
 	
 	bool valid_action(byte a);
 

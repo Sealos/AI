@@ -38,7 +38,7 @@ public:
 	int g;
 
 #ifdef X_64
-	unsigned long int val;
+	long unsigned int val;
 #else
 	unsigned int val[2];
 #endif
