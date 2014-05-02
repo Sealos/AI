@@ -42,8 +42,8 @@ search::search()
 {
 	priority_queue<node*, vector<node*>, compare_node_mh> q;
 
-	/*if (h == pdb)
-		priority_queue<node*, vector<node*>, compare_node_pdb> q;*/
+	if (h == pdb)
+		priority_queue<node*, vector<node*>, compare_node_pdb> q;
 
 	q.push(n);
 	unordered_map<int, int> dist;
