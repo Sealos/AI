@@ -34,7 +34,7 @@ int main(int argc, const char* argv[])
 		}
 		//printf("%X, %X \n", representacion[0], representacion[1]);
 		node *nodo = new node(representacion[0], representacion[1], p_cero);
-		printf("Manhattan: %d | PDB: %d | is_goal: %d\n",manhattan(nodo) , pdb(nodo), nodo->is_goal());
+		printf("Manhattan: %d | PDB: %d | is_goal: %d\n",manhattan(nodo) , 1, nodo->is_goal());
 		nodo->print();
 		
 		search *s = new search();

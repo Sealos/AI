@@ -10,6 +10,8 @@
 
 #define MAX_VALUE	57657600
 
+using namespace std;
+
 long unsigned int pos_mask[16] =
 {
 	0xF000000000000000,
@@ -33,9 +35,9 @@ long unsigned int pos_mask[16] =
 byte pdb_data[MAX_VALUE];
 
 long unsigned int counter = 0;
-std::unordered_set<unsigned long int> closed;
+unordered_set<unsigned long int> closed;
 
-std::vector<unsigned long int> factorial(16,1);
+vector<unsigned long int> factorial(16,1);
 
 node::node(node *p, byte a, byte b)
 {
@@ -102,7 +104,7 @@ void node::set_value(byte val, byte pos)
 
 unsigned long int node::get_rank()
 {
-	std::vector<int> freq(16);
+	vector<int> freq(16);
 	unsigned long int den = 1;
 	unsigned long int ret = 0;
 	for(int i = 15; i >= 0; --i)
@@ -274,16 +276,16 @@ void node::print()
 	printf("\n--\n");
 }
 
-void write_bin(std::string fname)
+void write_bin(string fname)
 {
-	std::ofstream myfile;
+	ofstream myfile;
 	myfile.open (fname);
 	myfile.write((const char*)&pdb_data, MAX_VALUE);
 }
 
 void bfs(node *p)
 {
-	std::queue<node *> Q;
+	queue<node *> Q;
 	Q.push(p);
 	while(!Q.empty())
 	{
@@ -313,6 +315,90 @@ void bfs(node *p)
 	}
 }
 
+list<unsigned char> node::succ()
+{
+	list<unsigned char> l_moves;
+	int accion_padre = this->acc_padre;
+	switch(this->pos_cero)
+	{
+	case 0:
+		if (accion_padre != MOV_ARRIBA)
+			l_moves.push_front(MOV_ABAJO);
+		if (accion_padre != MOV_IZQ)
+			l_moves.push_front(MOV_DER);
+		break;
+	case 1:
+	case 2:
+		if (accion_padre != MOV_ARRIBA)
+			l_moves.push_front(MOV_ABAJO);
+		if (accion_padre != MOV_IZQ)
+			l_moves.push_front(MOV_DER);
+		if (accion_padre != MOV_DER)
+			l_moves.push_front(MOV_IZQ);
+		break;
+	case 3:
+		if (accion_padre != MOV_ARRIBA)
+			l_moves.push_front(MOV_ABAJO);
+		if (accion_padre != MOV_DER)
+			l_moves.push_front(MOV_IZQ);
+		break;
+	case 4:
+	case 8:
+		if (accion_padre != MOV_ABAJO)
+			l_moves.push_front(MOV_ARRIBA);
+		if (accion_padre != MOV_ARRIBA)
+			l_moves.push_front(MOV_ABAJO);
+		if (accion_padre != MOV_IZQ)
+			l_moves.push_front(MOV_DER);
+		break;
+	case 5:
+	case 6:
+	case 9:
+	case 10:
+		if (accion_padre != MOV_ARRIBA)
+			l_moves.push_front(MOV_ABAJO);
+		if (accion_padre != MOV_ABAJO)
+			l_moves.push_front(MOV_ARRIBA);
+		if (accion_padre != MOV_DER)
+			l_moves.push_front(MOV_IZQ);
+		if (accion_padre != MOV_IZQ)
+			l_moves.push_front(MOV_DER);
+		break;
+	case 7:
+	case 11:
+		if (accion_padre != MOV_ARRIBA)
+			l_moves.push_front(MOV_ABAJO);
+		if (accion_padre != MOV_ABAJO)
+			l_moves.push_front(MOV_ARRIBA);
+		if (accion_padre != MOV_DER)
+			l_moves.push_front(MOV_IZQ);
+		break;
+	case 12:
+		if (accion_padre != MOV_ABAJO)
+			l_moves.push_front(MOV_ARRIBA);
+		if (accion_padre != MOV_IZQ)
+			l_moves.push_front(MOV_DER);
+		break;
+	case 13:
+	case 14:
+		if (accion_padre != MOV_ABAJO)
+			l_moves.push_front(MOV_ARRIBA);
+		if (accion_padre != MOV_DER)
+			l_moves.push_front(MOV_IZQ);
+		if (accion_padre != MOV_IZQ)
+			l_moves.push_front(MOV_DER);
+		break;
+	case 15:
+		if (accion_padre != MOV_ABAJO)
+			l_moves.push_front(MOV_ARRIBA);
+		if (accion_padre != MOV_DER)
+			l_moves.push_front(MOV_IZQ);
+		break;
+	}
+
+	return l_moves;
+}
+
 void rellenar_arreglo()
 {
 	for (unsigned long int i = 0; i < MAX_VALUE; ++i)
@@ -325,10 +411,34 @@ int main(int argc, const char* argv[])
 {
 	for(int i = 1; i < 16; ++i)
 		factorial[i] = i * factorial[i-1];
-	unsigned long int val = 0x0123456FFFFFFFFF;
+	unsigned long int val = 0x0123456789ABCDEF;
 	node *np = new node(val, 0);
-	rellenar_arreglo();
-	bfs(np);
+
+	for (int i = 0; i < 16; ++i)
+	{
+	printf("Posicion del cero: %i\n", i);
+	node *np = new node(val, i);
+	printf("Cableado\n");
+	list<byte> succ = np->succ();
+	byte a;
+	for (list<byte>::const_iterator iterator = succ.begin(), end = succ.end(); iterator != end; ++iterator)
+	{
+		a = *iterator;
+		printf("%d\n", a);
+	}
+
+	printf("is_valid\n");
+	for (byte i = 1; i <= 4; ++i)
+	{
+		if (np->valid_action(i))
+		{
+			printf("%d\n", i);
+		}
+	}
+	printf("\n\n");
+	}
+	//rellenar_arreglo();
+	//bfs(np);
 	printf("Termine\n");
 	printf("Nodos generados: %lu\n", counter);
 	write_bin("pdb_data_123456.bin");

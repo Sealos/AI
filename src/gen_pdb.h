@@ -8,6 +8,7 @@
 #include <unordered_set>
 #include <iostream>
 #include <fstream>
+#include <list>
 
 typedef unsigned char byte;
 
@@ -36,6 +37,8 @@ public:
 	bool valid_action(byte a);
 
 	void print();
+
+	std::list<unsigned char> succ();
 };
 
 #endif // PDB_H

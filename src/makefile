@@ -18,7 +18,7 @@ all: $(DEP)
 	$(CC) $(LIBS) -c $(DFLAGS) $(CPPFLAGS) $< -o $@
 
 clean:
-	rm -f *.o
+	rm -f *.o main gen_pdb
 
 rebuild: clean all
 

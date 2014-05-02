@@ -1,0 +1,178 @@
+Posicion del cero: 0
+Cableado
+3
+2
+is_valid
+2
+3
+
+
+Posicion del cero: 1
+Cableado
+4
+3
+2
+is_valid
+2
+3
+4
+
+
+Posicion del cero: 2
+Cableado
+4
+3
+2
+is_valid
+2
+3
+4
+
+
+Posicion del cero: 3
+Cableado
+4
+2
+is_valid
+2
+4
+
+
+Posicion del cero: 4
+Cableado
+3
+2
+1
+is_valid
+1
+2
+3
+
+
+Posicion del cero: 5
+Cableado
+3
+4
+1
+2
+is_valid
+1
+2
+3
+4
+
+
+Posicion del cero: 6
+Cableado
+3
+4
+1
+2
+is_valid
+1
+2
+3
+4
+
+
+Posicion del cero: 7
+Cableado
+4
+1
+2
+is_valid
+1
+2
+4
+
+
+Posicion del cero: 8
+Cableado
+3
+2
+1
+is_valid
+1
+2
+3
+
+
+Posicion del cero: 9
+Cableado
+3
+4
+1
+2
+is_valid
+1
+2
+3
+4
+
+
+Posicion del cero: 10
+Cableado
+3
+4
+1
+2
+is_valid
+1
+2
+3
+4
+
+
+Posicion del cero: 11
+Cableado
+4
+1
+2
+is_valid
+1
+2
+4
+
+
+Posicion del cero: 12
+Cableado
+3
+1
+is_valid
+1
+3
+
+
+Posicion del cero: 13
+Cableado
+3
+4
+1
+is_valid
+1
+3
+4
+
+
+Posicion del cero: 14
+Cableado
+3
+4
+1
+is_valid
+1
+3
+4
+
+
+Posicion del cero: 15
+Cableado
+4
+1
+is_valid
+1
+4
+
+
+Termine
+Nodos generados: 0
