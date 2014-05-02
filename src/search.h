@@ -3,6 +3,10 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <queue>
+#include <stdio.h>
+#include <unordered_set>
+#include <iostream>
+#include <fstream>
 #include "pdb.h"
 
 #ifndef SND_H

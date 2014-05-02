@@ -38,7 +38,7 @@ search::search()
 }
 
 
- list<byte> search::a_star(node *n, int (*h)(node *))
+/* list<byte> search::a_star(node *n, int (*h)(node *))
 {
 	priority_queue<node*, vector<node*>, compare_node_mh> q;
 
@@ -48,12 +48,12 @@ search::search()
 	q.push(n);
 	unordered_map<int, int> dist;
 	unordered_set<node*> closed;
-	/*node *n1 = new node(n, 0);
+	node *n1 = new node(n, 0);
 	dist[n1->hash()] = 20;
 	printf("%d %d\n", n->g, n1->g);
 	n->print();
 	n1->print();
-	printf("Guardia: %d \n", dist[n->hash()]);*/
+	printf("Guardia: %d \n", dist[n->hash()]);
 
 	while (!q.empty())
 	{
@@ -79,7 +79,7 @@ search::search()
 			for (list<byte>::const_iterator iterator = succ.begin(), end = succ.end(); iterator!=end; ++iterator)
 			{
 				a = *iterator;
-				node *np = new node(n,a);
+				node *np = new node(n,a,n->accion);
 				if (h(np) < INT_MAX) //s debe ser el estado que se produce de aplicar la accion a sobre n
 				{
 					q.push(np);
@@ -91,6 +91,8 @@ search::search()
 	return l_moves;
 }
 
+	*/
+	
 list<byte> search::ida_star(node *n, int (*h)(node *))
 {
 	int t = h(n);
@@ -122,18 +124,19 @@ v_ida search::bonded_dfs(node *n, int g, int t, int (*h)(node *))
 
 	if (n->is_goal())
 	{
-		v.path = n->extract_solution();
+		//v.path = n->extract_solution();
+		v.path = list<byte> (4,1);
 		v.g = g;
 		return v;
 	}
 
 	int new_t = INT_MAX;
-	list<byte> succ = n->succ();
+	/*list<byte> succ = n->succ();
 	byte a;
 	for (list<byte>::const_iterator iterator = succ.begin(), end = succ.end(); iterator != end; ++iterator)
 	{
 		a = *iterator;
-		node *np = new node(n, a);
+		node *np = new node(n, a, n->accion);
 		v_ida vec = bonded_dfs(np, np->g, t, h);
 		delete np;
 		if (!vec.path.empty())
@@ -141,7 +144,22 @@ v_ida search::bonded_dfs(node *n, int g, int t, int (*h)(node *))
 			return vec;
 		}
 		new_t = min(new_t,vec.g);
+	}*/
+	
+	for (byte i = 1; i <= 4; ++i)
+	{
+		if (n->valid_action(i))
+		{
+			node *np = new node(n, i, n->accion);
+			v_ida vec = bonded_dfs(np, np->g, t, h);
+			if (!vec.path.empty())
+			{
+				return vec;
+			}
+			new_t = min(new_t,vec.g);
+		}
 	}
+	
 	v_ida l;
 	return l;
 }

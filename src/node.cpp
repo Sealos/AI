@@ -46,15 +46,12 @@ unsigned int pos_mask[8] =
 
 //Sin revisar
 
-node::node(node *p, byte a)
+node::node(node *p, byte a, byte b)
 {
-// 	cant_nodos++;
-// 	printf("Cant. nodos: %u\n", cant_nodos);
-	//auto start = std::chrono::steady_clock::now();
-	
-	this->padre = p;
 	this->accion = a;
+	this->acc_padre = b;
 	this->g = p->g + 1;
+	this->padre = p;
 #ifdef X_64
 	this->val = p->val;
 #else
@@ -85,20 +82,16 @@ node::node(node *p, byte a)
 	set_value(0, this->pos_cero);
 	set_value(val, p->pos_cero);
 	
-   // auto finish = std::chrono::high_resolution_clock::now();
-   // std::cout << "Tiempo: " << std::chrono::duration_cast<std::chrono::nanoseconds>(finish-start).count() << "ns\n";
 }
 
 
 //Funciona
-
 node::node(unsigned int val0, unsigned int val1, byte p_cero)
 {
-// 	cant_nodos++;
-// 	printf("Cant. nodos: %u\n", cant_nodos);
 	this->pos_cero = p_cero;
-	this->padre = NULL;
+	this->acc_padre = 0;
 	this->accion = MOV_NULL;
+	this->padre = NULL;
 	this->g = 0;
 #ifdef X_64
 	unsigned long int temp = val0;
@@ -181,6 +174,112 @@ std::list<byte> node::succ()
 	return l_moves;
 }
 
+byte node::inv(byte a)
+{
+	switch(a)
+	{
+	case MOV_ABAJO:
+		return MOV_ARRIBA;
+	case MOV_ARRIBA:
+		return MOV_ABAJO;
+	case MOV_DER:
+		return MOV_IZQ;
+	case MOV_IZQ:
+		return MOV_DER;
+	default:
+		return MOV_NULL;
+	}
+}
+
+bool node::valid_action(byte a)
+{
+	if (inv(a) == this->acc_padre)
+		return false;
+
+	switch(this->pos_cero)
+	{
+	case 0:
+		switch(a)
+		{
+		case MOV_ABAJO:
+		case MOV_DER:
+			return true;
+		default:
+			return false;
+		}
+	case 1:
+	case 2:
+		switch(a)
+		{
+		case MOV_ARRIBA:
+			return false;
+		default:
+			return true;
+		}
+	case 3:
+		switch(a)
+		{
+		case MOV_ABAJO:
+		case MOV_IZQ:
+			return true;
+		default:
+			return false;
+		}
+	case 4:
+	case 8:
+		switch(a)
+		{
+		case MOV_IZQ:
+			return false;
+		default:
+			return true;
+		}
+	case 5:
+	case 6:
+	case 9:
+	case 10:
+		return true;
+	case 7:
+	case 11:
+		switch(a)
+		{
+		case MOV_DER:
+			return false;
+		default:
+			return true;
+		}
+	case 12:
+		switch(a)
+		{
+		case MOV_ARRIBA:
+		case MOV_DER:
+			return true;
+		default:
+			return false;
+		}
+	case 13:
+	case 14:
+		switch(a)
+		{
+		case MOV_ABAJO:
+			return false;
+		default:
+			return true;
+		}
+	case 15:
+		switch(a)
+		{
+		case MOV_ARRIBA:
+		case MOV_IZQ:
+			return true;
+		default:
+			return false;
+		}
+	default:
+		return false;
+	}
+}
+
 //Funciona
 int node::get_value(int n)
 {
@@ -242,8 +341,8 @@ std::list<byte> node::extract_solution()
 {
 	std::list<byte> path;
 	node *n = this;
-	path.push_front(n->accion);
-	while (n->padre != NULL)
+	path.push_front(n->padre->accion);
+	while (n->acc_padre != 0)
 	{
         n = n->padre;
 		path.push_front(n->accion);

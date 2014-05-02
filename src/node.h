@@ -33,6 +33,7 @@ class node
 public:
 	byte pos_cero;
 	byte accion;
+	byte acc_padre;
 	node *padre;
 	int g;
 
@@ -57,7 +58,7 @@ public:
 	 * 	g(n ) := g(n) + cost(state(n), a)
 	 * 	return n
 	 */
-	node(node *p, byte a);
+	node(node *p, byte a, byte b);
 
 	/***
 	 * - FUNCIONA -
@@ -87,6 +88,10 @@ public:
 	 * correspondientes
 	 */
 	std::list<byte> succ();
+	
+	byte inv(byte a);
+	
+	bool valid_action(byte a);
 
 	/***
 	 * - FUNCIONA -
