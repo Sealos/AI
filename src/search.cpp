@@ -1,5 +1,7 @@
 #include "search.h"
 
+const int FOUND = -4;
+
 byte man_data[16][16] =
 {
 	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -36,7 +38,6 @@ search::search()
 {
 	//ctor
 }
-
 
 /* list<byte> search::a_star(node *n, int (*h)(node *))
 {
@@ -93,75 +94,39 @@ search::search()
 
 	*/
 	
-list<byte> search::ida_star(node *n, int (*h)(node *))
+int search::ida_star(node *n, int (*h)(node *))
 {
 	int t = h(n);
 	while (t != INT_MAX)
 	{
-		v_ida vec = bonded_dfs(n, 0, t, h);
-		if (!vec.path.empty())
-		{
-			return vec.path;
-		}
-		t = vec.g;
+		int bound = bonded_dfs(n, 0, t, h);
+		if (bound == FOUND) { return FOUND; }
+		t = bound;
+		printf("Bound: %d\n", t);
 	}
-	list<byte> a;
-	return a;
+	return -1;
 }
 
-v_ida search::bonded_dfs(node *n, int g, int t, int (*h)(node *))
+int search::bonded_dfs(node *n, int g, int t, int (*h)(node *))
 {
-	int f = n->g + h(n);
-	v_ida v;
+	int f = g + h(n);
 	
-	if (f > t)
-	{
-		list<byte> k;
-		v.path = k;
-		v.g = f;
-		return v;
-	}
+	if (f > t) { return f; }
 
-	if (n->is_goal())
-	{
-		//v.path = n->extract_solution();
-		v.path = list<byte> (4,1);
-		v.g = g;
-		return v;
-	}
+	if (n->is_goal()) { return FOUND; }
 
 	int new_t = INT_MAX;
-	/*list<byte> succ = n->succ();
-	byte a;
-	for (list<byte>::const_iterator iterator = succ.begin(), end = succ.end(); iterator != end; ++iterator)
-	{
-		a = *iterator;
-		node *np = new node(n, a, n->accion);
-		v_ida vec = bonded_dfs(np, np->g, t, h);
-		delete np;
-		if (!vec.path.empty())
-		{
-			return vec;
-		}
-		new_t = min(new_t,vec.g);
-	}*/
-	
-	for (byte i = 1; i <= 4; ++i)
+	for (int i = 1; i <= 4; ++i)
 	{
 		if (n->valid_action(i))
 		{
 			node *np = new node(n, i, n->accion);
-			v_ida vec = bonded_dfs(np, np->g, t, h);
-			if (!vec.path.empty())
-			{
-				return vec;
-			}
-			new_t = min(new_t,vec.g);
+			int path = bonded_dfs(np, np->g, t, h);
+			if (path == FOUND) { return FOUND; }
+			if (path < new_t) { new_t = path; }
 		}
 	}
-	
-	v_ida l;
-	return l;
+	return new_t;
 }
 
 bool compare_node_mh::operator()(node* n1, node* n2)

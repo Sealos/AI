@@ -38,13 +38,10 @@ int main(int argc, const char* argv[])
 		nodo->print();
 		
 		search *s = new search();
-		list<byte> succ = s->ida_star(nodo, manhattan);
+		int succ = s->ida_star(nodo, manhattan);
 		
-		std::list<byte>::iterator vec_int_iter;
- 		vec_int_iter = succ.begin();
-		printf("Tamano: %u\n", succ.size());
- 		for(; vec_int_iter != succ.end(); vec_int_iter++)
- 			printf("%u\n", *vec_int_iter);
+		printf("Sol: %d", succ);
+		
 		return 0;
 
 	}
