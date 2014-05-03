@@ -10,7 +10,7 @@ int main(int argc, const char* argv[])
 	std::ifstream infile(argv[1]);
 	std::string line;
 	unsigned int representacion[2];
-
+	printf("Manhattan: %d \n",1);
 	while (std::getline(infile, line))
 	{
 		representacion[0] = 0x00000000;
@@ -36,15 +36,16 @@ int main(int argc, const char* argv[])
 		node *nodo = new node(representacion[0], representacion[1], p_cero);
 		printf("Manhattan: %d \n",manhattan(nodo));
 		nodo->print();
-		
-		search *s = new search();
+		pdb *p = new pdb();
+		printf("PDB: %i\n", p->get_pdb_value(nodo->val));
+		/*search *s = new search();
 		list<byte> succ = s->ida_star(nodo, manhattan);
 		
 		std::list<byte>::iterator vec_int_iter;
  		vec_int_iter = succ.begin();
 		printf("Tamano: %u\n", succ.size());
  		for(; vec_int_iter != succ.end(); vec_int_iter++)
- 			printf("%u\n", *vec_int_iter);
+ 			printf("%u\n", *vec_int_iter);*/
 		return 0;
 
 	}
