@@ -8,7 +8,7 @@
 #define MOV_DER		3
 #define MOV_IZQ		4
 
-#define MAX_VALUE	57657600
+#define MAX_VALUE	43680
 
 using namespace std;
 
@@ -67,6 +67,8 @@ node::node(node *p, byte a, byte b)
 	int val = p->get_value(this->pos_cero);
 	if (val != EQUIS)
 		this->g = p->g + 1;
+	else
+		this->g = p->g;
 	set_value(0, this->pos_cero);
 	set_value(val, p->pos_cero);
 }
@@ -273,7 +275,6 @@ void node::print()
 	{
 		printf("%2d ", this->get_value(i));
 	}
-	printf("\n--\n");
 }
 
 void write_bin(string fname)
@@ -287,6 +288,7 @@ void bfs(node *p)
 {
 	queue<node *> Q;
 	Q.push(p);
+	unsigned long int rank;
 	while(!Q.empty())
 	{
 		node *actual = Q.front();
@@ -296,11 +298,15 @@ void bfs(node *p)
 			return;
 		}
 
-		if (closed.find(actual->val) == closed.end())
+		rank = actual->get_rank();
+		if (actual->val == 0x1f03ff2fffffffff)
+			printf("Imbecil %d\n", actual->g);
+		if (pdb_data[rank] > actual->g)
 		{
+			//actual->print();
+			//printf("Val %d \n\n", actual->g);
+			pdb_data[rank] = actual->g;
 			++counter;
-			closed.insert(actual->val);
-			pdb_data[actual->get_rank()] = actual->g;
 			for (byte i = 1; i <= 4; ++i)
 			{
 				if (actual->valid_action(i))
@@ -308,9 +314,10 @@ void bfs(node *p)
 					p = new node(actual, i, actual->accion);
 					Q.push(p);
 				}
-
 			}
 		}
+
+
 		delete actual;
 	}
 }
@@ -411,35 +418,13 @@ int main(int argc, const char* argv[])
 {
 	for(int i = 1; i < 16; ++i)
 		factorial[i] = i * factorial[i-1];
-	long unsigned int val = 0x0123456789ABCDEF;
+	long unsigned int val = 0x0123FFFFFFFFFFFF;
 	node *np = new node(val, 0);
-
-	for (int i = 0; i < 16; ++i)
-	{
-	printf("Posicion del cero: %i\n", i);
-	node *np = new node(val, i);
-	printf("Cableado\n");
-	list<byte> succ = np->succ();
-	byte a;
-	for (list<byte>::const_iterator iterator = succ.begin(), end = succ.end(); iterator != end; ++iterator)
-	{
-		a = *iterator;
-		printf("%d\n", a);
-	}
-
-	printf("is_valid\n");
-	for (byte i = 1; i <= 4; ++i)
-	{
-		if (np->valid_action(i))
-		{
-			printf("%d\n", i);
-		}
-	}
-	printf("\n\n");
-	}
-	//rellenar_arreglo();
-	//bfs(np);
+	rellenar_arreglo();
+	bfs(np);
 	printf("Termine\n");
 	printf("Nodos generados: %lu\n", counter);
-	write_bin("pdb_data_123456.bin");
+	np = new node(0x1f03ff2fffffffff, 2);
+	printf("Val: %d\n", pdb_data[np->get_rank()]);
+	write_bin("pdb_data_12345.bin");
 }
