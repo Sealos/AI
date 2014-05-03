@@ -21,7 +21,7 @@ class search
 {
 public:
 search();
-list<byte> a_star(node *n, int (*heuristic)(node *)); // por ahora noooo
+int a_star(node *n, int (*heuristic)(node *)); // por ahora noooo
 int ida_star(node *n, int (*h)(node *));
 int bonded_dfs(node *n, int g, int t, int (*h)(node *));
 };

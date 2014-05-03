@@ -115,59 +115,84 @@ bool node::is_goal()
 }
 
 //Funciona
-std::list<byte> node::succ()
+std::list<unsigned char> node::succ()
 {
-	std::list<byte> l_moves;
+	std::list<unsigned char> l_moves;
+	int accion_padre = this->acc_padre;
 	switch(this->pos_cero)
 	{
 	case 0:
-		l_moves.push_front(MOV_ABAJO);
-		l_moves.push_front(MOV_DER);
+		if (accion_padre != MOV_ARRIBA)
+			l_moves.push_front(MOV_ABAJO);
+		if (accion_padre != MOV_IZQ)
+			l_moves.push_front(MOV_DER);
 		break;
 	case 1:
 	case 2:
-		l_moves.push_front(MOV_ABAJO);
-		l_moves.push_front(MOV_DER);
-		l_moves.push_front(MOV_IZQ);
+		if (accion_padre != MOV_ARRIBA)
+			l_moves.push_front(MOV_ABAJO);
+		if (accion_padre != MOV_IZQ)
+			l_moves.push_front(MOV_DER);
+		if (accion_padre != MOV_DER)
+			l_moves.push_front(MOV_IZQ);
 		break;
 	case 3:
-		l_moves.push_front(MOV_ABAJO);
-		l_moves.push_front(MOV_IZQ);
+		if (accion_padre != MOV_ARRIBA)
+			l_moves.push_front(MOV_ABAJO);
+		if (accion_padre != MOV_DER)
+			l_moves.push_front(MOV_IZQ);
 		break;
 	case 4:
 	case 8:
-		l_moves.push_front(MOV_ARRIBA);
-		l_moves.push_front(MOV_ABAJO);
-		l_moves.push_front(MOV_DER);
+		if (accion_padre != MOV_ABAJO)
+			l_moves.push_front(MOV_ARRIBA);
+		if (accion_padre != MOV_ARRIBA)
+			l_moves.push_front(MOV_ABAJO);
+		if (accion_padre != MOV_IZQ)
+			l_moves.push_front(MOV_DER);
 		break;
 	case 5:
 	case 6:
 	case 9:
 	case 10:
-		l_moves.push_front(MOV_ARRIBA);
-		l_moves.push_front(MOV_ABAJO);
-		l_moves.push_front(MOV_DER);
-		l_moves.push_front(MOV_IZQ);
+		if (accion_padre != MOV_ARRIBA)
+			l_moves.push_front(MOV_ABAJO);
+		if (accion_padre != MOV_ABAJO)
+			l_moves.push_front(MOV_ARRIBA);
+		if (accion_padre != MOV_DER)
+			l_moves.push_front(MOV_IZQ);
+		if (accion_padre != MOV_IZQ)
+			l_moves.push_front(MOV_DER);
 		break;
 	case 7:
 	case 11:
-		l_moves.push_front(MOV_ARRIBA);
-		l_moves.push_front(MOV_ABAJO);
-		l_moves.push_front(MOV_IZQ);
+		if (accion_padre != MOV_ARRIBA)
+			l_moves.push_front(MOV_ABAJO);
+		if (accion_padre != MOV_ABAJO)
+			l_moves.push_front(MOV_ARRIBA);
+		if (accion_padre != MOV_DER)
+			l_moves.push_front(MOV_IZQ);
 		break;
 	case 12:
-		l_moves.push_front(MOV_ARRIBA);
-		l_moves.push_front(MOV_DER);
+		if (accion_padre != MOV_ABAJO)
+			l_moves.push_front(MOV_ARRIBA);
+		if (accion_padre != MOV_IZQ)
+			l_moves.push_front(MOV_DER);
 		break;
 	case 13:
 	case 14:
-		l_moves.push_front(MOV_ARRIBA);
-		l_moves.push_front(MOV_DER);
-		l_moves.push_front(MOV_IZQ);
+		if (accion_padre != MOV_ABAJO)
+			l_moves.push_front(MOV_ARRIBA);
+		if (accion_padre != MOV_DER)
+			l_moves.push_front(MOV_IZQ);
+		if (accion_padre != MOV_IZQ)
+			l_moves.push_front(MOV_DER);
 		break;
 	case 15:
-		l_moves.push_front(MOV_ARRIBA);
-		l_moves.push_front(MOV_IZQ);
+		if (accion_padre != MOV_ABAJO)
+			l_moves.push_front(MOV_ARRIBA);
+		if (accion_padre != MOV_DER)
+			l_moves.push_front(MOV_IZQ);
 		break;
 	}
 
@@ -193,9 +218,7 @@ byte node::inv(byte a)
 
 bool node::valid_action(byte a)
 {
-	if (inv(a) == this->acc_padre)
-		return false;
-
+	if (inv(a) == this->acc_padre) { return false; }
 	switch(this->pos_cero)
 	{
 	case 0:
@@ -369,7 +392,6 @@ int node::hash()
 		int val2 = (this->val & 0x00000000FFFFFFFF);
 		return val1 ^ val2;
 #else
-		printf("n.val : %x %x", this->val[0], this->val[1]);
 		return (this->val[0] ^ this->val[1]);
 #endif
 }
