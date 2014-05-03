@@ -33,7 +33,7 @@ int manhattan(node *n)
 	for (int i = 0; i < 16; ++i)
 	{
 		valor = n->get_value(i);
-		val += man_data[i][valor];
+		val += man_data[valor][i];
 	}
 	return val;
 }
@@ -102,7 +102,7 @@ bool compare_node_mh::operator()(node* n1, node* n2)
 	
 int search::ida_star(node *n, int (*h)(node *))
 {
-	int t = p->h(n->val);
+	int t = h(n);
 	p = new pdb();
 	while (t != INT_MAX)
 	{
@@ -116,7 +116,7 @@ int search::ida_star(node *n, int (*h)(node *))
 
 int search::bonded_dfs(node *n, int g, int t, int (*h)(node *))
 {
-	int f = g + p->h(n->val);
+	int f = g + h(n);
 	//printf("Mah : %d, g: %d\n", h(n), g);
 	
 	if (f > t)

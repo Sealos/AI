@@ -48,7 +48,7 @@ int main(int argc, const char* argv[])
 		nodo->print();
 		search *s = new search();
 		//delete nodo;
-		int sol = s->ida_star(nodo, cero);
+		int sol = s->ida_star(nodo, manhattan);
 		
 		printf("Sol: %d\n", sol);
 		
