@@ -46,16 +46,15 @@ pdb::pdb()
 	h.close();
 }
 
-inline byte pdb::get_value_node(long unsigned int val, byte pos)
+inline unsigned char pdb::get_value_node(long unsigned int val, unsigned char pos)
 {
 	val = val & mask[pos];
-	byte value = val >> ((15 - pos) * 4);
+	unsigned char value = val >> ((15 - pos) * 4);
 	return value;
 }
 
-inline long unsigned int pdb::set_value_node(long unsigned int val, byte data, byte pos, long unsigned int r_mask)
+inline long unsigned int pdb::set_value_node(long unsigned int val, unsigned char data, unsigned char pos, long unsigned int r_mask)
 {
-	long unsigned int sum = val;
 	long unsigned int sum_val = (val & r_mask);
 	long unsigned int new_val = data;
 	new_val = new_val << ((15 - pos) * 4);
@@ -63,9 +62,9 @@ inline long unsigned int pdb::set_value_node(long unsigned int val, byte data, b
 	return new_val;
 }
 
-byte pdb::get_pdb_value(long unsigned int val)
+unsigned char pdb::h(long unsigned int val)
 {
-	byte value = 0;
+	unsigned char value = 0;
 	long unsigned int permutacion[3] =
 	{
 		0xFFFFFFFFFFFFFFFF,
@@ -75,7 +74,7 @@ byte pdb::get_pdb_value(long unsigned int val)
 
 	long unsigned int temp;
 	long unsigned int r_mask;
-	byte r_value;
+	unsigned char r_value;
 	for (int i = 0; i < 16; ++i)
 	{
 		temp = val & mask[i];
@@ -111,16 +110,16 @@ byte pdb::get_pdb_value(long unsigned int val)
 			break;
 		}
 	}
-	printf("Perm1: %016llX | Perm2: %016llX | Perm3: %016llX\n", permutacion[0], permutacion[1], permutacion[2]);
+	//printf("Perm1: %016llX | Perm2: %016llX | Perm3: %016llX\n", permutacion[0], permutacion[1], permutacion[2]);
 
 	// Calculamos el valor
 	value += pdb_data_1[get_rank(permutacion[0])];
-	printf("Value: %d\n", value);
+	//printf("Value: %d\n", value);
 	value += pdb_data_2[get_rank(permutacion[1])];
 
-	printf("Value: %d\n", value);
+	//printf("Value: %d\n", value);
 	value += pdb_data_3[get_rank(permutacion[2])];
-	printf("Value: %d\n", value);
+	//printf("Value: %d\n", value);
 
 	return value;
 }
@@ -132,7 +131,7 @@ long unsigned int pdb::get_rank(long unsigned int val)
 	long unsigned int ret = 0;
 	for(int i = 15; i >= 0; --i)
 	{
-		byte si = get_value_node(val, i);
+		unsigned char si = get_value_node(val, i);
 		freq[si]++;
 		den *= freq[si];
 		for (int c = 0; c < si; ++c) 

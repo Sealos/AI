@@ -75,7 +75,7 @@ node::node(node *p, byte a, byte b)
 node::node(long unsigned int val0, byte p_cero)
 {
 	this->pos_cero = p_cero;
-	this->acc_padre = 0;
+	this->acc_padre = MOV_NULL;
 	this->accion = MOV_NULL;
 	this->g = 0;
 	this->val = val0;
@@ -85,7 +85,7 @@ int node::get_value(int n)
 {
 	long unsigned int val;
 	val = this->val & pos_mask[n];
-	int value = val >> ((15 - n) * 4);
+	int value = val >> (60 - n * 4);
 	return value;
 }
 
@@ -96,7 +96,7 @@ void node::set_value(byte val, byte pos)
 	if (val != 0)
 	{
 		long unsigned int new_val = val;
-		new_val = new_val << ((15 - pos) * 4);
+		new_val = new_val << (60 - pos * 4);
 		this->val = new_val + sum_val;
 	}
 	else
@@ -118,32 +118,6 @@ long unsigned int node::get_rank()
 				ret += factorial[15-i] / (den / freq[c]);
 	}
 	return ret;
-}
-
-long unsigned int node::get_rank_blai()
-{
-	byte k = 4;
-	long unsigned int rank = 0;
-	int T[32];
-	for (int i = 0; i < 31; ++i)
-		T[i] = 0;
-	int ctr;
-	int node;
-	for (int i = 0; i < 16; ++i)
-	{
-		ctr = this->get_value(i);
-		node = 16 + ctr;
-		for (int j = 0; j < k; ++j)
-		{
-			if ((node % 2) == 1)
-				ctr = ctr - T[(node >> 1) << 1]; //Resta uno
-			T[node] = T[node] + 1;
-			node = node >> 1;
-		}
-		T[node] = T[node] + 1;
-		rank = rank * (17 - i) + ctr;
-	}
-	return rank;
 }
 
 byte inv(byte a)
@@ -319,90 +293,6 @@ void bfs(node *p)
 	}
 }
 
-list<unsigned char> node::succ()
-{
-	list<unsigned char> l_moves;
-	int accion_padre = this->acc_padre;
-	switch(this->pos_cero)
-	{
-	case 0:
-		if (accion_padre != MOV_ARRIBA)
-			l_moves.push_front(MOV_ABAJO);
-		if (accion_padre != MOV_IZQ)
-			l_moves.push_front(MOV_DER);
-		break;
-	case 1:
-	case 2:
-		if (accion_padre != MOV_ARRIBA)
-			l_moves.push_front(MOV_ABAJO);
-		if (accion_padre != MOV_IZQ)
-			l_moves.push_front(MOV_DER);
-		if (accion_padre != MOV_DER)
-			l_moves.push_front(MOV_IZQ);
-		break;
-	case 3:
-		if (accion_padre != MOV_ARRIBA)
-			l_moves.push_front(MOV_ABAJO);
-		if (accion_padre != MOV_DER)
-			l_moves.push_front(MOV_IZQ);
-		break;
-	case 4:
-	case 8:
-		if (accion_padre != MOV_ABAJO)
-			l_moves.push_front(MOV_ARRIBA);
-		if (accion_padre != MOV_ARRIBA)
-			l_moves.push_front(MOV_ABAJO);
-		if (accion_padre != MOV_IZQ)
-			l_moves.push_front(MOV_DER);
-		break;
-	case 5:
-	case 6:
-	case 9:
-	case 10:
-		if (accion_padre != MOV_ARRIBA)
-			l_moves.push_front(MOV_ABAJO);
-		if (accion_padre != MOV_ABAJO)
-			l_moves.push_front(MOV_ARRIBA);
-		if (accion_padre != MOV_DER)
-			l_moves.push_front(MOV_IZQ);
-		if (accion_padre != MOV_IZQ)
-			l_moves.push_front(MOV_DER);
-		break;
-	case 7:
-	case 11:
-		if (accion_padre != MOV_ARRIBA)
-			l_moves.push_front(MOV_ABAJO);
-		if (accion_padre != MOV_ABAJO)
-			l_moves.push_front(MOV_ARRIBA);
-		if (accion_padre != MOV_DER)
-			l_moves.push_front(MOV_IZQ);
-		break;
-	case 12:
-		if (accion_padre != MOV_ABAJO)
-			l_moves.push_front(MOV_ARRIBA);
-		if (accion_padre != MOV_IZQ)
-			l_moves.push_front(MOV_DER);
-		break;
-	case 13:
-	case 14:
-		if (accion_padre != MOV_ABAJO)
-			l_moves.push_front(MOV_ARRIBA);
-		if (accion_padre != MOV_DER)
-			l_moves.push_front(MOV_IZQ);
-		if (accion_padre != MOV_IZQ)
-			l_moves.push_front(MOV_DER);
-		break;
-	case 15:
-		if (accion_padre != MOV_ABAJO)
-			l_moves.push_front(MOV_ARRIBA);
-		if (accion_padre != MOV_DER)
-			l_moves.push_front(MOV_IZQ);
-		break;
-	}
-
-	return l_moves;
-}
-
 void rellenar_arreglo()
 {
 	for (long unsigned int i = 0; i < MAX_VALUE; ++i)
@@ -421,7 +311,7 @@ int main(int argc, const char* argv[])
 	bfs(np);
 	printf("Termine\n");
 	printf("Nodos generados: %lu\n", counter);
-	//np = new node(0x1f03ff2fffffffff, 2);
+	//np = new node(0x1f0f3f2fffffffff, 2);
 	//printf("Val: %d\n", pdb_data[np->get_rank()]);
 	write_bin("pdb_data_DEF.bin");
 }

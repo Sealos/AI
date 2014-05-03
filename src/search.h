@@ -8,6 +8,7 @@
 #include <iostream>
 #include <fstream>
 #include "pdb.h"
+#include "node.h"
 
 #ifndef SND_H
 #define SND_H

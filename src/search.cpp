@@ -24,6 +24,8 @@ byte man_data[16][16] =
 	{6, 5, 4, 3, 5, 4, 3, 2, 4, 3, 2, 1, 3, 2, 1, 0}
 };
 
+pdb *p;
+
 int manhattan(node *n)
 {
 	int val = 0;
@@ -45,11 +47,11 @@ search::search()
 {
 	priority_queue<node*, vector<node*>, compare_node_mh> q;
 
-/*if (h == pdb)
-		priority_queue<node*, vector<node*>, compare_node_pdb> q;
-*/
+	/*if (h == pdb)
+		priority_queue<node*, vector<node*>, compare_node_pdb> q;*/
+
 	q.push(n);
-	unordered_map<unsigned int*, int> dist;
+	unordered_map<long unsigned int, int> dist;
 	unordered_set<node*> closed;
 	
 	while (!q.empty())
@@ -100,7 +102,8 @@ bool compare_node_mh::operator()(node* n1, node* n2)
 	
 int search::ida_star(node *n, int (*h)(node *))
 {
-	int t = h(n);
+	int t = p->h(n->val);
+	p = new pdb();
 	while (t != INT_MAX)
 	{
 		int bound = bonded_dfs(n, 0, t, h);
@@ -113,32 +116,42 @@ int search::ida_star(node *n, int (*h)(node *))
 
 int search::bonded_dfs(node *n, int g, int t, int (*h)(node *))
 {
-	int f = g + h(n);
+	int f = g + p->h(n->val);
+	//printf("Mah : %d, g: %d\n", h(n), g);
 	
-	if (f > t) { return f; }
+	if (f > t)
+	{
+		return f;
+	}
 	
 	if (n->is_goal()) { return FOUND; }
 
 	int new_t = INT_MAX;
 	
-	for (int i = 4; 1 <= i; --i)
+	for (int i = 1; i <= 4; ++i)
 	{
 		if (n->valid_action(i))
 		{
 			node *np = new node(n, i, n->accion);
-			int path = bonded_dfs(np, np->g, t, h);
-			if (path == FOUND) { return FOUND; }
-			if (path < new_t) { new_t = path; }
+			if (np->val == n->val)
+				delete np;
+			else
+			{
+				int cost = bonded_dfs(np, np->g, t, h);
+				delete np;
+				if (cost == FOUND)
+					return FOUND;
+				new_t = min(new_t, cost);
+			}
 		}
 	}
-	
 	return new_t;
 }
 
 
 bool compare_node_pdb::operator()(node* n1, node* n2)
 {
-	/*if ((n1->g + pdb(n1)) > (n2->g + pdb(n2)))
+	/*if ((n1->g + p->get_pdb_value(n1->val) > (n2->g + p->get_pdb_value(n2->val))
 		return true;*/
 	return false;
 }

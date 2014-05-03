@@ -218,7 +218,9 @@ byte node::inv(byte a)
 
 bool node::valid_action(byte a)
 {
-	if (inv(a) == this->acc_padre) { return false; }
+	//if (inv(a) == this->acc_padre)
+	//	return false;
+
 	switch(this->pos_cero)
 	{
 	case 0:
@@ -378,11 +380,26 @@ std::list<byte> node::extract_solution()
 
 void node::print()
 {
-	for (int i = 0; i < 16; ++i)
+	for (int i = 0; i < 4; ++i)
 	{
-		printf("%d ", this->get_value(i));
+		printf("%2d ", this->get_value(i));
 	}
 	printf("\n");
+	for (int i = 4; i < 8; ++i)
+	{
+		printf("%2d ", this->get_value(i));
+	}
+	printf("\n");
+	for (int i = 8; i < 12; ++i)
+	{
+		printf("%2d ", this->get_value(i));
+	}
+	printf("\n");
+	for (int i = 12; i < 16; ++i)
+	{
+		printf("%2d ", this->get_value(i));
+	}
+	printf("\n\n");
 }
 
 int node::hash()

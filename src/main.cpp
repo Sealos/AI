@@ -5,11 +5,17 @@
 #include "pdb.h"
 #include "search.h"
 
+int cero(node *)
+{
+	return 0;
+}
+
 int main(int argc, const char* argv[])
 {
 	std::ifstream infile(argv[1]);
 	std::string line;
 	unsigned int representacion[2];
+	node *nodo;
 
 	while (std::getline(infile, line))
 	{
@@ -33,18 +39,20 @@ int main(int argc, const char* argv[])
 			i--;
 		}
 		
-		node *nodo = new node(representacion[0], representacion[1], p_cero);
+		nodo = new node(representacion[0], representacion[1], p_cero);
+
+
+
+
 		printf("Manhattan: %d \n",manhattan(nodo));
 		nodo->print();
-		//pdb *p = new pdb();
-		//printf("PDB %i\n", p->get_pdb_value(nodo->val));
 		search *s = new search();
-		int sol = s->ida_star(nodo, manhattan);
+		//delete nodo;
+		int sol = s->ida_star(nodo, cero);
 		
 		printf("Sol: %d\n", sol);
 		
-		return 0;
 
 	}
-
+	return 0;
 }
