@@ -55,9 +55,11 @@ inline byte pdb::get_value_node(long unsigned int val, byte pos)
 
 inline long unsigned int pdb::set_value_node(long unsigned int val, byte data, byte pos, long unsigned int r_mask)
 {
+	long unsigned int sum = val;
 	long unsigned int sum_val = (val & r_mask);
-	long unsigned int new_val = val;
-	new_val = (new_val << ((15 - pos) * 4)) + sum_val;
+	long unsigned int new_val = data;
+	new_val = new_val << ((15 - pos) * 4);
+	new_val += sum_val;
 	return new_val;
 }
 
@@ -92,7 +94,7 @@ byte pdb::get_pdb_value(long unsigned int val)
 		case 4:
 		case 5:
 		case 6:
-			set_value_node(permutacion[0], r_value, i, r_mask);
+			permutacion[0] = set_value_node(permutacion[0], r_value, i, r_mask);
 			break;
 		case 7:
 		case 8:
@@ -100,20 +102,25 @@ byte pdb::get_pdb_value(long unsigned int val)
 		case 10:
 		case 11:
 		case 12:
-			set_value_node(permutacion[1], r_value, i, r_mask);
+			permutacion[1] = set_value_node(permutacion[1], r_value, i, r_mask);
 			break;
 		case 13:
 		case 14:
 		case 15:
-			set_value_node(permutacion[2], r_value, i, r_mask);
+			permutacion[2] = set_value_node(permutacion[2], r_value, i, r_mask);
 			break;
 		}
 	}
+	printf("Perm1: %016llX | Perm2: %016llX | Perm3: %016llX\n", permutacion[0], permutacion[1], permutacion[2]);
 
 	// Calculamos el valor
 	value += pdb_data_1[get_rank(permutacion[0])];
+	printf("Value: %d\n", value);
 	value += pdb_data_2[get_rank(permutacion[1])];
+
+	printf("Value: %d\n", value);
 	value += pdb_data_3[get_rank(permutacion[2])];
+	printf("Value: %d\n", value);
 
 	return value;
 }
