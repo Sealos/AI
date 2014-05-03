@@ -1,6 +1,6 @@
 #include "gen_pdb.h"
 
-#define  EQUIS	0xF
+#define  EQUIS	0x1
 
 #define MOV_NULL	0
 #define MOV_ARRIBA	1
@@ -35,7 +35,6 @@ long unsigned int pos_mask[16] =
 byte pdb_data[MAX_VALUE];
 
 long unsigned int counter = 0;
-unordered_set<long unsigned int> closed;
 
 vector<long unsigned int> factorial(16,1);
 
@@ -166,8 +165,8 @@ byte inv(byte a)
 
 bool node::valid_action(byte a)
 {
-	if (inv(a) == this->acc_padre)
-		return false;
+	//if (inv(a) == this->acc_padre)
+	//	return false;
 
 	switch(this->pos_cero)
 	{
@@ -293,14 +292,12 @@ void bfs(node *p)
 	{
 		node *actual = Q.front();
 		Q.pop();
-		if (counter == MAX_VALUE)
+		/*if (counter == MAX_VALUE)
 		{
 			return;
-		}
+		}*/
 
 		rank = actual->get_rank();
-		if (actual->val == 0x1f03ff2fffffffff)
-			printf("Imbecil %d\n", actual->g);
 		if (pdb_data[rank] > actual->g)
 		{
 			//actual->print();
@@ -418,13 +415,13 @@ int main(int argc, const char* argv[])
 {
 	for(int i = 1; i < 16; ++i)
 		factorial[i] = i * factorial[i-1];
-	long unsigned int val = 0x0123FFFFFFFFFFFF;
+	long unsigned int val = 0x0111111111111DEF;
 	node *np = new node(val, 0);
 	rellenar_arreglo();
 	bfs(np);
 	printf("Termine\n");
 	printf("Nodos generados: %lu\n", counter);
-	np = new node(0x1f03ff2fffffffff, 2);
-	printf("Val: %d\n", pdb_data[np->get_rank()]);
-	write_bin("pdb_data_12345.bin");
+	//np = new node(0x1f03ff2fffffffff, 2);
+	//printf("Val: %d\n", pdb_data[np->get_rank()]);
+	write_bin("pdb_data_DEF.bin");
 }
