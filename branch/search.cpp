@@ -99,8 +99,14 @@ bool compare_node_mh::operator()(node* n1, node* n2)
 	
 int search::ida_star(node *n, int (*h)(node *))
 {
-	int t = h(n);
-	
+	int t = 0;
+	if (h == manhattan)
+		t = h(n);
+	else {
+		p = new pdb();
+		t = p->h(n->stt->val);
+	}
+
 	while (t != INT_MAX)
 	{
 		int bound = bonded_dfs(n, 0, t, h);
@@ -113,7 +119,13 @@ int search::ida_star(node *n, int (*h)(node *))
 
 int search::bonded_dfs(node *n, int g, int t, int (*h)(node *))
 {
-	int f = g + h(n);
+	int f = 0;
+	if (h == manhattan){
+		f = g + h(n);
+	} else {
+		f = g + p->h(n->stt->val);
+	}
+
 	
 	if (f > t)
 	{

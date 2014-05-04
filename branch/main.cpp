@@ -5,6 +5,10 @@
 #include "pdb.h"
 #include "search.h"
 
+int cero(node *)
+ {
+ 	return 0;
+ }
 
 int main(int argc, const char* argv[])
 {
@@ -38,18 +42,16 @@ int main(int argc, const char* argv[])
 		long unsigned int temp = representacion[0];
 		temp = (temp << 32);
 		rep = temp + representacion[1];
-		printf("Funcion stefano: %016llX\n", rep);
 		
 		nodo = new node(rep, p_cero);
 
-		printf("Manhattan: %d \n",manhattan(nodo));
 		nodo->print();
 		search *s = new search();
 		int sol = s->ida_star(nodo, manhattan);
+		//int sol = s->ida_star(nodo, cero);
 		
 		printf("Sol: %d\n", sol);
 		
-
 	}
 	return 0;
 }
