@@ -22,7 +22,7 @@ class search
 {
 public:
 search();
-int a_star(node *n, int (*heuristic)(node *)); // por ahora noooo
+int a_star(node *n, int (*heuristic)(node *));
 int ida_star(node *n, int (*h)(node *));
 int bonded_dfs(node *n, int g, int t, int (*h)(node *));
 };

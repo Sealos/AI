@@ -2,7 +2,6 @@
 
 const int FOUND = -4;
 const int NOT_FOUND = -1;
-int k;
 
 byte man_data[16][16] =
 {
@@ -52,7 +51,6 @@ search::search()
 
 	q.push(n);
 	unordered_map<long unsigned int, int> dist;
-	unordered_set<node*> closed;
 	
 	while (!q.empty())
 	{
@@ -62,16 +60,16 @@ search::search()
 		if (n->is_goal()) { return FOUND; }
 		
 		if (k < 200) {
- 			printf("Dist: %u, %d\n", dist[n->val], n->g);
-			printf("Guardia: %d", n->g < dist[n->val]);
+ 			printf("Dist: %u, %d\n", dist[n->str->val], n->g);
+			printf("Guardia: %d", n->g < dist[n->str->val]);
  			++k;
  		}
  		
-		if (closed.find(n) == closed.end() || n->g < dist[n->val])
+		if (n->stt->closed || n->g < dist[n->str->val])
 		{
 			
-			closed.insert(n);
-			dist[n->val] = n->g;
+			n->stt->closed = true;
+			dist[n->str->val] = n->g;
 			//printf("DistInterna: %u, %d\n", dist[n->val], n->g);
 			if (n->is_goal()) { return FOUND; }
 					
@@ -92,8 +90,6 @@ search::search()
 bool compare_node_mh::operator()(node* n1, node* n2)
 {
 	if ((n1->g + manhattan(n1)) > (n2->g + manhattan(n2))) {
-// 		if (k < 10)
-// 			printf("Comparo: %d,%d\n",n1->g + manhattan(n1),n2->g + manhattan(n2));
  		return true; 
 	}
 	return false;
@@ -133,7 +129,7 @@ int search::bonded_dfs(node *n, int g, int t, int (*h)(node *))
 		if (n->valid_action(i))
 		{
 			node *np = new node(n, i, n->accion);
-			if (np->val == n->val)
+			if (np->stt->val == n->stt->val)
 				delete np;
 			else
 			{

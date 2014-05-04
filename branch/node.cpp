@@ -22,7 +22,6 @@ long unsigned int pos_mask[16] =
 	0x000000000000000F
 };
 
-
 using namespace std;
 
 unordered_map<long unsigned int, state*> mapa;
