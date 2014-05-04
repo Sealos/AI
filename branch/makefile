@@ -1,4 +1,4 @@
-DEP = node.o search.o pdb.o
+DEP = node.o pdb.o state.o
 TARGET = main
 CC = g++
 DFLAGS = -g -O3 -O2

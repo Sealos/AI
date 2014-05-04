@@ -1,12 +1,6 @@
 #include "node.h"
-#include <ctime>
-#include <cstdio>
-#include <chrono>
-#include <iostream>
 
 unsigned int cant_nodos = 0;
-
-#ifdef X_64
 
 long unsigned int pos_mask[16] =
 {
@@ -28,200 +22,48 @@ long unsigned int pos_mask[16] =
 	0x000000000000000F
 };
 
-#else
 
-unsigned int pos_mask[8] =
-{
-	0xF0000000,
-	0x0F000000,
-	0x00F00000,
-	0x000F0000,
-	0x0000F000,
-	0x00000F00,
-	0x000000F0,
-	0x0000000F
-};
+using namespace std;
 
-#endif
+unordered_map<long unsigned int, state*> mapa;
 
-//Sin revisar
-
-node::node(node *p, byte a, byte b)
+node::node(node *p, byte a)
 {
 	this->accion = a;
-	this->acc_padre = b;
 	this->g = p->g + 1;
 	this->padre = p;
-#ifdef X_64
-	this->val = p->val;
-#else
-	this->val[0] = p->val[0];
-	this->val[1] = p->val[1];
-#endif
-
-	switch (a)
-	{
-	case MOV_ARRIBA:
-		this->pos_cero = p->pos_cero - 4;
-		break;
-	case MOV_ABAJO:
-		this->pos_cero = p->pos_cero + 4;
-		break;
-	case MOV_DER:
-		this->pos_cero = p->pos_cero + 1;
-		break;
-	case MOV_IZQ:
-		this->pos_cero = p->pos_cero - 1;
-		break;
-	case MOV_NULL:
-		this->pos_cero = p->pos_cero;
-		return;
-	}
-
-	int val = p->get_value(this->pos_cero);
-	set_value(0, this->pos_cero);
-	set_value(val, p->pos_cero);
 	
+	state *s = mapa[p->stt->val];
+	
+	if (s == NULL) {
+	  s = new state(p->stt->val, p->stt->pos_cero, a);
+	  mapa[s->val] = s;	  
+	} 
+	this->stt = s;
 }
 
-
 //Funciona
-node::node(unsigned int val0, unsigned int val1, byte p_cero)
+node::node(long unsigned int val, byte p_cero)
 {
-	this->pos_cero = p_cero;
-	this->acc_padre = 0;
 	this->accion = MOV_NULL;
 	this->padre = NULL;
 	this->g = 0;
-#ifdef X_64
-	long unsigned int temp = val0;
-	temp = (temp << 32);
-	this->val = temp + val1;
-#else
-	this->val[0] = val0;
-	this->val[1] = val1;
-#endif
+	
+	state *s = new state(val, p_cero);
+	mapa[val] = s;
+	this->stt = s;
 }
 
 
 //Funciona
 bool node::is_goal()
 {
-#ifdef X_64
-	return this->val == 0x0123456789ABCDEF;
-#else
-	return (this->val[0] == 0x01234567 && this->val[1] == 0x89ABCDEF);
-#endif
-}
-
-//Funciona
-std::list<unsigned char> node::succ()
-{
-	std::list<unsigned char> l_moves;
-	int accion_padre = this->acc_padre;
-	switch(this->pos_cero)
-	{
-	case 0:
-		if (accion_padre != MOV_ARRIBA)
-			l_moves.push_front(MOV_ABAJO);
-		if (accion_padre != MOV_IZQ)
-			l_moves.push_front(MOV_DER);
-		break;
-	case 1:
-	case 2:
-		if (accion_padre != MOV_ARRIBA)
-			l_moves.push_front(MOV_ABAJO);
-		if (accion_padre != MOV_IZQ)
-			l_moves.push_front(MOV_DER);
-		if (accion_padre != MOV_DER)
-			l_moves.push_front(MOV_IZQ);
-		break;
-	case 3:
-		if (accion_padre != MOV_ARRIBA)
-			l_moves.push_front(MOV_ABAJO);
-		if (accion_padre != MOV_DER)
-			l_moves.push_front(MOV_IZQ);
-		break;
-	case 4:
-	case 8:
-		if (accion_padre != MOV_ABAJO)
-			l_moves.push_front(MOV_ARRIBA);
-		if (accion_padre != MOV_ARRIBA)
-			l_moves.push_front(MOV_ABAJO);
-		if (accion_padre != MOV_IZQ)
-			l_moves.push_front(MOV_DER);
-		break;
-	case 5:
-	case 6:
-	case 9:
-	case 10:
-		if (accion_padre != MOV_ARRIBA)
-			l_moves.push_front(MOV_ABAJO);
-		if (accion_padre != MOV_ABAJO)
-			l_moves.push_front(MOV_ARRIBA);
-		if (accion_padre != MOV_DER)
-			l_moves.push_front(MOV_IZQ);
-		if (accion_padre != MOV_IZQ)
-			l_moves.push_front(MOV_DER);
-		break;
-	case 7:
-	case 11:
-		if (accion_padre != MOV_ARRIBA)
-			l_moves.push_front(MOV_ABAJO);
-		if (accion_padre != MOV_ABAJO)
-			l_moves.push_front(MOV_ARRIBA);
-		if (accion_padre != MOV_DER)
-			l_moves.push_front(MOV_IZQ);
-		break;
-	case 12:
-		if (accion_padre != MOV_ABAJO)
-			l_moves.push_front(MOV_ARRIBA);
-		if (accion_padre != MOV_IZQ)
-			l_moves.push_front(MOV_DER);
-		break;
-	case 13:
-	case 14:
-		if (accion_padre != MOV_ABAJO)
-			l_moves.push_front(MOV_ARRIBA);
-		if (accion_padre != MOV_DER)
-			l_moves.push_front(MOV_IZQ);
-		if (accion_padre != MOV_IZQ)
-			l_moves.push_front(MOV_DER);
-		break;
-	case 15:
-		if (accion_padre != MOV_ABAJO)
-			l_moves.push_front(MOV_ARRIBA);
-		if (accion_padre != MOV_DER)
-			l_moves.push_front(MOV_IZQ);
-		break;
-	}
-
-	return l_moves;
-}
-
-byte node::inv(byte a)
-{
-	switch(a)
-	{
-	case MOV_ABAJO:
-		return MOV_ARRIBA;
-	case MOV_ARRIBA:
-		return MOV_ABAJO;
-	case MOV_DER:
-		return MOV_IZQ;
-	case MOV_IZQ:
-		return MOV_DER;
-	default:
-		return MOV_NULL;
-	}
+	return this->stt->val == 0x0123456789ABCDEF;
 }
 
 bool node::valid_action(byte a)
 {
-	//if (inv(a) == this->acc_padre)
-	//	return false;
-
-	switch(this->pos_cero)
+	switch(this->stt->pos_cero)
 	{
 	case 0:
 		switch(a)
@@ -308,75 +150,26 @@ bool node::valid_action(byte a)
 //Funciona
 int node::get_value(int n)
 {
-#ifdef X_64
 	long unsigned int val;
-	val = this->val & pos_mask[n];
+	val = this->stt->val & pos_mask[n];
 	int value = val >> ((15 - n) * 4);
 	return value;
-#else
-	unsigned int val;
-	if (n > 7)
-		val = this->val[1];
-	else
-		val = this->val[0];
-	n = n % 8;
-	val = (val & pos_mask[n]);
-	int value;
-	if (n > 7)
-		value = val >> ((15 - n)* 4);
-	else
-		value = val >> ((7 - n)* 4);
-	return value;
-#endif
 }
 
 //Funciona
 void node::set_value(byte val, byte pos)
 {
-#ifdef X_64
 	long unsigned int mask = ULONG_MAX - pos_mask[pos];
-	long unsigned int sum_val = (this->val & mask);
+	long unsigned int sum_val = (this->stt->val & mask);
 	if (val != 0)
 	{
 		long unsigned int new_val = val;
 		new_val = new_val << ((15 - pos) * 4);
-		this->val = new_val + sum_val;
+		this->stt->val = new_val + sum_val;
 	}
 	else
-		this->val = sum_val;
-
-#else
-
-	byte n = pos % 8;
-	byte i = pos / 8;
-	unsigned int mask = UINT_MAX - pos_mask[n];
-	this->val[i] = this->val[i] & mask;
-	if (val != 0)
-	{
-		unsigned int new_val = val;
-		new_val = new_val << ((7 - n) * 4);
-		this->val[i] += new_val;
-	}
-
-#endif
+		this->stt->val = sum_val;
 }
-
-//Sin revisar
-std::list<byte> node::extract_solution()
-{
-	std::list<byte> path;
-	node *n = this;
-	path.push_front(n->padre->accion);
-	while (n->acc_padre != 0)
-	{
-        n = n->padre;
-		path.push_front(n->accion);
-	}
-
-
-	return path;
-}
-
 
 void node::print()
 {
@@ -400,15 +193,4 @@ void node::print()
 		printf("%2d ", this->get_value(i));
 	}
 	printf("\n\n");
-}
-
-int node::hash()
-{
-#ifdef X_64
-		int val1 = (this->val & 0xFFFFFFFF00000000) >> 32;
-		int val2 = (this->val & 0x00000000FFFFFFFF);
-		return val1 ^ val2;
-#else
-		return (this->val[0] ^ this->val[1]);
-#endif
 }
