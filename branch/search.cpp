@@ -42,12 +42,13 @@ search::search()
 	//ctor
 }
 
+/*
  int search::a_star(node *n, int (*h)(node *))
 {
 	priority_queue<node*, vector<node*>, compare_node_mh> q;
 
 	/*if (h == pdb)
-		priority_queue<node*, vector<node*>, compare_node_pdb> q;*/
+		priority_queue<node*, vector<node*>, compare_node_pdb> q;
 
 	q.push(n);
 	unordered_map<long unsigned int, int> dist;
@@ -70,7 +71,7 @@ search::search()
 			
 			n->stt->closed = true;
 			dist[n->str->val] = n->g;
-			//printf("DistInterna: %u, %d\n", dist[n->val], n->g);
+
 			if (n->is_goal()) { return FOUND; }
 					
 			for (int i = 4; 1 <= i; --i)
@@ -85,7 +86,7 @@ search::search()
 	}
 	
 	return NOT_FOUND;
-}
+}*/
 
 bool compare_node_mh::operator()(node* n1, node* n2)
 {
@@ -99,7 +100,7 @@ bool compare_node_mh::operator()(node* n1, node* n2)
 int search::ida_star(node *n, int (*h)(node *))
 {
 	int t = h(n);
-	p = new pdb();
+	
 	while (t != INT_MAX)
 	{
 		int bound = bonded_dfs(n, 0, t, h);
@@ -113,7 +114,6 @@ int search::ida_star(node *n, int (*h)(node *))
 int search::bonded_dfs(node *n, int g, int t, int (*h)(node *))
 {
 	int f = g + h(n);
-	//printf("Mah : %d, g: %d\n", h(n), g);
 	
 	if (f > t)
 	{
@@ -128,7 +128,7 @@ int search::bonded_dfs(node *n, int g, int t, int (*h)(node *))
 	{
 		if (n->valid_action(i))
 		{
-			node *np = new node(n, i, n->accion);
+			node *np = new node(n, i);
 			if (np->stt->val == n->stt->val)
 				delete np;
 			else

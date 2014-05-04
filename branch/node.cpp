@@ -33,10 +33,9 @@ node::node(node *p, byte a)
 	this->padre = p;
 	
 	state *s = mapa[p->stt->val];
-	
-	if (s == NULL) {
+	if (s) {
 	  s = new state(p->stt->val, p->stt->pos_cero, a);
-	  mapa[s->val] = s;	  
+	  mapa[s->val] = s;
 	} 
 	this->stt = s;
 }
