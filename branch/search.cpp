@@ -170,13 +170,14 @@ int search::ida_star(long unsigned int val, byte p_cero, int (*h)(unsigned char 
 	global_state = new state_ida(val, p_cero, h);
 
 	int t = global_state->heur;
-
+	printf("Bound: %d\n", t);
 	while (t != INT_MAX)
 	{
 		int bound = bonded_dfs(t, 0, h);
 		if (bound == FOUND)
 		{
 			delete global_state;
+			printf("Nodos creados %d\n", cant_nodos1);
 			return FOUND;
 		}
 		t = bound;
@@ -207,6 +208,7 @@ int search::bonded_dfs(int t, byte acc_pad, int (*h)(unsigned char *))
 				global_state->apply_action(i, h);
 				global_state->dist = global_state->dist + 1;
 				global_state->heur = h(global_state->val);
+				++cant_nodos1;
 				int cost = bonded_dfs(t, i, h);
 				global_state->heur = h_tmp;
 				global_state->apply_action(inv(i), h);
