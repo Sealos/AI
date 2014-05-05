@@ -47,18 +47,29 @@ int search::a_star(node *n, int (*h)(node *))
 	priority_queue<node*, vector<node*>, compare_node_mh> q;
 
     if ( h != manhattan )
-		priority_queue<node*, vector<node*>, compare_node_pdb> q;
+    {
+        priority_queue<node*, vector<node*>, compare_node_pdb> q;
 		p = new pdb();
+		printf("acabo de crear un pdb \n");
+    }
 	q.push(n);
 	unordered_map<long unsigned int, int> dist;
 
+/*    printf("dist inicial:%d | value:%016llX \n",dist[n->stt->val],n->stt->val);
+    dist[n->stt->val] = 123;
+    printf("dist n1: %d | value:%016llX \n",dist[n->stt->val],n->stt->val);
+    node *n2 = new node(n,1);
+    printf("dist n2: %d | value:%016llX \n",dist[n2->stt->val],n2->stt->val);
+    node *n3 = new node(n2,2);
+    printf("dist n3: %d | value:%016llX \n",dist[n3->stt->val],n3->stt->val);
+*/
 	while (!q.empty())
 	{
 		n = q.top();
 		q.pop();
 
-		if (n->is_goal()) { return FOUND; }
 
+		if (n->is_goal()) { return FOUND; }
 
 		if (!n->stt->closed || n->g < dist[n->stt->val])
 		{
@@ -161,7 +172,7 @@ int search::bonded_dfs(node *n, int g, int t, int (*h)(node *))
 
 bool compare_node_pdb::operator()(node* n1, node* n2)
 {
-	if ((n1->g + p->h(n1->stt->val) > (n2->g + p->h(n2->stt->val)) ))
+	if (  n1->g + p->h(n1->stt->val)  >  n2->g + p->h(n2->stt->val)  )
 		return true;
 	return false;
 }

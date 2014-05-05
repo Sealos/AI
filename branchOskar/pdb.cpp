@@ -119,7 +119,7 @@ unsigned char pdb::h(long unsigned int val)
 
 	//printf("Value: %d\n", value);
 	value += pdb_data_3[get_rank(permutacion[2])];
-	printf("Value: %d\n", value);
+	//printf("Value: %d\n", value);
 	return value;
 }
 
