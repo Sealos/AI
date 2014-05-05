@@ -3,6 +3,8 @@
 const int FOUND = -4;
 const int NOT_FOUND = -1;
 
+unsigned int cant_nodos1 = 0;
+
 byte man_data[16][16] =
 {
 	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -110,7 +112,10 @@ int search::ida_star(node *n, int (*h)(node *))
 	while (t != INT_MAX)
 	{
 		int bound = bonded_dfs(n, 0, t, h);
-		if (bound == FOUND) { return FOUND; }
+		if (bound == FOUND) 
+		{
+			return FOUND; 
+		}
 		t = bound;
 		printf("Bound: %d\n", t);
 	}
@@ -142,10 +147,14 @@ int search::bonded_dfs(node *n, int g, int t, int (*h)(node *))
 		{
 			node *np = new node(n, i);
 			if (np->stt->val == n->stt->val)
+			{
+				delete np->stt;
 				delete np;
+			}
 			else
 			{
 				int cost = bonded_dfs(np, np->g, t, h);
+				delete np->stt;
 				delete np;
 				if (cost == FOUND)
 					return FOUND;

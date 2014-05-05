@@ -38,6 +38,7 @@ node::node(node *p, byte a)
 	  mapa[s->val] = s;
 	} 
 	this->stt = s;
+	++cant_nodos;
 }
 
 //Funciona
@@ -50,13 +51,20 @@ node::node(long unsigned int val, byte p_cero)
 	state *s = new state(val, p_cero);
 	mapa[val] = s;
 	this->stt = s;
+	++cant_nodos;
 }
 
 
 //Funciona
 bool node::is_goal()
 {
-	return this->stt->val == 0x0123456789ABCDEF;
+	bool goal = this->stt->val == 0x0123456789ABCDEF;
+	if (goal){
+		mapa.clear();
+		printf("\n\n#Nodos generados: %u \n", cant_nodos);
+		cant_nodos = 0;
+	}
+	return goal;
 }
 
 bool node::valid_action(byte a)

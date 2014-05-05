@@ -1,9 +1,12 @@
 #include <stdio.h>
 #include <fstream>
 #include <sstream>
+#include <time.h>
 #include "node.h"
 #include "pdb.h"
 #include "search.h"
+
+using namespace std;
 
 int cero(node *)
  {
@@ -12,17 +15,20 @@ int cero(node *)
 
 int main(int argc, const char* argv[])
 {
-	std::ifstream infile(argv[1]);
-	std::string line;
+	ifstream infile(argv[1]);
+	string line;
 	unsigned int representacion[2];
 	node *nodo;
+	clock_t start,end;
+	float total;
+    
 
 	while (std::getline(infile, line))
 	{
 		representacion[0] = 0x00000000;
 		representacion[1] = 0x00000000;
 		long unsigned int rep = 0x0000000000000000;
-		std::istringstream iss(line);
+		istringstream iss(line);
 		int n;
 		byte p_cero = 0;
 		int i = 15;
@@ -43,15 +49,23 @@ int main(int argc, const char* argv[])
 		temp = (temp << 32);
 		rep = temp + representacion[1];
 		
+		
+
 		nodo = new node(rep, p_cero);
 
-		nodo->print();
+		//nodo->print();
 		search *s = new search();
+		
+		start=clock();
+
 		int sol = s->ida_star(nodo, manhattan);
 		//int sol = s->ida_star(nodo, cero);
+
+		end=clock();
 		
-		printf("Sol: %d\n", sol);
-		
+		printf("--Found--\n");
+		total = ((float)end-(float)start) / CLOCKS_PER_SEC;
+		cout<< "\n Time: " << total << "s.\n";
 	}
 	return 0;
 }

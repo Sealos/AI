@@ -12,6 +12,7 @@
 
 typedef unsigned char byte;
 
+
 /***
  * La información que se guarda en un
  * nodo n contiene:
