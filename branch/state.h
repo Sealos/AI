@@ -24,13 +24,14 @@ class state
 {
 public:
 	byte pos_cero;
-	bool closed; 
+	byte heur;
+	bool closed;
 	long unsigned int val;
 
 public:
-	
-	state(long unsigned int val, byte p_cero);
-	state(long unsigned int val, byte pos_cero, byte a);
+
+	state(long unsigned int val, byte p_cero, int (*h)(node *));
+	state(long unsigned int val, byte pos_cero, byte a, int (*h)(node *));
 	void set_value(byte val, byte pos);
 	inline byte get_value(int n);
 };

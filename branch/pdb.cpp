@@ -28,7 +28,7 @@ long unsigned int mask[16] =
 	0x000000000000000F
 };
 
-pdb::pdb()
+void pdb_init()
 {
 	for(int i = 1; i < 16; ++i)
 		factorial[i] = i * factorial[i-1];
@@ -46,14 +46,14 @@ pdb::pdb()
 	h.close();
 }
 
-inline unsigned char pdb::get_value_node(long unsigned int val, unsigned char pos)
+inline unsigned char pdb_get_value_node(long unsigned int val, unsigned char pos)
 {
 	val = val & mask[pos];
 	unsigned char value = val >> ((15 - pos) * 4);
 	return value;
 }
 
-inline long unsigned int pdb::set_value_node(long unsigned int val, unsigned char data, unsigned char pos, long unsigned int r_mask)
+inline long unsigned int pdb_set_value_node(long unsigned int val, unsigned char data, unsigned char pos, long unsigned int r_mask)
 {
 	long unsigned int sum_val = (val & r_mask);
 	long unsigned int new_val = data;
@@ -62,7 +62,7 @@ inline long unsigned int pdb::set_value_node(long unsigned int val, unsigned cha
 	return new_val;
 }
 
-unsigned char pdb::h(long unsigned int val)
+unsigned char pdb_h(long unsigned int val)
 {
 	unsigned char value = 0;
 	long unsigned int permutacion[3] =
@@ -93,7 +93,7 @@ unsigned char pdb::h(long unsigned int val)
 		case 4:
 		case 5:
 		case 6:
-			permutacion[0] = set_value_node(permutacion[0], r_value, i, r_mask);
+			permutacion[0] = pdb_set_value_node(permutacion[0], r_value, i, r_mask);
 			break;
 		case 7:
 		case 8:
@@ -101,12 +101,12 @@ unsigned char pdb::h(long unsigned int val)
 		case 10:
 		case 11:
 		case 12:
-			permutacion[1] = set_value_node(permutacion[1], r_value, i, r_mask);
+			permutacion[1] = pdb_set_value_node(permutacion[1], r_value, i, r_mask);
 			break;
 		case 13:
 		case 14:
 		case 15:
-			permutacion[2] = set_value_node(permutacion[2], r_value, i, r_mask);
+			permutacion[2] = pdb_set_value_node(permutacion[2], r_value, i, r_mask);
 			break;
 		}
 	}
@@ -124,18 +124,18 @@ unsigned char pdb::h(long unsigned int val)
 	return value;
 }
 
-long unsigned int pdb::get_rank(long unsigned int val)
+long unsigned int get_rank(long unsigned int val)
 {
 	vector<int> freq(16);
 	long unsigned int den = 1;
 	long unsigned int ret = 0;
 	for(int i = 15; i >= 0; --i)
 	{
-		unsigned char si = get_value_node(val, i);
+		unsigned char si = pdb_get_value_node(val, i);
 		freq[si]++;
 		den *= freq[si];
-		for (int c = 0; c < si; ++c) 
-			if(freq[c] > 0) 
+		for (int c = 0; c < si; ++c)
+			if(freq[c] > 0)
 				ret += factorial[15-i] / (den / freq[c]);
 	}
 	return ret;
