@@ -60,16 +60,9 @@ search::search()
 		q.pop();
 		
 		if (n->is_goal()) { return FOUND; }
-		
-		if (k < 200) {
- 			printf("Dist: %u, %d\n", dist[n->val], n->g);
-			printf("Guardia: %d", n->g < dist[n->val]);
- 			++k;
- 		}
  		
 		if (closed.find(n) == closed.end() || n->g < dist[n->val])
 		{
-			
 			closed.insert(n);
 			dist[n->val] = n->g;
 			//printf("DistInterna: %u, %d\n", dist[n->val], n->g);
@@ -92,9 +85,7 @@ search::search()
 bool compare_node_mh::operator()(node* n1, node* n2)
 {
 	if ((n1->g + manhattan(n1)) > (n2->g + manhattan(n2))) {
-// 		if (k < 10)
-// 			printf("Comparo: %d,%d\n",n1->g + manhattan(n1),n2->g + manhattan(n2));
- 		return true; 
+		return true; 
 	}
 	return false;
 }

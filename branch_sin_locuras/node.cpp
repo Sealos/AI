@@ -1,6 +1,6 @@
 #include "node.h"
 
-unsigned int cant_nodos = 0;
+int cant_nodos = 0;
 
 long unsigned int pos_mask[16] =
 {
@@ -24,39 +24,49 @@ long unsigned int pos_mask[16] =
 
 using namespace std;
 
-unordered_map<long unsigned int, state*> mapa;
+unordered_map<long unsigned int, state*> mapa; // Cambiar a set
 
-node::node(node *p, byte a)
+node::node(node *p, byte a, int (*h)(long unsigned int))
 {
 	this->accion = a;
 	this->g = p->g + 1;
 	this->padre = p;
 	
-	state *s = mapa[p->stt->val];
+	long unsigned int v = p->stt->val;
+
+	state *s= mapa[v];
 	if (s) {
-	  s = new state(p->stt->val, p->stt->pos_cero, a);
+	  s = new state(v, p->stt->pos_cero, a, h);
 	  mapa[s->val] = s;
-	} 
+	}
 	this->stt = s;
+	++cant_nodos;
 }
 
 //Funciona
-node::node(long unsigned int val, byte p_cero)
+node::node(long unsigned int val, byte p_cero, int (*h)(long unsigned int))
 {
 	this->accion = MOV_NULL;
 	this->padre = NULL;
 	this->g = 0;
-	
-	state *s = new state(val, p_cero);
+
+	state *s = new state(val, p_cero, h);
 	mapa[val] = s;
 	this->stt = s;
+	++cant_nodos;
 }
 
 
 //Funciona
 bool node::is_goal()
 {
-	return this->stt->val == 0x0123456789ABCDEF;
+	bool goal = this->stt->val == 0x0123456789ABCDEF;
+	if (goal){
+	//	mapa.clear();
+		printf("\n\n#Nodos generados: %d \n", cant_nodos);
+		cant_nodos = 0;
+	}
+	return goal;
 }
 
 bool node::valid_action(byte a)
