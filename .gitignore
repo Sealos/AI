@@ -19,3 +19,5 @@
 *.exe
 *.out
 *.app
+branchOskar/pdb_data_DEF.bin
+*.bin
