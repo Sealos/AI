@@ -24,7 +24,7 @@ long unsigned int pos_mask[16] =
 
 using namespace std;
 
-unordered_map<long unsigned int, state*> mapa;
+unordered_map<long unsigned int, state*> mapa; // Cambiar a set
 
 node::node(node *p, byte a, int (*h)(long unsigned int))
 {

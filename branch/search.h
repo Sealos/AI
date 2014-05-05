@@ -24,8 +24,8 @@ class search
 public:
 	search();
 	int a_star(node *n, int (*h)(long unsigned int));
-	int ida_star(node *n, int (*h)(long unsigned int));
-	int bonded_dfs(node *n, int g, int t, int (*h)(long unsigned int));
+	int ida_star(long unsigned int val, byte p_cero, int (*h)(long unsigned int));
+	int bonded_dfs(int t, byte acc_pad, int (*h)(long unsigned int));
 };
 
 class compare_node

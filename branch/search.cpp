@@ -1,5 +1,7 @@
 #include "search.h"
 
+const long unsigned int goal = 0x0123456789ABCDEF;
+
 const int FOUND = -4;
 const int NOT_FOUND = -1;
 
@@ -83,7 +85,7 @@ search::search()
 
 int search::a_star(node *n, int (*h)(long unsigned int))
 {
-	priority_queue<node*, vector<node*>, compare_node> q;
+	/*priority_queue<node*, vector<node*>, compare_node> q;
 
 	unordered_map<long unsigned int, int> dist;
 
@@ -123,7 +125,7 @@ int search::a_star(node *n, int (*h)(long unsigned int))
 		}
 	}
 
-	return NOT_FOUND;
+	*/return NOT_FOUND;
 }
 
 bool compare_node::operator()(node* n1, node* n2)
@@ -133,18 +135,40 @@ bool compare_node::operator()(node* n1, node* n2)
 	return false;
 }
 
-int search::ida_star(node *n, int (*h)(long unsigned int))
+state *global_state;
+
+byte inv(byte a)
 {
-	int t = 0;
-	t = n->stt->heur;
+	switch (a)
+	{
+	case MOV_ARRIBA:
+		return MOV_ABAJO;
+	case MOV_ABAJO:
+		return MOV_ARRIBA;
+	case MOV_DER:
+		return MOV_IZQ;
+	case MOV_IZQ:
+		return MOV_DER;
+	default:
+		return MOV_NULL;
+	}
+}
+
+int search::ida_star(long unsigned int val, byte p_cero, int (*h)(long unsigned int))
+{
 	if (h == pdb_h)
 		pdb_init();
 
+	global_state = new state(val, p_cero, h);
+
+	int t = global_state->heur;
+
 	while (t != INT_MAX)
 	{
-		int bound = bonded_dfs(n, 0, t, h);
+		int bound = bonded_dfs(t, 0, h);
 		if (bound == FOUND)
 		{
+			delete global_state;
 			return FOUND;
 		}
 		t = bound;
@@ -153,38 +177,36 @@ int search::ida_star(node *n, int (*h)(long unsigned int))
 	return NOT_FOUND;
 }
 
-int search::bonded_dfs(node *n, int g, int t, int (*h)(long unsigned int))
+int search::bonded_dfs(int t, byte acc_pad, int (*h)(long unsigned int))
 {
-	int f = g + n->stt->heur;
+	int f = global_state->dist + global_state->heur;
 
 	if (f > t)
 	{
 		return f;
 	}
 
-	if (n->is_goal()) { return FOUND; }
+	if (goal == global_state->val) { return FOUND; }
 
 	int new_t = INT_MAX;
+	byte h_tmp;
 
 	for (int i = 1; i <= 4; ++i)
 	{
-		if (n->valid_action(i))
+		if (global_state->valid_action(i) /*&& i != inv(acc_pad)*/)
 		{
-			node *np = new node(n, i, h);
-			if (np->stt->val == n->stt->val)
-			{
-				delete np->stt;
-				delete np;
-			}
-			else
-			{
-				int cost = bonded_dfs(np, np->g, t, h);
-				delete np->stt;
-				delete np;
+				h_tmp = global_state->heur;
+				global_state->apply_action(i, h);
+				global_state->dist = global_state->dist + 1;
+				global_state->heur = h(global_state->val);
+				int cost = bonded_dfs(t, i, h);
+				global_state->heur = h_tmp;
+				global_state->apply_action(inv(i), h);
+				global_state->dist = global_state->dist - 1;
+
 				if (cost == FOUND)
 					return FOUND;
 				new_t = min(new_t, cost);
-			}
 		}
 	}
 	return new_t;
