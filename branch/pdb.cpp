@@ -65,33 +65,25 @@ inline long unsigned int pdb_set_value_node(long unsigned int val, unsigned char
 int pdb_h(long unsigned int val)
 {
 	unsigned char value = 0;
-	/*byte permutacion[3][16] =
+	unsigned char permutacion[3][16] =
 	{
-		{0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF},
-		{0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF},
+		{0x0F, 0x0F, 0x0F, 0x0F, 0x0F, 0x0F, 0x0F, 0x0F, 0x0F, 0x0F, 0x0F, 0x0F, 0x0F, 0x0F, 0x0F, 0x0F},
+		{0x0F, 0x0F, 0x0F, 0x0F, 0x0F, 0x0F, 0x0F, 0x0F, 0x0F, 0x0F, 0x0F, 0x0F, 0x0F, 0x0F, 0x0F, 0x0F},
 		{0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01}
-	}*/
-	long unsigned int permutacion[3] =
-	{
-		0xFFFFFFFFFFFFFFFF,
-		0xFFFFFFFFFFFFFFFF,
-		0x1111111111111111
 	};
 
 	long unsigned int temp;
-	long unsigned int r_mask;
 	unsigned char r_value;
 	for (int i = 0; i < 16; ++i)
 	{
 		temp = val & mask[i];
 		r_value = temp >> ((15 - i) * 4);
-		r_mask = ULONG_MAX - mask[i];
 		switch (r_value)
 		{
 		case 0:
 			// Colocamos el 0 en todas las permutaciones
 			for (int j = 0; j < 3; ++j)
-				permutacion[j] = permutacion[j] & r_mask;
+				permutacion[j][i] = 0;
 			break;
 		case 1:
 		case 2:
@@ -99,7 +91,7 @@ int pdb_h(long unsigned int val)
 		case 4:
 		case 5:
 		case 6:
-			permutacion[0] = pdb_set_value_node(permutacion[0], r_value, i, r_mask);
+			permutacion[0][i] = r_value;
 			break;
 		case 7:
 		case 8:
@@ -107,12 +99,12 @@ int pdb_h(long unsigned int val)
 		case 10:
 		case 11:
 		case 12:
-			permutacion[1] = pdb_set_value_node(permutacion[1], r_value, i, r_mask);
+			permutacion[1][i] = r_value;
 			break;
 		case 13:
 		case 14:
 		case 15:
-			permutacion[2] = pdb_set_value_node(permutacion[2], r_value, i, r_mask);
+			permutacion[2][i] = r_value;
 			break;
 		}
 	}
@@ -130,18 +122,76 @@ int pdb_h(long unsigned int val)
 	return value;
 }
 
-long unsigned int get_rank(long unsigned int val)
+int pdb_h_array(unsigned char *array)
+{
+	unsigned char value = 0;
+	unsigned char permutacion[3][16] =
+	{
+		{0x0F, 0x0F, 0x0F, 0x0F, 0x0F, 0x0F, 0x0F, 0x0F, 0x0F, 0x0F, 0x0F, 0x0F, 0x0F, 0x0F, 0x0F, 0x0F},
+		{0x0F, 0x0F, 0x0F, 0x0F, 0x0F, 0x0F, 0x0F, 0x0F, 0x0F, 0x0F, 0x0F, 0x0F, 0x0F, 0x0F, 0x0F, 0x0F},
+		{0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01}
+	};
+
+	unsigned char r_value;
+	for (int i = 0; i < 16; ++i)
+	{
+		r_value = array[i];
+		switch (r_value)
+		{
+		case 0:
+			// Colocamos el 0 en todas las permutaciones
+			for (int j = 0; j < 3; ++j)
+				permutacion[j][i] = 0;
+			break;
+		case 1:
+		case 2:
+		case 3:
+		case 4:
+		case 5:
+		case 6:
+			permutacion[0][i] = r_value;
+			break;
+		case 7:
+		case 8:
+		case 9:
+		case 10:
+		case 11:
+		case 12:
+			permutacion[1][i] = r_value;
+			break;
+		case 13:
+		case 14:
+		case 15:
+			permutacion[2][i] = r_value;
+			break;
+		}
+	}
+	//printf("Perm1: %016llX | Perm2: %016llX | Perm3: %016llX\n", permutacion[0], permutacion[1], permutacion[2]);
+
+	// Calculamos el valor
+	value += pdb_data_1[get_rank(permutacion[0])];
+	//printf("Value: %d\n", value);
+	value += pdb_data_2[get_rank(permutacion[1])];
+
+	//printf("Value: %d\n", value);
+	value += pdb_data_3[get_rank(permutacion[2])];
+	//printf("Value: %d\n", value);
+
+	return value;
+}
+
+long unsigned int get_rank(unsigned char *array)
 {
 	vector<int> freq(16);
 	long unsigned int den = 1;
 	long unsigned int ret = 0;
 	for(int i = 15; i >= 0; --i)
 	{
-		unsigned char si = pdb_get_value_node(val, i);
+		int si = array[i];
 		freq[si]++;
 		den *= freq[si];
-		for (int c = 0; c < si; ++c)
-			if(freq[c] > 0)
+		for (int c = 0; c < si; ++c) 
+			if(freq[c] > 0) 
 				ret += factorial[15-i] / (den / freq[c]);
 	}
 	return ret;

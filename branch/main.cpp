@@ -58,9 +58,8 @@ int main(int argc, const char* argv[])
 		search *s = new search();
 
 		start=clock();
-
-		//int sol = s->ida_star(nodo, manhattan_val);
-		int sol = s->ida_star(rep, p_cero, pdb_h);
+		int sol = s->ida_star(rep, p_cero, manhattan_array);
+		//int sol = s->ida_star(rep, p_cero, pdb_h);
 		//int sol = s->a_star(nodo, pdb_h);
 		//int sol = s->a_star(nodo, manhattan);
 		sol = sol + 1;

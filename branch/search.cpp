@@ -78,6 +78,14 @@ int manhattan_val(long unsigned int v)
 	return val;
 }
 
+int manhattan_array(unsigned char *v)
+{
+	int val = 0;
+	for (int i = 0; i < 16; ++i)
+		val += man_data[v[i]][i];
+	return val;
+}
+
 search::search()
 {
 	//ctor
@@ -135,7 +143,7 @@ bool compare_node::operator()(node* n1, node* n2)
 	return false;
 }
 
-state *global_state;
+state_ida *global_state;
 
 byte inv(byte a)
 {
@@ -154,12 +162,12 @@ byte inv(byte a)
 	}
 }
 
-int search::ida_star(long unsigned int val, byte p_cero, int (*h)(long unsigned int))
+int search::ida_star(long unsigned int val, byte p_cero, int (*h)(unsigned char *))
 {
-	if (h == pdb_h)
+	if (h == pdb_h_array)
 		pdb_init();
 
-	global_state = new state(val, p_cero, h);
+	global_state = new state_ida(val, p_cero, h);
 
 	int t = global_state->heur;
 
@@ -177,7 +185,7 @@ int search::ida_star(long unsigned int val, byte p_cero, int (*h)(long unsigned 
 	return NOT_FOUND;
 }
 
-int search::bonded_dfs(int t, byte acc_pad, int (*h)(long unsigned int))
+int search::bonded_dfs(int t, byte acc_pad, int (*h)(unsigned char *))
 {
 	int f = global_state->dist + global_state->heur;
 
@@ -186,14 +194,14 @@ int search::bonded_dfs(int t, byte acc_pad, int (*h)(long unsigned int))
 		return f;
 	}
 
-	if (goal == global_state->val) { return FOUND; }
+	if (global_state->is_goal()) { return FOUND; }
 
 	int new_t = INT_MAX;
 	byte h_tmp;
 
 	for (int i = 1; i <= 4; ++i)
 	{
-		if (global_state->valid_action(i) /*&& i != inv(acc_pad)*/)
+		if (global_state->valid_action(i) && i != inv(acc_pad))
 		{
 				h_tmp = global_state->heur;
 				global_state->apply_action(i, h);
