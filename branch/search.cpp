@@ -25,8 +25,6 @@ byte man_data[16][16] =
 	{6, 5, 4, 3, 5, 4, 3, 2, 4, 3, 2, 1, 3, 2, 1, 0}
 };
 
-pdb *p;
-
 int manhattan(node *n)
 {
 	int val = 0;
@@ -50,7 +48,6 @@ int search::a_star(node *n, int (*h)(node *))
 
     if ( h != manhattan )
 		priority_queue<node*, vector<node*>, compare_node_pdb> q;
-		p = new pdb();
 	q.push(n);
 	unordered_map<long unsigned int, int> dist;
 
@@ -74,14 +71,14 @@ int search::a_star(node *n, int (*h)(node *))
 			{
 				if (n->valid_action(i))
 				{
-					node *np = new node(n,i);
+					node *np = new node(n,i,h);
 					int heu;
 					if (h == manhattan)
                     {
                         heu = h(np);
                     }else
                     {
-                        heu = p->h(np->stt->val);
+                        heu = pdb_h(np->stt->val);
                     }
 					if (heu < INT_MAX) { q.push(np); }
 				}
@@ -102,12 +99,12 @@ bool compare_node_mh::operator()(node* n1, node* n2)
 
 bool compare_node_pdb::operator()(node* n1, node* n2)
 {
-	if ((n1->g + p->h(n1->stt->val) > (n2->g + p->h(n2->stt->val)) ))
+	if ((n1->g + pdb_h(n1->stt->val) > (n2->g + pdb_h(n2->stt->val)) ))
 		return true;
 	return false;
 }
 
-	
+
 int search::ida_star(node *n, int (*h)(node *))
 {
 	int t = 0;
@@ -115,15 +112,15 @@ int search::ida_star(node *n, int (*h)(node *))
 		t = h(n);
 	else {
 		p = new pdb();
-		t = p->h(n->stt->val);
+		t = pdb_h(n->stt->val);
 	}
 
 	while (t != INT_MAX)
 	{
 		int bound = bonded_dfs(n, 0, t, h);
-		if (bound == FOUND) 
+		if (bound == FOUND)
 		{
-			return FOUND; 
+			return FOUND;
 		}
 		t = bound;
 		printf("Bound: %d\n", t);
@@ -137,24 +134,24 @@ int search::bonded_dfs(node *n, int g, int t, int (*h)(node *))
 	if (h == manhattan){
 		f = g + h(n);
 	} else {
-		f = g + p->h(n->stt->val);
+		f = g + pdb_h(n->stt->val);
 	}
 
-	
+
 	if (f > t)
 	{
 		return f;
 	}
-	
+
 	if (n->is_goal()) { return FOUND; }
 
 	int new_t = INT_MAX;
-	
+
 	for (int i = 1; i <= 4; ++i)
 	{
 		if (n->valid_action(i))
 		{
-			node *np = new node(n, i);
+			node *np = new node(n, i, h);
 			if (np->stt->val == n->stt->val)
 			{
 				delete np->stt;

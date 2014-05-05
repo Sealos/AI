@@ -21,7 +21,7 @@ int main(int argc, const char* argv[])
 	node *nodo;
 	clock_t start,end;
 	float total;
-    
+
 
 	while (std::getline(infile, line))
 	{
@@ -48,23 +48,24 @@ int main(int argc, const char* argv[])
 		long unsigned int temp = representacion[0];
 		temp = (temp << 32);
 		rep = temp + representacion[1];
-		
-		
 
-		nodo = new node(rep, p_cero);
+
+
+		nodo = new node(rep, p_cero,pdb_h);
+		//nodo = new node(rep, p_cero,manhattan);
 
 		nodo->print();
 		search *s = new search();
-		
+
 		start=clock();
 
 		//int sol = s->ida_star(nodo, manhattan);
-		//int sol = s->ida_star(nodo, cero);
-		int sol = s->a_star(nodo, cero);
+		//int sol = s->ida_star(nodo, pdb_h);
+		int sol = s->a_star(nodo, pdb_h);
 		//int sol = s->a_star(nodo, manhattan);
 
 		end=clock();
-		
+
 		printf("--Found--\n");
 		total = ((float)end-(float)start) / CLOCKS_PER_SEC;
 		cout<< "\n Time: " << total << "s.\n";
