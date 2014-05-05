@@ -35,8 +35,8 @@ public:
 	int g;
 
 public:
-	node(node *p, byte a, int (*h)(node *));
-	node(long unsigned int val, byte p_cero, int (*h)(node *));
+	node(node *p, byte a, int (*h)(long unsigned int));
+	node(long unsigned int val, byte p_cero, int (*h)(long unsigned int));
 	bool is_goal();
 	bool valid_action(byte a);
 	int get_value(int n);

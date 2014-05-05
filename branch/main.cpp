@@ -8,7 +8,7 @@
 
 using namespace std;
 
-int cero(node *)
+int cero(long unsigned int val)
  {
  	return 0;
  }
@@ -51,7 +51,7 @@ int main(int argc, const char* argv[])
 
 
 
-		nodo = new node(rep, p_cero,pdb_h);
+		nodo = new node(rep, p_cero, cero);
 		//nodo = new node(rep, p_cero,manhattan);
 
 		nodo->print();
@@ -59,10 +59,11 @@ int main(int argc, const char* argv[])
 
 		start=clock();
 
-		//int sol = s->ida_star(nodo, manhattan);
-		//int sol = s->ida_star(nodo, pdb_h);
-		int sol = s->a_star(nodo, pdb_h);
+		//int sol = s->ida_star(nodo, manhattan_val);
+		int sol = s->ida_star(nodo, pdb_h);
+		//int sol = s->a_star(nodo, pdb_h);
 		//int sol = s->a_star(nodo, manhattan);
+		sol = sol + 1;
 
 		end=clock();
 

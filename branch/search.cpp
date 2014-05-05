@@ -25,6 +25,33 @@ byte man_data[16][16] =
 	{6, 5, 4, 3, 5, 4, 3, 2, 4, 3, 2, 1, 3, 2, 1, 0}
 };
 
+long unsigned int m[16] =
+{
+	0xF000000000000000,
+	0x0F00000000000000,
+	0x00F0000000000000,
+	0x000F000000000000,
+	0x0000F00000000000,
+	0x00000F0000000000,
+	0x000000F000000000,
+	0x0000000F00000000,
+	0x00000000F0000000,
+	0x000000000F000000,
+	0x0000000000F00000,
+	0x00000000000F0000,
+	0x000000000000F000,
+	0x0000000000000F00,
+	0x00000000000000F0,
+	0x000000000000000F
+};
+
+inline unsigned char get_value_node(long unsigned int val, unsigned char pos)
+{
+	val = val & m[pos];
+	unsigned char value = val >> ((15 - pos) * 4);
+	return value;
+}
+
 int manhattan(node *n)
 {
 	int val = 0;
@@ -37,19 +64,32 @@ int manhattan(node *n)
 	return val;
 }
 
+int manhattan_val(long unsigned int v)
+{
+	int val = 0;
+	int valor;
+	for (int i = 0; i < 16; ++i)
+	{
+		valor = get_value_node(v, i);
+		val += man_data[valor][i];
+	}
+	return val;
+}
+
 search::search()
 {
 	//ctor
 }
 
-int search::a_star(node *n, int (*h)(node *))
+int search::a_star(node *n, int (*h)(long unsigned int))
 {
-	priority_queue<node*, vector<node*>, compare_node_mh> q;
+	priority_queue<node*, vector<node*>, compare_node> q;
 
-    if ( h != manhattan )
-		priority_queue<node*, vector<node*>, compare_node_pdb> q;
-	q.push(n);
 	unordered_map<long unsigned int, int> dist;
+
+	if (h == pdb_h)
+		pdb_init();
+	q.push(n);
 
 	while (!q.empty())
 	{
@@ -65,7 +105,10 @@ int search::a_star(node *n, int (*h)(node *))
 			n->stt->closed = true;
 			dist[n->stt->val] = n->g;
 
-			if (n->is_goal()) { return FOUND; }
+			if (n->is_goal())
+			{
+				return FOUND;
+			}
 
 			for (int i = 4; 1 <= i; --i)
 			{
@@ -73,13 +116,7 @@ int search::a_star(node *n, int (*h)(node *))
 				{
 					node *np = new node(n,i,h);
 					int heu;
-					if (h == manhattan)
-                    {
-                        heu = h(np);
-                    }else
-                    {
-                        heu = pdb_h(np->stt->val);
-                    }
+					heu = np->stt->heur;
 					if (heu < INT_MAX) { q.push(np); }
 				}
 			}
@@ -89,31 +126,19 @@ int search::a_star(node *n, int (*h)(node *))
 	return NOT_FOUND;
 }
 
-bool compare_node_mh::operator()(node* n1, node* n2)
+bool compare_node::operator()(node* n1, node* n2)
 {
-	if ((n1->g + manhattan(n1)) > (n2->g + manhattan(n2))) {
- 		return true;
-	}
-	return false;
-}
-
-bool compare_node_pdb::operator()(node* n1, node* n2)
-{
-	if ((n1->g + pdb_h(n1->stt->val) > (n2->g + pdb_h(n2->stt->val)) ))
+	if ((n1->g + n1->stt->heur) > (n2->g + n2->stt->heur))
 		return true;
 	return false;
 }
 
-
-int search::ida_star(node *n, int (*h)(node *))
+int search::ida_star(node *n, int (*h)(long unsigned int))
 {
 	int t = 0;
-	if (h == manhattan)
-		t = h(n);
-	else {
-		p = new pdb();
-		t = pdb_h(n->stt->val);
-	}
+	t = n->stt->heur;
+	if (h == pdb_h)
+		pdb_init();
 
 	while (t != INT_MAX)
 	{
@@ -128,15 +153,9 @@ int search::ida_star(node *n, int (*h)(node *))
 	return NOT_FOUND;
 }
 
-int search::bonded_dfs(node *n, int g, int t, int (*h)(node *))
+int search::bonded_dfs(node *n, int g, int t, int (*h)(long unsigned int))
 {
-	int f = 0;
-	if (h == manhattan){
-		f = g + h(n);
-	} else {
-		f = g + pdb_h(n->stt->val);
-	}
-
+	int f = g + n->stt->heur;
 
 	if (f > t)
 	{

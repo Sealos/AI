@@ -16,24 +16,19 @@
 using namespace std;
 
 int manhattan(node *n);
+int manhattan_val(long unsigned int v);
 
 
 class search
 {
 public:
-search();
-int a_star(node *n, int (*h)(node *));
-int ida_star(node *n, int (*h)(node *));
-int bonded_dfs(node *n, int g, int t, int (*h)(node *));
+	search();
+	int a_star(node *n, int (*h)(long unsigned int));
+	int ida_star(node *n, int (*h)(long unsigned int));
+	int bonded_dfs(node *n, int g, int t, int (*h)(long unsigned int));
 };
 
-class compare_node_mh
-{
-public:
-	bool operator()(node* n1, node* n2);
-};
-
-class compare_node_pdb
+class compare_node
 {
 public:
 	bool operator()(node* n1, node* n2);

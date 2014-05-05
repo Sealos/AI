@@ -48,15 +48,16 @@ void state::set_value(byte val, byte pos)
 		this->val = sum_val;
 }
 
-state::state(long unsigned int val, byte p_cero, int (*h)(node *))
+state::state(long unsigned int val, byte p_cero, int (*h)(long unsigned int))
 {
 	this->pos_cero = p_cero;
 	this->closed = false;
 	this->heur = 0xFF;
 	this->val = val;
+	this->heur = h(val);
 }
 
-state::state(long unsigned int val, byte pos_cero, byte a, int (*h)(node *))
+state::state(long unsigned int val, byte pos_cero, byte a, int (*h)(long unsigned int))
 {
 
 	this->val = val;
@@ -83,5 +84,5 @@ state::state(long unsigned int val, byte pos_cero, byte a, int (*h)(node *))
 	int r_val = this->get_value(this->pos_cero);
 	set_value(0, this->pos_cero);
 	set_value(r_val, pos_cero);
-
+	this->heur = h(this->val);
 }

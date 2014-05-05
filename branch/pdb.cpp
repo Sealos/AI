@@ -62,7 +62,7 @@ inline long unsigned int pdb_set_value_node(long unsigned int val, unsigned char
 	return new_val;
 }
 
-unsigned char pdb_h(long unsigned int val)
+int pdb_h(long unsigned int val)
 {
 	unsigned char value = 0;
 	long unsigned int permutacion[3] =

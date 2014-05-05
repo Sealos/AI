@@ -30,8 +30,8 @@ public:
 
 public:
 
-	state(long unsigned int val, byte p_cero, int (*h)(node *));
-	state(long unsigned int val, byte pos_cero, byte a, int (*h)(node *));
+	state(long unsigned int val, byte p_cero, int (*h)(long unsigned int));
+	state(long unsigned int val, byte pos_cero, byte a, int (*h)(long unsigned int));
 	void set_value(byte val, byte pos);
 	inline byte get_value(int n);
 };

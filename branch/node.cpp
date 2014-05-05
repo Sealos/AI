@@ -26,15 +26,17 @@ using namespace std;
 
 unordered_map<long unsigned int, state*> mapa;
 
-node::node(node *p, byte a, int (*h)(node *))
+node::node(node *p, byte a, int (*h)(long unsigned int))
 {
 	this->accion = a;
 	this->g = p->g + 1;
 	this->padre = p;
+	
+	long unsigned int v = p->stt->val;
 
-	state *s= mapa[p->stt->val];
+	state *s= mapa[v];
 	if (s) {
-	  s = new state(p->stt->val, p->stt->pos_cero, a,h);
+	  s = new state(v, p->stt->pos_cero, a, h);
 	  mapa[s->val] = s;
 	}
 	this->stt = s;
@@ -42,13 +44,13 @@ node::node(node *p, byte a, int (*h)(node *))
 }
 
 //Funciona
-node::node(long unsigned int val, byte p_cero, int (*h)(node *))
+node::node(long unsigned int val, byte p_cero, int (*h)(long unsigned int))
 {
 	this->accion = MOV_NULL;
 	this->padre = NULL;
 	this->g = 0;
 
-	state *s = new state(val, p_cero,h);
+	state *s = new state(val, p_cero, h);
 	mapa[val] = s;
 	this->stt = s;
 	++cant_nodos;
