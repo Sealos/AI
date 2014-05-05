@@ -1,6 +1,6 @@
 #include "node.h"
 
-unsigned int cant_nodos = 0;
+int cant_nodos = 0;
 
 long unsigned int pos_mask[16] =
 {
@@ -32,7 +32,7 @@ node::node(node *p, byte a)
 	this->g = p->g + 1;
 	this->padre = p;
 	
-	state *s = mapa[p->stt->val];
+	state *s= mapa[p->stt->val];
 	if (s) {
 	  s = new state(p->stt->val, p->stt->pos_cero, a);
 	  mapa[s->val] = s;
@@ -60,8 +60,8 @@ bool node::is_goal()
 {
 	bool goal = this->stt->val == 0x0123456789ABCDEF;
 	if (goal){
-		mapa.clear();
-		printf("\n\n#Nodos generados: %u \n", cant_nodos);
+	//	mapa.clear();
+		printf("\n\n#Nodos generados: %d \n", cant_nodos);
 		cant_nodos = 0;
 	}
 	return goal;

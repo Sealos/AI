@@ -44,57 +44,66 @@ search::search()
 	//ctor
 }
 
-/*
- int search::a_star(node *n, int (*h)(node *))
+int search::a_star(node *n, int (*h)(node *))
 {
 	priority_queue<node*, vector<node*>, compare_node_mh> q;
 
-	/*if (h == pdb)
+    if ( h != manhattan )
 		priority_queue<node*, vector<node*>, compare_node_pdb> q;
-
+		p = new pdb();
 	q.push(n);
 	unordered_map<long unsigned int, int> dist;
-	
+
 	while (!q.empty())
 	{
 		n = q.top();
 		q.pop();
-		
+
 		if (n->is_goal()) { return FOUND; }
-		
-		if (k < 200) {
- 			printf("Dist: %u, %d\n", dist[n->str->val], n->g);
-			printf("Guardia: %d", n->g < dist[n->str->val]);
- 			++k;
- 		}
- 		
-		if (n->stt->closed || n->g < dist[n->str->val])
+
+
+		if (!n->stt->closed || n->g < dist[n->stt->val])
 		{
-			
+
 			n->stt->closed = true;
-			dist[n->str->val] = n->g;
+			dist[n->stt->val] = n->g;
 
 			if (n->is_goal()) { return FOUND; }
-					
+
 			for (int i = 4; 1 <= i; --i)
 			{
 				if (n->valid_action(i))
 				{
-					node *np = new node(n,i,n->accion);
-					if (h(np) < INT_MAX) { q.push(np); }
+					node *np = new node(n,i);
+					int heu;
+					if (h == manhattan)
+                    {
+                        heu = h(np);
+                    }else
+                    {
+                        heu = p->h(np->stt->val);
+                    }
+					if (heu < INT_MAX) { q.push(np); }
 				}
 			}
 		}
 	}
-	
+
 	return NOT_FOUND;
-}*/
+}
 
 bool compare_node_mh::operator()(node* n1, node* n2)
 {
 	if ((n1->g + manhattan(n1)) > (n2->g + manhattan(n2))) {
- 		return true; 
+ 		return true;
 	}
+	return false;
+}
+
+bool compare_node_pdb::operator()(node* n1, node* n2)
+{
+	if ((n1->g + p->h(n1->stt->val) > (n2->g + p->h(n2->stt->val)) ))
+		return true;
 	return false;
 }
 
@@ -163,12 +172,4 @@ int search::bonded_dfs(node *n, int g, int t, int (*h)(node *))
 		}
 	}
 	return new_t;
-}
-
-
-bool compare_node_pdb::operator()(node* n1, node* n2)
-{
-	/*if ((n1->g + p->get_pdb_value(n1->val) > (n2->g + p->get_pdb_value(n2->val))
-		return true;*/
-	return false;
 }

@@ -53,13 +53,15 @@ int main(int argc, const char* argv[])
 
 		nodo = new node(rep, p_cero);
 
-		//nodo->print();
+		nodo->print();
 		search *s = new search();
 		
 		start=clock();
 
-		int sol = s->ida_star(nodo, manhattan);
+		//int sol = s->ida_star(nodo, manhattan);
 		//int sol = s->ida_star(nodo, cero);
+		int sol = s->a_star(nodo, cero);
+		//int sol = s->a_star(nodo, manhattan);
 
 		end=clock();
 		
