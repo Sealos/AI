@@ -1,6 +1,6 @@
 // Nodo de 15 puzzle
 #include "state.h"
-#include <unordered_set>
+
 #ifndef NODE_H
 #define NODE_H
 
