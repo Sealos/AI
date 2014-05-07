@@ -174,9 +174,10 @@ int search::ida_star(long unsigned int val, byte p_cero, int (*h)(unsigned char 
 	cant_nodos1 = 0;
 
 	global_state = new state_ida(val, p_cero, h);
-	
+
 	int t = global_state->heur;
-	printf("Bound: %d\n", t);
+	//printf("Bound: %d\n", t);
+	printf("%d ", t);
 	while (t != INT_MAX)
 	{
 		int bound = bonded_dfs(t, 0, h);
@@ -185,12 +186,14 @@ int search::ida_star(long unsigned int val, byte p_cero, int (*h)(unsigned char 
 			end=clock();
 			total = ((float)end-(float)start) / CLOCKS_PER_SEC;
 			delete global_state;
-			printf("--Found--\n");
-			printf("Nodos creados %lu, Tiempo: %f, Nodos/s: %f\n", cant_nodos1, total,  cant_nodos1/total);
+			//printf("--Found--\n");
+			//printf("Nodos creados %lu, Tiempo: %f, Nodos/s: %f\n", cant_nodos1, total,  cant_nodos1/total);
+			printf(": %lu : %f : %f\n", cant_nodos1, total,  cant_nodos1/total);
 			return FOUND;
 		}
 		t = bound;
-		printf("Bound: %d\n", t);
+		//printf("Bound: %d\n", t);
+		printf("%d ", t);
 	}
 	return NOT_FOUND;
 }

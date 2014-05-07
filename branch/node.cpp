@@ -31,7 +31,7 @@ node::node(node *p, byte a, int (*h)(long unsigned int))
 	this->accion = a;
 	this->g = p->g + 1;
 	this->padre = p;
-	
+
 	long unsigned int v = p->stt->val;
 
 	state *s= mapa[v];
@@ -201,4 +201,25 @@ void node::print()
 		printf("%2d ", this->get_value(i));
 	}
 	printf("\n\n");
+}
+
+void node::print_l()
+{
+	for (int i = 0; i < 4; ++i)
+	{
+		printf("%d ", this->get_value(i));
+	}
+	for (int i = 4; i < 8; ++i)
+	{
+		printf("%d ", this->get_value(i));
+	}
+	for (int i = 8; i < 12; ++i)
+	{
+		printf("%d ", this->get_value(i));
+	}
+	for (int i = 12; i < 16; ++i)
+	{
+		printf("%d ", this->get_value(i));
+	}
+	printf(": ");
 }

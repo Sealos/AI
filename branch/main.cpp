@@ -14,6 +14,7 @@ int cero(long unsigned int val)
 
 int main(int argc, const char* argv[])
 {
+    int num = 1;
 	ifstream infile(argv[1]);
 	string line;
 	unsigned int representacion[2];
@@ -48,8 +49,16 @@ int main(int argc, const char* argv[])
 
 		nodo = new node(rep, p_cero, cero);
 		//nodo = new node(rep, p_cero,manhattan);
+        //nodo->print();
+        if (num<10){
+            printf("00%d : ",num);
+        } else if (num<100) {
+            printf("0%d : ",num);
+        } else {
+            printf("%d : ",num);
+        }
 
-		nodo->print();
+		nodo->print_l();
 		search *s = new search();
 
 		int sol = s->ida_star(rep, p_cero, manhattan_array);
@@ -57,6 +66,7 @@ int main(int argc, const char* argv[])
 		//int sol = s->a_star(nodo, pdb_h);
 		//int sol = s->a_star(nodo, manhattan);
 		sol = sol + 1;
+		num = num + 1;
 	}
 	return 0;
 }
