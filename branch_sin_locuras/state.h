@@ -18,7 +18,6 @@
 #define MOV_IZQ		4
 
 typedef unsigned char byte;
-
 class state
 {
 public:
@@ -27,9 +26,6 @@ public:
 	bool closed;
 	long unsigned int val;
 	byte dist;
-	bool operator==(const state &s) const { return x==s.x && y==s.y && z==s.z; }
-    bool operator=(const state &s) { x=s.x; y=s.y; z=s.z; }
-    size_t hash() const { return 0; }
 
 public:
 
@@ -39,6 +35,19 @@ public:
 	inline byte get_value(int n);
 	bool valid_action(byte a);
 	void apply_action(byte a, int (*h)(long unsigned int));
+    bool operator==(const state &s) const { return val==s.val; }
+    void operator=(const state &s) { val=s.val; }
+    size_t hash() const {
+        unsigned int temp = val & UINT_MAX;
+        return temp;
+    }
+};
+
+struct hash_state
+{
+    size_t operator()(const state *s) const {
+        return s->hash();
+    }
 };
 
 #endif /* STATE_H */

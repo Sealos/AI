@@ -64,7 +64,7 @@ int main(int argc, const char* argv[])
 		int sol = s->a_star(nodo, manhattan_val);
 
 		end=clock();
-		
+
 		sol = sol + 1;
 		printf("--Found--\n");
 		total = ((float)end-(float)start) / CLOCKS_PER_SEC;
