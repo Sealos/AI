@@ -11,8 +11,8 @@
 #define MAX_VALUE	127512000
 #define N			25
 #define PERM_SIZE	6
-
-const byte value = {5, 4, 3, 2, 1, 0};
+#define MIN_PERM	1
+#define MAX_PERM	5
 
 using namespace std;
 
@@ -22,7 +22,7 @@ long unsigned int counter = 0;
 
 long unsigned int get_rank_aux(int p[], int q[], int n)
 {
-	if (n <= 1)
+	if (n <= (N - PERM_SIZE))
 		return 0;
 	else
 	{
@@ -33,7 +33,7 @@ long unsigned int get_rank_aux(int p[], int q[], int n)
 	}
 }
 
-long unsigned int get_rank(byte *p)
+long unsigned int get_rank(byte *p, byte *fix)
 {
 	byte odr[N] =
 	{
@@ -43,42 +43,39 @@ long unsigned int get_rank(byte *p)
 		15, 16, 17, 18, 19,
 		20, 21, 22, 23, 24
 	};
-	int t[N];
-	int q[N];
-	int count = 0;
+
+	byte actual = 0;
 	for (int i = 0; i < N; ++i)
 	{
-		if (p[i] < 6 || p[i] > 0 || p[i] == 0)
+		if (i >= MIN_PERM || i <= MAX_PERM || i == 0)
 		{
-			switch(p[i])
-			{
-			case value[0]:
-				
-				break;
-			case value[1]:
-				break;
-			case value[2]:
-				break;
-			case value[3]:
-				break;
-			case value[4]:
-				break;
-			}
+			byte k = fix[i] + N - PERM_SIZE;
+			printf("%d\n", k);
+			odr[k] = i;
 		}
+		else
+			odr[actual++] = i;
 	}
+	for(int i = 0; i< N; ++i)
+		printf("%d ", odr[i]);
+	cout << endl;
+	return 0;
+	int t[N];
+	int q[N];
 	return 0;
 	for (int i = 0; i < N; ++i)
 	{
-		t[i] = p[i];
-		q[p[i]] = i;
+		t[i] = odr[i];
+		q[odr[i]] = i;
 	}
-	return get_rank_aux(t, q, n);
+	return get_rank_aux(t, q, N);
 }
 
 node::node(node *p, byte a, byte b)
 {
 	this->accion = a;
-	this->val = p->val;
+	for (int i = 0; i < N; ++i)
+		this->val[i] = p->val[i];
 	this->acc_padre = b;
 
 	switch (a)
@@ -251,7 +248,7 @@ void write_bin(string fname)
 	myfile.write((const char*)&pdb_data, MAX_VALUE);
 }
 
-void bfs(node *p)
+void bfs(node *p, byte *fix)
 {
 	queue<node *> Q;
 	Q.push(p);
@@ -260,7 +257,7 @@ void bfs(node *p)
 	{
 		node *actual = Q.front();
 		Q.pop();
-		rank = get_rank(actual->val);
+		rank = get_rank(actual->val, fix);
 		if (pdb_data[rank] > actual->g)
 		{
 			//actual->print();
@@ -292,23 +289,65 @@ void rellenar_arreglo()
 
 int main(int argc, const char** argv)
 {
-	byte val[N] =
+	byte val[5][N] =
 	{
-		//0, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF
-		0, 1, 2, 3, 4, 5,
-		0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-		//6, 7, 8, 9, 10, 11
-		0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-		//12, 13, 14, 15, 16, 17, 
-		0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF
-		//18, 19, 20, 21, 22, 23, 24
-	}; 
-	node *np = new node(val, 0);
-	rellenar_arreglo();
-	bfs(np);
+		{
+			0,
+			//1, 2, 3, 4, 5
+			255, 255, 255, 255, 255,
+			255, 255, 255, 255, 255,
+			255, 255, 255, 255, 255,
+			3, 2, 1, 4, 5,
+			255, 255, 255, 255
+		},
+		{
+			0,
+			255, 255, 255, 255, 255,
+			6, 7, 8, 9, 10,
+			255, 255, 255, 255, 255,
+			255, 255, 255, 255, 255,
+			255, 255, 255, 255
+		},
+		{
+			0,
+			255, 255, 255, 255, 255,
+			255, 255, 255, 255, 255,
+			11, 12, 13, 14, 15,
+			255, 255, 255, 255, 255,
+			255, 255, 255, 255
+		},
+		{
+			0,
+			255, 255, 255, 255, 255,
+			255, 255, 255, 255, 255,
+			255, 255, 255, 255, 255,
+			16, 17, 18, 19, 20,
+			255, 255, 255, 255
+		},
+		{
+			0,
+			255, 255, 255, 255, 255,
+			255, 255, 255, 255, 255,
+			255, 255, 255, 255, 255,
+			255, 255, 255, 255, 255,
+			21, 22, 23, 24
+		}
+	};
+	byte fix[5][PERM_SIZE] =
+	{
+		{0, 1, 2, 3, 4, 5},
+		{0, 6, 7, 8, 9, 10},
+		{0, 11, 12, 13, 14, 15},
+		{0, 16, 17, 18, 19, 20},
+		{0, 0, 21, 22, 23, 24}
+	};
+	node *np = new node(val[0], 0);
+	get_rank(np->val, fix[0]);
+	/*rellenar_arreglo();
+	bfs(np, fix);
 	printf("Termine\n");
 	printf("Nodos generados: %lu\n", counter);
 	//np = new node(0x1f0f3f2fffffffff, 2);
 	//printf("Val: %d\n", pdb_data[np->get_rank()]);
-	write_bin("pdb_data_DEF.bin");
+	write_bin("pdb_data_DEF.bin");*/
 }

@@ -24,7 +24,7 @@ public:
 
 	node(node *p, byte a, byte b);
 
-	node(long unsigned int val0, byte p_cero);
+	node(byte *val0, byte p_cero);
 
 	int get_value(int n);
 
