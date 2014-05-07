@@ -19,7 +19,6 @@
 
 typedef unsigned char byte;
 
-
 class state
 {
 public:
@@ -28,6 +27,9 @@ public:
 	bool closed;
 	long unsigned int val;
 	byte dist;
+	bool operator==(const state &s) const { return x==s.x && y==s.y && z==s.z; }
+    bool operator=(const state &s) { x=s.x; y=s.y; z=s.z; }
+    size_t hash() const { return 0; }
 
 public:
 

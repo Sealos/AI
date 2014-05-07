@@ -1,5 +1,53 @@
 #include "node.h"
 
+/*
+
+#include <iostream>
+
+
+#include <unordered_set>
+
+using namespace std;
+
+struct state_t {
+     int x, y, z;
+     bool closed;
+     int dist;
+     state_t(int x1, int y1, int z1) : x(x1), y(y1), z(z1) { }
+     bool operator==(const state_t &s) const { return x==s.x && y==s.y && z==s.z; }
+     bool operator=(const state_t &s) { x=s.x; y=s.y; z=s.z; }
+     size_t hash() const { return 0; }
+     void print(ostream &os) const { os << "x=" << x << ", y=" << y << ", z=" << z << endl;}
+};
+
+struct hash_state_t {
+    size_t operator()(const state_t *s) const {
+        return s->hash();
+    }
+};
+
+
+
+typedef unordered_set<state_t*, hash_state_t> hash_t;
+hash_t ht;
+
+int main(int argc, char **argv) {
+    for( int x = 0; x < 2; ++x ) {
+        for( int y = 0; y < 2; ++y ) {
+            for( int z = 0; z < 2; ++z ) {
+                ht.insert(new state_t(x, y, z));
+            }
+        }
+    }
+
+    for( hash_t::const_iterator it = ht.begin(); it != ht.end(); ++it ) {
+        (*it)->print(cout);
+    }
+    return 0;
+}
+
+*/
+
 int cant_nodos = 0;
 
 long unsigned int pos_mask[16] =
@@ -24,7 +72,13 @@ long unsigned int pos_mask[16] =
 
 using namespace std;
 
-unordered_map<long unsigned int, state*> mapa; // Cambiar a set
+struct hash_state {
+    size_t operator()(const state_t *s) const {
+        return s->hash();
+    }
+};
+
+unordered_set<state*, hash_state> mapa; // Cambiar a set
 
 node::node(node *p, byte a, int (*h)(long unsigned int))
 {
@@ -37,7 +91,7 @@ node::node(node *p, byte a, int (*h)(long unsigned int))
 	state *s= mapa[v];
 	if (s) {
 	  s = new state(v, p->stt->pos_cero, a, h);
-	  mapa[s->val] = s;
+	  mapa.insert(s);
 	}
 	this->stt = s;
 	++cant_nodos;
@@ -51,7 +105,7 @@ node::node(long unsigned int val, byte p_cero, int (*h)(long unsigned int))
 	this->g = 0;
 
 	state *s = new state(val, p_cero, h);
-	mapa[val] = s;
+	mapa.insert(s);
 	this->stt = s;
 	++cant_nodos;
 }

@@ -58,14 +58,14 @@ int main(int argc, const char* argv[])
 		search *s = new search();
 
 		start=clock();
-		int sol = s->ida_star(rep, p_cero, manhattan_val);
+		//int sol = s->ida_star(rep, p_cero, manhattan_val);
 		//int sol = s->ida_star(rep, p_cero, pdb_h_array);
 		//int sol = s->a_star(nodo, pdb_h);
-		//int sol = s->a_star(nodo, manhattan);
-		sol = sol + 1;
+		int sol = s->a_star(nodo, manhattan_val);
 
 		end=clock();
-
+		
+		sol = sol + 1;
 		printf("--Found--\n");
 		total = ((float)end-(float)start) / CLOCKS_PER_SEC;
 		cout<< "\n Time: " << total << "s.\n";

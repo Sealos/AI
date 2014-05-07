@@ -85,9 +85,7 @@ search::search()
 
 int search::a_star(node *n, int (*h)(long unsigned int))
 {
-	/*priority_queue<node*, vector<node*>, compare_node> q;
-
-	unordered_map<long unsigned int, int> dist;
+	priority_queue<node*, vector<node*>, compare_node> q;
 
 	if (h == pdb_h)
 		pdb_init();
@@ -101,11 +99,11 @@ int search::a_star(node *n, int (*h)(long unsigned int))
 		if (n->is_goal()) { return FOUND; }
 
 
-		if (!n->stt->closed || n->g < dist[n->stt->val])
+		if (!n->stt->closed || n->g < n->stt->dist)
 		{
 
 			n->stt->closed = true;
-			dist[n->stt->val] = n->g;
+			n->stt->dist = n->g;
 
 			if (n->is_goal())
 			{
@@ -125,7 +123,7 @@ int search::a_star(node *n, int (*h)(long unsigned int))
 		}
 	}
 
-	*/return NOT_FOUND;
+	return NOT_FOUND;
 }
 
 bool compare_node::operator()(node* n1, node* n2)
