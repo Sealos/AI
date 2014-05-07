@@ -5,53 +5,36 @@
 #include "pdb.h"
 #include "search.h"
 
-int cero(node *)
+using namespace std;
+
+int cero(long unsigned int val)
  {
  	return 0;
  }
 
 int main(int argc, const char* argv[])
 {
-	std::ifstream infile(argv[1]);
-	std::string line;
-	unsigned int representacion[2];
-	node *nodo;
+	ifstream infile(argv[1]);
+	string line;
+	unsigned char rep[25];
 
 	while (std::getline(infile, line))
 	{
-		representacion[0] = 0x00000000;
-		representacion[1] = 0x00000000;
-		long unsigned int rep = 0x0000000000000000;
-		std::istringstream iss(line);
+		istringstream iss(line);
 		int n;
 		byte p_cero = 0;
-		int i = 15;
+		int i = 0;
 
 		while (iss >> n)
-		{
-			if (n == 0){
-				p_cero = 15 - i;
-			}
-			if (i > 7) {
-				representacion[0] = representacion[0] | n << 4*i ;
-			} else {
-				representacion[1] = representacion[1] | n << 4*i ;
-			}
-			i--;
-		}
-		long unsigned int temp = representacion[0];
-		temp = (temp << 32);
-		rep = temp + representacion[1];
-		
-		nodo = new node(rep, p_cero);
+			rep[i++] = n;
 
-		nodo->print();
 		search *s = new search();
-		int sol = s->ida_star(nodo, manhattan);
-		//int sol = s->ida_star(nodo, cero);
-		
-		printf("Sol: %d\n", sol);
-		
+
+		int sol = s->ida_star(rep, p_cero, manhattan_array);
+		//int sol = s->ida_star(rep, p_cero, pdb_h_array);
+		//int sol = s->a_star(nodo, pdb_h);
+		//int sol = s->a_star(nodo, manhattan);
+		sol = sol + 1;
 	}
 	return 0;
 }

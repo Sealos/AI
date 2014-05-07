@@ -1,11 +1,12 @@
 #include "search.h"
+#include <time.h>
 
 const long unsigned int goal = 0x0123456789ABCDEF;
 
 const int FOUND = -4;
 const int NOT_FOUND = -1;
 
-unsigned int cant_nodos1 = 0;
+long unsigned int cant_nodos1 = 0;
 
 byte man_data[16][16] =
 {
@@ -167,8 +168,13 @@ int search::ida_star(long unsigned int val, byte p_cero, int (*h)(unsigned char 
 	if (h == pdb_h_array)
 		pdb_init();
 
-	global_state = new state_ida(val, p_cero, h);
+	clock_t start,end;
+	float total;
+	start=clock();
+	cant_nodos1 = 0;
 
+	global_state = new state_ida(val, p_cero, h);
+	
 	int t = global_state->heur;
 	printf("Bound: %d\n", t);
 	while (t != INT_MAX)
@@ -176,8 +182,11 @@ int search::ida_star(long unsigned int val, byte p_cero, int (*h)(unsigned char 
 		int bound = bonded_dfs(t, 0, h);
 		if (bound == FOUND)
 		{
+			end=clock();
+			total = ((float)end-(float)start) / CLOCKS_PER_SEC;
 			delete global_state;
-			printf("Nodos creados %d\n", cant_nodos1);
+			printf("--Found--\n");
+			printf("Nodos creados %lu, Tiempo: %f, Nodos/s: %f\n", cant_nodos1, total,  cant_nodos1/total);
 			return FOUND;
 		}
 		t = bound;

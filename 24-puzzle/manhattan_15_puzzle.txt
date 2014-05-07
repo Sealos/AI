@@ -1,0 +1,1175 @@
+ 7 15  8  2 
+13  6  3 12 
+11  0  4 10 
+ 9  5  1 14 
+
+Bound: 41
+Bound: 43
+Bound: 45
+Bound: 47
+Bound: 49
+Bound: 51
+Bound: 53
+--Found--
+Nodos creados 17334521, Tiempo: 0.788282, Nodos/s: 21990252.000000
+14 13 15  7 
+11 12  9  5 
+ 6  0  2  1 
+ 4  8 10  3 
+
+Bound: 41
+Bound: 43
+Bound: 45
+Bound: 47
+Bound: 49
+Bound: 51
+Bound: 53
+Bound: 55
+Bound: 57
+--Found--
+Nodos creados 331791499, Tiempo: 14.136386, Nodos/s: 23470744.000000
+13  5  4 10 
+ 9 12  8 14 
+ 2  3  7  1 
+ 0 15 11  6 
+
+Bound: 43
+Bound: 45
+Bound: 47
+Bound: 49
+Bound: 51
+Bound: 53
+Bound: 55
+--Found--
+Nodos creados 344007676, Tiempo: 0.556288, Nodos/s: 618398528.000000
+14  7  8  2 
+13 11 10  4 
+ 9 12  5  0 
+ 3  6  1 15 
+
+Bound: 41
+Bound: 43
+Bound: 45
+Bound: 47
+Bound: 49
+Bound: 51
+Bound: 53
+Bound: 55
+Bound: 57
+Bound: 59
+--Found--
+Nodos creados 824232989, Tiempo: 21.528393, Nodos/s: 38285856.000000
+ 5 12 10  7 
+15 11 14  0 
+ 8  2  1 13 
+ 3  4  9  6 
+
+Bound: 42
+Bound: 44
+Bound: 46
+Bound: 48
+Bound: 50
+Bound: 52
+Bound: 54
+Bound: 56
+--Found--
+Nodos creados 977707747, Tiempo: 6.826672, Nodos/s: 143218800.000000
+ 4  7 14 13 
+10  3  9 12 
+11  5  6 15 
+ 1  2  8  0 
+
+Bound: 42
+Bound: 44
+Bound: 46
+Bound: 48
+Bound: 50
+Bound: 52
+Bound: 54
+Bound: 56
+--Found--
+Nodos creados 988642371, Tiempo: 0.488364, Nodos/s: 2024396416.000000
+14  7  1  9 
+12  3  6 15 
+ 8 11  2  5 
+10  0  4 13 
+
+Bound: 36
+Bound: 38
+Bound: 40
+Bound: 42
+Bound: 44
+Bound: 46
+Bound: 48
+Bound: 50
+Bound: 52
+--Found--
+Nodos creados 1017307976, Tiempo: 1.261612, Nodos/s: 806355648.000000
+ 2 11 15  5 
+13  4  6  7 
+12  8 10  1 
+ 9  3 14  0 
+
+Bound: 30
+Bound: 32
+Bound: 34
+Bound: 36
+Bound: 38
+Bound: 40
+Bound: 42
+Bound: 44
+Bound: 46
+Bound: 48
+Bound: 50
+Bound: 52
+--Found--
+Nodos creados 1382101761, Tiempo: 16.275415, Nodos/s: 84919600.000000
+12 11 15  3 
+ 8  0  4  2 
+ 6 13  9  5 
+14  1 10  7 
+
+Bound: 32
+Bound: 34
+Bound: 36
+Bound: 38
+Bound: 40
+Bound: 42
+Bound: 44
+Bound: 46
+Bound: 48
+Bound: 50
+--Found--
+Nodos creados 1437694361, Tiempo: 2.487928, Nodos/s: 577868160.000000
+ 3 14  9 11 
+ 5  4  8  2 
+13 12  6  7 
+10  1 15  0 
+
+Bound: 32
+Bound: 34
+Bound: 36
+Bound: 38
+Bound: 40
+Bound: 42
+Bound: 44
+Bound: 46
+--Found--
+Nodos creados 1439469789, Tiempo: 0.078440, Nodos/s: 18351220736.000000
+13 11  8  9 
+ 0 15  7 10 
+ 4  3  6 14 
+ 5 12  2  1 
+
+Bound: 43
+Bound: 45
+Bound: 47
+Bound: 49
+Bound: 51
+Bound: 53
+Bound: 55
+Bound: 57
+Bound: 59
+--Found--
+Nodos creados 1628428139, Tiempo: 8.428616, Nodos/s: 193202336.000000
+ 5  9 13 14 
+ 6  3  7 12 
+10  8  4  0 
+15  2 11  1 
+
+Bound: 43
+Bound: 45
+Bound: 47
+Bound: 49
+Bound: 51
+Bound: 53
+Bound: 55
+Bound: 57
+--Found--
+Nodos creados 1772409533, Tiempo: 6.458360, Nodos/s: 274436448.000000
+14  1  9  6 
+ 4  8 12  5 
+ 7  2  3  0 
+10 11 13 15 
+
+Bound: 35
+Bound: 37
+Bound: 39
+Bound: 41
+Bound: 43
+Bound: 45
+--Found--
+Nodos creados 1773038960, Tiempo: 0.028272, Nodos/s: 62713606144.000000
+ 3  6  5  2 
+10  0 15 14 
+ 1  4 13 12 
+ 9  8 11  7 
+
+Bound: 36
+Bound: 38
+Bound: 40
+Bound: 42
+Bound: 44
+Bound: 46
+--Found--
+Nodos creados 1796504100, Tiempo: 1.042816, Nodos/s: 1722743040.000000
+ 7  6  8  1 
+11  5 14 10 
+ 3  4  9 13 
+15  2  0 12 
+
+Bound: 41
+Bound: 43
+Bound: 45
+Bound: 47
+Bound: 49
+Bound: 51
+Bound: 53
+Bound: 55
+Bound: 57
+Bound: 59
+--Found--
+Nodos creados -1378731349, Tiempo: 49.908081, Nodos/s: 58432140.000000
+13 11  4 12 
+ 1  8  9 15 
+ 6  5 14  2 
+ 7  3 10  0 
+
+Bound: 44
+Bound: 46
+Bound: 48
+Bound: 50
+Bound: 52
+Bound: 54
+Bound: 56
+Bound: 58
+Bound: 60
+Bound: 62
+--Found--
+Nodos creados -867993202, Tiempo: 23.026039, Nodos/s: 148830384.000000
+ 1  3  2  5 
+10  9 15  6 
+ 8 14 13 11 
+12  4  7  0 
+
+Bound: 24
+Bound: 26
+Bound: 28
+Bound: 30
+Bound: 32
+Bound: 34
+Bound: 36
+Bound: 38
+Bound: 40
+Bound: 42
+--Found--
+Nodos creados -849954150, Tiempo: 0.799248, Nodos/s: 4310318592.000000
+15 14  0  4 
+11  1  6 13 
+ 7  5  8  9 
+ 3  2 10 12 
+
+Bound: 46
+Bound: 48
+Bound: 50
+Bound: 52
+Bound: 54
+Bound: 56
+Bound: 58
+Bound: 60
+Bound: 62
+Bound: 64
+Bound: 66
+--Found--
+Nodos creados 1396332470, Tiempo: 101.845139, Nodos/s: 13710349.000000
+ 6  0 14 12 
+ 1 15  9 10 
+11  4  7  2 
+ 8  3  5 13 
+
+Bound: 43
+Bound: 45
+Bound: 47
+Bound: 49
+Bound: 51
+Bound: 53
+Bound: 55
+--Found--
+Nodos creados 1416741063, Tiempo: 0.913728, Nodos/s: 1550506368.000000
+ 7 11  8  3 
+14  0  6 15 
+ 1  4 13  9 
+ 5 12  2 10 
+
+Bound: 36
+Bound: 38
+Bound: 40
+Bound: 42
+Bound: 44
+Bound: 46
+--Found--
+Nodos creados 1418174616, Tiempo: 0.063984, Nodos/s: 22164518912.000000
+ 6 12 11  3 
+13  7  9 15 
+ 2 14  8 10 
+ 4  1  5  0 
+
+Bound: 36
+Bound: 38
+Bound: 40
+Bound: 42
+Bound: 44
+Bound: 46
+Bound: 48
+Bound: 50
+Bound: 52
+--Found--
+Nodos creados 1441260494, Tiempo: 1.050896, Nodos/s: 1371458688.000000
+12  8 14  6 
+11  4  7  0 
+ 5  1 10 15 
+ 3 13  9  2 
+
+Bound: 34
+Bound: 36
+Bound: 38
+Bound: 40
+Bound: 42
+Bound: 44
+Bound: 46
+Bound: 48
+Bound: 50
+Bound: 52
+Bound: 54
+--Found--
+Nodos creados 1513615900, Tiempo: 3.259056, Nodos/s: 464433824.000000
+14  3  9  1 
+15  8  4  5 
+11  7 10 13 
+ 0  2 12  6 
+
+Bound: 41
+Bound: 43
+Bound: 45
+Bound: 47
+Bound: 49
+Bound: 51
+Bound: 53
+Bound: 55
+Bound: 57
+Bound: 59
+--Found--
+Nodos creados -1984531259, Tiempo: 35.296062, Nodos/s: 65458748.000000
+10  9  3 11 
+ 0 13  2 14 
+ 5  6  4  7 
+ 8 15  1 12 
+
+Bound: 33
+Bound: 35
+Bound: 37
+Bound: 39
+Bound: 41
+Bound: 43
+Bound: 45
+Bound: 47
+Bound: 49
+--Found--
+Nodos creados -1974000562, Tiempo: 0.472288, Nodos/s: 4914303488.000000
+ 7  3 14 13 
+ 4  1 10  8 
+ 5 12  9 11 
+ 2 15  6  0 
+
+Bound: 34
+Bound: 36
+Bound: 38
+Bound: 40
+Bound: 42
+Bound: 44
+Bound: 46
+Bound: 48
+Bound: 50
+Bound: 52
+Bound: 54
+--Found--
+Nodos creados -1917526907, Tiempo: 2.544544, Nodos/s: 934328704.000000
+11  4  2  7 
+ 1  0 10 15 
+ 6  9 14  8 
+ 3 13  5 12 
+
+Bound: 32
+Bound: 34
+Bound: 36
+Bound: 38
+Bound: 40
+Bound: 42
+Bound: 44
+Bound: 46
+Bound: 48
+Bound: 50
+Bound: 52
+--Found--
+Nodos creados -1825551817, Tiempo: 4.106080, Nodos/s: 601404608.000000
+ 5  7  3 12 
+15 13 14  8 
+ 0 10  9  6 
+ 1  4  2 11 
+
+Bound: 40
+Bound: 42
+Bound: 44
+Bound: 46
+Bound: 48
+Bound: 50
+Bound: 52
+Bound: 54
+Bound: 56
+Bound: 58
+--Found--
+Nodos creados -1508460189, Tiempo: 14.316864, Nodos/s: 194631104.000000
+14  1  8 15 
+ 2  6  0  3 
+ 9 12 10 13 
+ 4  7  5 11 
+
+Bound: 33
+Bound: 35
+Bound: 37
+Bound: 39
+Bound: 41
+Bound: 43
+Bound: 45
+Bound: 47
+Bound: 49
+Bound: 51
+Bound: 53
+--Found--
+Nodos creados -1328723369, Tiempo: 8.029152, Nodos/s: 369434272.000000
+13 14  6 12 
+ 4  5  1  0 
+ 9  3 10  2 
+15 11  8  7 
+
+Bound: 36
+Bound: 38
+Bound: 40
+Bound: 42
+Bound: 44
+Bound: 46
+Bound: 48
+Bound: 50
+Bound: 52
+--Found--
+Nodos creados -1321730006, Tiempo: 0.311040, Nodos/s: 9559018496.000000
+ 9  8  0  2 
+15  1  4 14 
+ 3 10  7  5 
+11 13  6 12 
+
+Bound: 38
+Bound: 40
+Bound: 42
+Bound: 44
+Bound: 46
+Bound: 48
+Bound: 50
+Bound: 52
+Bound: 54
+--Found--
+Nodos creados -1253125632, Tiempo: 3.050560, Nodos/s: 997142080.000000
+12 15  2  6 
+ 1 14  4  8 
+ 5  3  7  0 
+10 13  9 11 
+
+Bound: 35
+Bound: 37
+Bound: 39
+Bound: 41
+Bound: 43
+Bound: 45
+Bound: 47
+--Found--
+Nodos creados -1250475756, Tiempo: 0.118944, Nodos/s: 25596008448.000000
+12  8 15 13 
+ 1  0  5  4 
+ 6  3  2 11 
+ 9  7 14 10 
+
+Bound: 38
+Bound: 40
+Bound: 42
+Bound: 44
+Bound: 46
+Bound: 48
+Bound: 50
+--Found--
+Nodos creados -1246165335, Tiempo: 0.194624, Nodos/s: 15665087488.000000
+14 10  9  4 
+13  6  5  8 
+ 2 12  7  0 
+ 1  3 11 15 
+
+Bound: 43
+Bound: 45
+Bound: 47
+Bound: 49
+Bound: 51
+Bound: 53
+Bound: 55
+Bound: 57
+Bound: 59
+--Found--
+Nodos creados -630493443, Tiempo: 28.710848, Nodos/s: 127633776.000000
+14  3  5 15 
+11  6 13  9 
+ 0 10  2 12 
+ 4  1  7  8 
+
+Bound: 42
+Bound: 44
+Bound: 46
+Bound: 48
+Bound: 50
+Bound: 52
+Bound: 54
+Bound: 56
+Bound: 58
+Bound: 60
+--Found--
+Nodos creados -315746608, Tiempo: 13.982944, Nodos/s: 284576768.000000
+ 6 11  7  8 
+13  2  5  4 
+ 1 10  3  9 
+14  0 12 15 
+
+Bound: 36
+Bound: 38
+Bound: 40
+Bound: 42
+Bound: 44
+Bound: 46
+Bound: 48
+Bound: 50
+Bound: 52
+--Found--
+Nodos creados -296437271, Tiempo: 0.860704, Nodos/s: 4645650432.000000
+ 1  6 12 14 
+ 3  2 15  8 
+ 4  5 13  9 
+ 0  7 11 10 
+
+Bound: 39
+Bound: 41
+Bound: 43
+Bound: 45
+Bound: 47
+Bound: 49
+Bound: 51
+Bound: 53
+Bound: 55
+--Found--
+Nodos creados -220652286, Tiempo: 3.373408, Nodos/s: 1207774080.000000
+12  6  0  4 
+ 7  3 15  1 
+13  9  8 11 
+ 2 14  5 10 
+
+Bound: 36
+Bound: 38
+Bound: 40
+Bound: 42
+Bound: 44
+Bound: 46
+Bound: 48
+Bound: 50
+Bound: 52
+--Found--
+Nodos creados -147676266, Tiempo: 3.279776, Nodos/s: 1264504320.000000
+ 8  1  7 12 
+11  0 10  5 
+ 9 15  6 13 
+14  2  3  4 
+
+Bound: 40
+Bound: 42
+Bound: 44
+Bound: 46
+Bound: 48
+Bound: 50
+Bound: 52
+Bound: 54
+Bound: 56
+Bound: 58
+--Found--
+Nodos creados 143882548, Tiempo: 12.953248, Nodos/s: 11107835.000000
+ 9  0  4 10 
+ 1 14 15  3 
+12  6  5  7 
+11 13  8  2 
+
+Bound: 35
+Bound: 37
+Bound: 39
+Bound: 41
+Bound: 43
+Bound: 45
+Bound: 47
+Bound: 49
+--Found--
+Nodos creados 159794176, Tiempo: 0.708704, Nodos/s: 225473792.000000
+11  5  1 14 
+ 4 12 10  0 
+ 2  7 13  3 
+ 9 15  6  8 
+
+Bound: 36
+Bound: 38
+Bound: 40
+Bound: 42
+Bound: 44
+Bound: 46
+Bound: 48
+Bound: 50
+Bound: 52
+Bound: 54
+--Found--
+Nodos creados 225842698, Tiempo: 2.967232, Nodos/s: 76112248.000000
+ 8 13 10  9 
+11  3 15  6 
+ 0  1  2 14 
+12  5  4  7 
+
+Bound: 36
+Bound: 38
+Bound: 40
+Bound: 42
+Bound: 44
+Bound: 46
+Bound: 48
+Bound: 50
+Bound: 52
+Bound: 54
+--Found--
+Nodos creados 284881607, Tiempo: 2.615168, Nodos/s: 108934336.000000
+ 4  5  7  2 
+ 9 14 12 13 
+ 0  3  6 11 
+ 8  1 15 10 
+
+Bound: 30
+Bound: 32
+Bound: 34
+Bound: 36
+Bound: 38
+Bound: 40
+Bound: 42
+--Found--
+Nodos creados 285838872, Tiempo: 0.042944, Nodos/s: 6656084480.000000
+11 15 14 13 
+ 1  9 10  4 
+ 3  6  2 12 
+ 7  5  8  0 
+
+Bound: 48
+Bound: 50
+Bound: 52
+Bound: 54
+Bound: 56
+Bound: 58
+Bound: 60
+Bound: 62
+Bound: 64
+--Found--
+Nodos creados 343903385, Tiempo: 2.578944, Nodos/s: 133350472.000000
+12  9  0  6 
+ 8  3  5 14 
+ 2  4 11  7 
+10  1 15 13 
+
+Bound: 32
+Bound: 34
+Bound: 36
+Bound: 38
+Bound: 40
+Bound: 42
+Bound: 44
+Bound: 46
+Bound: 48
+Bound: 50
+--Found--
+Nodos creados 435229925, Tiempo: 4.080736, Nodos/s: 106654760.000000
+ 3 14  9  7 
+12 15  0  4 
+ 1  8  5  6 
+11 10  2 13 
+
+Bound: 39
+Bound: 41
+Bound: 43
+Bound: 45
+Bound: 47
+Bound: 49
+Bound: 51
+--Found--
+Nodos creados 449388721, Tiempo: 0.631168, Nodos/s: 711995456.000000
+ 8  4  6  1 
+14 12  2 15 
+13 10  9  5 
+ 3  7  0 11 
+
+Bound: 35
+Bound: 37
+Bound: 39
+Bound: 41
+Bound: 43
+Bound: 45
+Bound: 47
+Bound: 49
+--Found--
+Nodos creados 461242113, Tiempo: 0.526368, Nodos/s: 876273024.000000
+ 6 10  1 14 
+15  8  3  5 
+13  0  2  7 
+ 4  9 11 12 
+
+Bound: 35
+Bound: 37
+Bound: 39
+Bound: 41
+Bound: 43
+Bound: 45
+Bound: 47
+--Found--
+Nodos creados 462469205, Tiempo: 0.054464, Nodos/s: 8491282432.000000
+ 8 11  4  6 
+ 7  3 10  9 
+ 2 12 15 13 
+ 0  1  5 14 
+
+Bound: 39
+Bound: 41
+Bound: 43
+Bound: 45
+Bound: 47
+Bound: 49
+--Found--
+Nodos creados 464628860, Tiempo: 0.096896, Nodos/s: 4795129344.000000
+10  0  2  4 
+ 5  1  6 12 
+11 13  9  7 
+15  3 14  8 
+
+Bound: 33
+Bound: 35
+Bound: 37
+Bound: 39
+Bound: 41
+Bound: 43
+Bound: 45
+Bound: 47
+Bound: 49
+Bound: 51
+Bound: 53
+Bound: 55
+Bound: 57
+Bound: 59
+--Found--
+Nodos creados -160384119, Tiempo: 164.503586, Nodos/s: 25133698.000000
+12  5 13 11 
+ 2 10  0  9 
+ 7  8  4  3 
+14  6 15  1 
+
+Bound: 39
+Bound: 41
+Bound: 43
+Bound: 45
+Bound: 47
+Bound: 49
+Bound: 51
+Bound: 53
+--Found--
+Nodos creados -134943668, Tiempo: 1.137792, Nodos/s: 3656225024.000000
+10  2  8  4 
+15  0  1 14 
+11 13  3  6 
+ 9  7  5 12 
+
+Bound: 44
+Bound: 46
+Bound: 48
+Bound: 50
+Bound: 52
+Bound: 54
+Bound: 56
+--Found--
+Nodos creados -102944309, Tiempo: 1.417792, Nodos/s: 2956726528.000000
+10  8  0 12 
+ 3  7  6  2 
+ 1 14  4 11 
+15 13  9  5 
+
+Bound: 38
+Bound: 40
+Bound: 42
+Bound: 44
+Bound: 46
+Bound: 48
+Bound: 50
+Bound: 52
+Bound: 54
+Bound: 56
+--Found--
+Nodos creados 636051503, Tiempo: 32.896385, Nodos/s: 19334998.000000
+14  9 12 13 
+15  4  8 10 
+ 0  2  1  7 
+ 3 11  5  6 
+
+Bound: 50
+Bound: 52
+Bound: 54
+Bound: 56
+Bound: 58
+Bound: 60
+Bound: 62
+Bound: 64
+--Found--
+Nodos creados 1191560553, Tiempo: 24.646208, Nodos/s: 48346608.000000
+12 11  0  8 
+10  2 13 15 
+ 5  4  7  3 
+ 6  9 14  1 
+
+Bound: 40
+Bound: 42
+Bound: 44
+Bound: 46
+Bound: 48
+Bound: 50
+Bound: 52
+Bound: 54
+Bound: 56
+--Found--
+Nodos creados 1301944824, Tiempo: 4.947392, Nodos/s: 263157808.000000
+13  8 14  3 
+ 9  1  0  7 
+15  5  4 10 
+12  2  6 11 
+
+Bound: 29
+Bound: 31
+Bound: 33
+Bound: 35
+Bound: 37
+Bound: 39
+Bound: 41
+--Found--
+Nodos creados 1302511730, Tiempo: 0.025472, Nodos/s: 51135041536.000000
+ 3 15  2  5 
+11  6  4  7 
+12  9  1  0 
+13 14 10  8 
+
+Bound: 29
+Bound: 31
+Bound: 33
+Bound: 35
+Bound: 37
+Bound: 39
+Bound: 41
+Bound: 43
+Bound: 45
+Bound: 47
+Bound: 49
+Bound: 51
+Bound: 53
+Bound: 55
+--Found--
+Nodos creados -1675695919, Tiempo: 58.729855, Nodos/s: 44598636.000000
+ 5 11  6  9 
+ 4 13 12  0 
+ 8  2 15 10 
+ 1  7  3 14 
+
+Bound: 36
+Bound: 38
+Bound: 40
+Bound: 42
+Bound: 44
+Bound: 46
+Bound: 48
+Bound: 50
+--Found--
+Nodos creados -1668453103, Tiempo: 0.321792, Nodos/s: 8162148352.000000
+ 5  0 15  8 
+ 4  6  1 14 
+10 11  3  9 
+ 7 12  2 13 
+
+Bound: 37
+Bound: 39
+Bound: 41
+Bound: 43
+Bound: 45
+Bound: 47
+Bound: 49
+Bound: 51
+--Found--
+Nodos creados -1661904776, Tiempo: 0.289472, Nodos/s: 9096086528.000000
+15 14  6  7 
+10  1  0 11 
+12  8  4  9 
+ 2  5 13  3 
+
+Bound: 35
+Bound: 37
+Bound: 39
+Bound: 41
+Bound: 43
+Bound: 45
+Bound: 47
+Bound: 49
+Bound: 51
+Bound: 53
+Bound: 55
+Bound: 57
+--Found--
+Nodos creados -221871265, Tiempo: 64.287361, Nodos/s: 63357648.000000
+11 14 13  1 
+ 2  3 12  4 
+15  7  9  5 
+10  6  8  0 
+
+Bound: 48
+Bound: 50
+Bound: 52
+Bound: 54
+Bound: 56
+Bound: 58
+Bound: 60
+Bound: 62
+Bound: 64
+Bound: 66
+--Found--
+Nodos creados -876438346, Tiempo: 161.738174, Nodos/s: 21136192.000000
+ 6 13  3  2 
+11  9  5 10 
+ 1  7 12 14 
+ 8  4  0 15 
+
+Bound: 31
+Bound: 33
+Bound: 35
+Bound: 37
+Bound: 39
+Bound: 41
+Bound: 43
+Bound: 45
+--Found--
+Nodos creados -871156969, Tiempo: 0.241088, Nodos/s: 14201495552.000000
+ 4  6 12  0 
+14  2  9 13 
+11  8  3 15 
+ 7 10  1  5 
+
+Bound: 43
+Bound: 45
+Bound: 47
+Bound: 49
+Bound: 51
+Bound: 53
+Bound: 55
+Bound: 57
+--Found--
+Nodos creados -801708752, Tiempo: 3.092352, Nodos/s: 1129644544.000000
+ 8 10  9 11 
+14  1  7 15 
+13  4  0 12 
+ 6  2  5  3 
+
+Bound: 40
+Bound: 42
+Bound: 44
+Bound: 46
+Bound: 48
+Bound: 50
+Bound: 52
+Bound: 54
+Bound: 56
+--Found--
+Nodos creados 379771720, Tiempo: 52.474945, Nodos/s: 7237201.000000
+ 5  2 14  0 
+ 7  8  6  3 
+11 12 13 15 
+ 4 10  9  1 
+
+Bound: 31
+Bound: 33
+Bound: 35
+Bound: 37
+Bound: 39
+Bound: 41
+Bound: 43
+Bound: 45
+Bound: 47
+Bound: 49
+Bound: 51
+--Found--
+Nodos creados 571852109, Tiempo: 8.576512, Nodos/s: 66676532.000000
+ 7  8  3  2 
+10 12  4  6 
+11 13  5 15 
+ 0  1  9 14 
+
+Bound: 31
+Bound: 33
+Bound: 35
+Bound: 37
+Bound: 39
+Bound: 41
+Bound: 43
+Bound: 45
+Bound: 47
+--Found--
+Nodos creados 590435634, Tiempo: 0.827264, Nodos/s: 713720960.000000
+11  6 14 12 
+ 3  5  1 15 
+ 8  0 10 13 
+ 9  7  4  2 
+
+Bound: 41
+Bound: 43
+Bound: 45
+Bound: 47
+Bound: 49
+Bound: 51
+Bound: 53
+Bound: 55
+Bound: 57
+Bound: 59
+Bound: 61
+--Found--
+Nodos creados 2102479472, Tiempo: 67.814529, Nodos/s: 31003378.000000
+ 7  1  2  4 
+ 8  3  6 11 
+10 15  0  5 
+14 12 13  9 
+
+Bound: 28
+Bound: 30
+Bound: 32
+Bound: 34
+Bound: 36
+Bound: 38
+Bound: 40
+Bound: 42
+Bound: 44
+Bound: 46
+Bound: 48
+Bound: 50
+--Found--
+Nodos creados -1970447554, Tiempo: 9.951296, Nodos/s: 233589648.000000
+ 7  3  1 13 
+12 10  5  2 
+ 8  0  6 11 
+14 15  4  9 
+
+Bound: 31
+Bound: 33
+Bound: 35
+Bound: 37
+Bound: 39
+Bound: 41
+Bound: 43
+Bound: 45
+Bound: 47
+Bound: 49
+Bound: 51
+--Found--
+Nodos creados -1904084659, Tiempo: 2.952768, Nodos/s: 809708864.000000
+ 6  0  5 15 
+ 1 14  4  9 
+ 2 13  8 10 
+11 12  7  3 
+
+Bound: 37
+Bound: 39
+Bound: 41
+Bound: 43
+Bound: 45
+Bound: 47
+Bound: 49
+Bound: 51
+Bound: 53
+--Found--
+Nodos creados -1718600773, Tiempo: 8.262144, Nodos/s: 311827840.000000
+15  1  3 12 
+ 4  0  6  5 
+ 2  8 14  9 
+13 10  7 11 
+
+Bound: 30
+Bound: 32
+Bound: 34
+Bound: 36
+Bound: 38
+Bound: 40
+Bound: 42
+Bound: 44
+Bound: 46
+Bound: 48
+Bound: 50
+Bound: 52
+--Found--
+Nodos creados -1564619862, Tiempo: 6.935296, Nodos/s: 393688672.000000
+ 5  7  0 11 
+12  1  9 10 
+15  6  2  3 
+ 8  4 13 14 
+
+Bound: 30
+Bound: 32
+Bound: 34
+Bound: 36
+Bound: 38
+Bound: 40
+Bound: 42
+Bound: 44
+--Found--
+Nodos creados -1559350620, Tiempo: 0.234368, Nodos/s: 11672313856.000000
+12 15 11 10 
+ 4  5 14  0 
+13  7  1  2 
+ 9  8  3  6 
+
+Bound: 38
+Bound: 40
+Bound: 42
+Bound: 44
+Bound: 46
+Bound: 48
+Bound: 50
+Bound: 52
+Bound: 54
+Bound: 56
+--Found--
+Nodos creados 256351069, Tiempo: 81.675133, Nodos/s: 3138667.250000
+ 6 14 10  5 
+15  8  7  1 
+ 3  4  2  0 
+12  9 11 13 
+
+Bound: 37
+Bound: 39
+Bound: 41
+Bound: 43
+Bound: 45
+Bound: 47
+Bound: 49
+--Found--
+Nodos creados 259363348, Tiempo: 0.133120, Nodos/s: 1948342400.000000
+14 13  4 11 

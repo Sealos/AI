@@ -1,10 +1,10 @@
-#include "state.h"
+#include "state_ida.h"
 #include <ctime>
 #include <cstdio>
 #include <chrono>
 #include <iostream>
 
-long unsigned int p_mask[16] =
+long unsigned int ida_mask[16] =
 {
 	0xF000000000000000,
 	0x0F00000000000000,
@@ -24,72 +24,18 @@ long unsigned int p_mask[16] =
 	0x000000000000000F
 };
 
-//Funciona
-inline byte state::get_value(int n)
+state_ida::state_ida(byte *rep, byte p_cero, int (*h)(unsigned char *))
 {
-	long unsigned int val;
-	val = this->val & p_mask[n];
-	byte value = val >> ((15 - n) * 4);
-	return value;
-}
+	for (int i = 0; i < 16; ++i)
+		this->val[i] = rep[i];
 
-//Funciona
-void state::set_value(byte val, byte pos)
-{
-	long unsigned int mask = ULONG_MAX - p_mask[pos];
-	long unsigned int sum_val = (this->val & mask);
-	if (val != 0)
-	{
-		long unsigned int new_val = val;
-		new_val = new_val << ((15 - pos) * 4);
-		this->val = new_val + sum_val;
-	}
-	else
-		this->val = sum_val;
-}
-
-state::state(long unsigned int val, byte p_cero, int (*h)(long unsigned int))
-{
 	this->pos_cero = p_cero;
 	this->closed = false;
-	this->heur = 0xFF;
-	this->val = val;
-	this->heur = h(val);
-	this->dist = 0;
-}
-
-state::state(long unsigned int val, byte pos_cero, byte a, int (*h)(long unsigned int))
-{
-
-	this->val = val;
-	this->closed = false;
-	switch (a)
-	{
-	case MOV_ARRIBA:
-		this->pos_cero = pos_cero - 4;
-		break;
-	case MOV_ABAJO:
-		this->pos_cero = pos_cero + 4;
-		break;
-	case MOV_DER:
-		this->pos_cero = pos_cero + 1;
-		break;
-	case MOV_IZQ:
-		this->pos_cero = pos_cero - 1;
-		break;
-	case MOV_NULL:
-		this->pos_cero = pos_cero;
-		return;
-	}
-
-	int r_val = this->get_value(this->pos_cero);
-	set_value(0, this->pos_cero);
-	set_value(r_val, pos_cero);
 	this->heur = h(this->val);
 	this->dist = 0;
 }
 
-bool state::valid_action(byte a)
+bool state_ida::valid_action(byte a)
 {
 	switch(this->pos_cero)
 	{
@@ -104,24 +50,26 @@ bool state::valid_action(byte a)
 		}
 	case 1:
 	case 2:
-		switch(a)
-		{
-		case MOV_ARRIBA:
-			return false;
-		default:
-			return true;
-		}
 	case 3:
 		switch(a)
 		{
+		case MOV_ARRIBA:
+			return false;
+		default:
+			return true;
+		}
+	case 4:
+		switch(a)
+		{
 		case MOV_ABAJO:
 		case MOV_IZQ:
 			return true;
 		default:
 			return false;
 		}
-	case 4:
-	case 8:
+	case 5:
+	case 10:
+	case 15:
 		switch(a)
 		{
 		case MOV_IZQ:
@@ -129,13 +77,19 @@ bool state::valid_action(byte a)
 		default:
 			return true;
 		}
-	case 5:
 	case 6:
-	case 9:
-	case 10:
-		return true;
 	case 7:
+	case 8:
 	case 11:
+	case 12:
+	case 13:
+	case 16:
+	case 17:
+	case 18:
+		return true;
+	case 9:
+	case 14:
+	case 19:
 		switch(a)
 		{
 		case MOV_DER:
@@ -143,7 +97,7 @@ bool state::valid_action(byte a)
 		default:
 			return true;
 		}
-	case 12:
+	case 20:
 		switch(a)
 		{
 		case MOV_ARRIBA:
@@ -152,8 +106,9 @@ bool state::valid_action(byte a)
 		default:
 			return false;
 		}
-	case 13:
-	case 14:
+	case 21:
+	case 22:
+	case 23:
 		switch(a)
 		{
 		case MOV_ABAJO:
@@ -161,7 +116,7 @@ bool state::valid_action(byte a)
 		default:
 			return true;
 		}
-	case 15:
+	case 24:
 		switch(a)
 		{
 		case MOV_ARRIBA:
@@ -175,16 +130,26 @@ bool state::valid_action(byte a)
 	}
 }
 
-void state::apply_action(byte a, int (*h)(long unsigned int))
+bool state_ida::is_goal()
+{
+	for (int i = 0; i < 25; ++i)
+	{
+		if (this->val[i] != i)
+			return false;
+	}
+	return true;
+}
+
+void state_ida::apply_action(byte a, int (*h)(unsigned char *))
 {
 	byte pos_cero = this->pos_cero;
 	switch (a)
 	{
 	case MOV_ARRIBA:
-		this->pos_cero = pos_cero - 4;
+		this->pos_cero = pos_cero - 5;
 		break;
 	case MOV_ABAJO:
-		this->pos_cero = pos_cero + 4;
+		this->pos_cero = pos_cero + 5;
 		break;
 	case MOV_DER:
 		this->pos_cero = pos_cero + 1;
@@ -197,7 +162,7 @@ void state::apply_action(byte a, int (*h)(long unsigned int))
 		return;
 	}
 
-	int r_val = this->get_value(this->pos_cero);
-	set_value(0, this->pos_cero);
-	set_value(r_val, pos_cero);
+	int r_val = this->val[this->pos_cero];
+	this->val[this->pos_cero] = 0;
+	this->val[pos_cero] = r_val;
 }

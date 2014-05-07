@@ -6,10 +6,9 @@
 #include <cstdio>
 #include <chrono>
 #include <iostream>
-#include <unordered_map>
 
-#ifndef STATE_H
-#define STATE_H
+#ifndef STATE_IDA_H
+#define STATE_IDA_H
 
 #define MOV_NULL	0
 #define MOV_ARRIBA	1
@@ -20,23 +19,21 @@
 typedef unsigned char byte;
 
 
-class state
+class state_ida
 {
 public:
 	byte pos_cero;
 	byte heur;
 	bool closed;
-	long unsigned int val;
+	unsigned char val[25];
 	byte dist;
 
 public:
 
-	state(long unsigned int val, byte p_cero, int (*h)(long unsigned int));
-	state(long unsigned int val, byte pos_cero, byte a, int (*h)(long unsigned int));
-	void set_value(byte val, byte pos);
-	inline byte get_value(int n);
+	state_ida(byte *rep, byte p_cero, int (*h)(unsigned char *));
 	bool valid_action(byte a);
-	void apply_action(byte a, int (*h)(long unsigned int));
+	void apply_action(byte a, int (*h)(unsigned char *));
+	bool is_goal();
 };
 
 #endif /* STATE_H */
