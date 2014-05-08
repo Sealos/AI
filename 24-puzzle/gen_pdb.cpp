@@ -1,6 +1,6 @@
 #include "gen_pdb.h"
 
-#define  EQUIS	0xFF
+#define  EQUIS	25
 
 #define MOV_NULL	0
 #define MOV_ARRIBA	1
@@ -8,16 +8,16 @@
 #define MOV_DER		3
 #define MOV_IZQ		4
 
-#define MAX_VALUE	127512000
+#define MAX_VALUE	6375600
 #define N			25
 
 using namespace std;
 
-byte pdb_data[MAX_VALUE];
+unsigned char pdb_data[MAX_VALUE];
 
 long unsigned int counter = 0;
 
-vector<long unsigned int> factorial(21,1);
+vector<long unsigned int> factorial(22,1);
 
 long unsigned int get_rank(byte *p)
 {
@@ -32,9 +32,7 @@ long unsigned int get_rank(byte *p)
 		for (int c = 0; c < si; ++c)
 		{
 			if(freq[c] > 0)
-			{
-				ret += factorial[24-i] / (den / freq[c]);
-			}
+				ret += factorial[24 - i] / (den / freq[c]);
 		}
 	}
 	return ret;
@@ -202,11 +200,16 @@ bool node::valid_action(byte a)
 void node::print()
 {
 	printf("Pos cero: %d, Acc %d\n", this->pos_cero, this->acc_padre);
+	int count = 0;
 	for (int i = 0; i < N; ++i)
 	{
+		++count;
 		printf("%2d ", this->val[i]);
-		if (i % 5 == 0 && i != 0)
+		if (count == 5)
+		{
+			count = 0;
 			printf("\n");
+		}
 	}
 }
 
@@ -227,14 +230,11 @@ void bfs(node *p)
 		node *actual = Q.front();
 		Q.pop();
 		rank = get_rank(actual->val);
-		if (rank > MAX_VALUE)
-		{
-			actual->print();
-		}
 		if (pdb_data[rank] > actual->g)
 		{
-			//actual->print();
-			//printf("Val %d \n\n", actual->g);
+			printf("Val %d %d %lu\n", actual->g, pdb_data[rank], rank);
+			actual->print();
+			cout << endl;
 			pdb_data[rank] = actual->g;
 			++counter;
 			for (byte i = 1; i <= 4; ++i)
@@ -244,7 +244,19 @@ void bfs(node *p)
 					p = new node(actual, i, actual->accion);
 					Q.push(p);
 				}
+				else
+				{
+					printf("Accion no valida %d %d %lu\n", i, pdb_data[rank], rank);
+					actual->print();
+					cout << endl;
+				}
 			}
+		}
+		else
+		{
+			printf("Mayor g %d %d, %lu\n", actual->g, pdb_data[rank], rank);
+			actual->print();
+			cout << endl;
 		}
 
 
@@ -262,48 +274,62 @@ void rellenar_arreglo()
 
 int main(int argc, const char** argv)
 {
-	for(int i = 1; i < 20; ++i)
+	for(int i = 1; i < 22; ++i)
 		factorial[i] = i * factorial[i-1];
-	byte val[5][N] =
+	byte val[7][N] =
 	{
 		{
 			0,
-			1, 2, 3, 4, 5,
-			25, 25, 25, 25, 25,
-			25, 25, 25, 25, 25,
-			25, 25, 25, 25, 25,
+			1, 2, 3, 4,
+			25, 25, 25, 25,
+			25, 25, 25, 25,
+			25, 25, 25, 25,
+			25, 25, 25, 25,
 			25, 25, 25, 25
 		},
 		{
 			0,
-			25, 25, 25, 25, 25,
-			6, 7, 8, 9, 10,
-			25, 25, 25, 25, 25,
-			25, 25, 25, 25, 25,
+			25, 25, 25, 25,
+			5, 6, 7, 8,
+			25, 25, 25, 25,
+			25, 25, 25, 25,
+			25, 25, 25, 25,
 			25, 25, 25, 25
 		},
 		{
 			0,
-			25, 25, 25, 25, 25,
-			25, 25, 25, 25, 25,
-			11, 12, 13, 14, 15,
-			25, 25, 25, 25, 25,
+			25, 25, 25, 25,
+			25, 25, 25, 25,
+			9, 10, 11, 12,
+			25, 25, 25, 25,
+			25, 25, 25, 25,
 			25, 25, 25, 25
 		},
 		{
 			0,
-			25, 25, 25, 25, 25,
-			25, 25, 25, 25, 25,
-			25, 25, 25, 25, 25,
-			16, 17, 18, 19, 20,
+			25, 25, 25, 25,
+			25, 25, 25, 25,
+			25, 25, 25, 25,
+			13, 14, 15, 16,
+			25, 25, 25, 25,
 			25, 25, 25, 25
 		},
 		{
 			0,
-			25, 25, 25, 25, 25,
-			25, 25, 25, 25, 25,
-			25, 25, 25, 25, 25,
-			25, 25, 25, 25, 25,
+			25, 25, 25, 25,
+			25, 25, 25, 25,
+			25, 25, 25, 25,
+			25, 25, 25, 25,
+			17, 18, 19, 20,
+			25, 25, 25, 25
+		},
+		{
+			0,
+			25, 25, 25, 25,
+			25, 25, 25, 25,
+			25, 25, 25, 25,
+			25, 25, 25, 25,
+			25, 25, 25, 25,
 			21, 22, 23, 24
 		}
 	};
@@ -313,5 +339,5 @@ int main(int argc, const char** argv)
 	bfs(np);
 	printf("Termine\n");
 	printf("Nodos generados: %lu\n", counter);
-	write_bin("pdb_data_DEF.bin");
+	write_bin("pdb_data_0.bin");
 }
