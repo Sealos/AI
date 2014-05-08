@@ -42,7 +42,7 @@ public:
 	int get_value(int n);
 	void set_value(byte val, byte pos);
 	void print();
-
+	void print_l();
 };
 
 #endif /* NODE_H */

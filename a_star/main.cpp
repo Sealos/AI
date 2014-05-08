@@ -15,12 +15,13 @@ int cero(long unsigned int val)
 
 int main(int argc, const char* argv[])
 {
+    int num = 1;
 	ifstream infile(argv[1]);
 	string line;
 	unsigned int representacion[2];
 	node *nodo;
-	clock_t start,end;
-	float total;
+	//clock_t start,end;
+	//float total;
 
 
 	while (std::getline(infile, line))
@@ -51,19 +52,27 @@ int main(int argc, const char* argv[])
 
 		nodo = new node(rep, p_cero,manhattan_val);
 
-		nodo->print();
+        if (num<10){
+            printf("00%d : ",num);
+        } else if (num<100) {
+            printf("0%d : ",num);
+        } else {
+            printf("%d : ",num);
+        }
+		nodo->print_l();
+
 		search *s = new search();
 
-		start=clock();
+		//start=clock();
 
 		//int sol = s->a_star(nodo, pdb_h);
 		int sol = s->a_star(nodo, manhattan_val);
 
-		end=clock();
-
+		//end=clock();
+        num = num + 1;
 		sol = sol + 1;
-		total = ((float)end-(float)start) / CLOCKS_PER_SEC;
-		cout<< "\n Time: " << total << "s.\n";
+		//total = ((float)end-(float)start) / CLOCKS_PER_SEC;
+		//cout<< "\n Time: " << total << "s.\n";
 	}
 	return 0;
 }

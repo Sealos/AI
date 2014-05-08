@@ -1,6 +1,6 @@
 #include "node.h"
 
-int cant_nodos = 0;
+//int cant_nodos = 0;
 
 long unsigned int pos_mask[16] =
 {
@@ -34,12 +34,12 @@ node::node(node *p, byte a, int (*h)(long unsigned int))
 
 	long unsigned int v = p->stt->val;
 	state *s = new state(v, p->stt->pos_cero, a, h);
-	
+
 	if (mapa.find(s)==mapa.end()) { //Si s no esta en el conjunto mapa
         mapa.insert(s);
-	} 
+	}
 	this->stt = s;
-	++cant_nodos;
+	//++cant_nodos;
 }
 
 //Funciona
@@ -52,7 +52,7 @@ node::node(long unsigned int val, byte p_cero, int (*h)(long unsigned int))
 	state *s = new state(val, p_cero, h);
 	mapa.insert(s);
 	this->stt = s;
-	++cant_nodos;
+	//++cant_nodos;
 }
 
 
@@ -61,8 +61,8 @@ bool node::is_goal()
 {
 	bool goal = this->stt->val == 0x0123456789ABCDEF;
 	if (goal){
-		printf("\n\n#Nodos generados: %d \n", cant_nodos);
-		cant_nodos = 0;
+		//printf("\n\n#Nodos generados: %d \n", cant_nodos);
+		//cant_nodos = 0;
 	}
 	return goal;
 }
@@ -199,4 +199,25 @@ void node::print()
 		printf("%2d ", this->get_value(i));
 	}
 	printf("\n\n");
+}
+
+void node::print_l()
+{
+	for (int i = 0; i < 4; ++i)
+	{
+		printf("%d ", this->get_value(i));
+	}
+	for (int i = 4; i < 8; ++i)
+	{
+		printf("%d ", this->get_value(i));
+	}
+	for (int i = 8; i < 12; ++i)
+	{
+		printf("%d ", this->get_value(i));
+	}
+	for (int i = 12; i < 16; ++i)
+	{
+		printf("%d ", this->get_value(i));
+	}
+	printf(": ");
 }

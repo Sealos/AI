@@ -1,4 +1,5 @@
 #include "search.h"
+#include <time.h>
 
 const long unsigned int goal = 0x0123456789ABCDEF;
 
@@ -98,20 +99,25 @@ byte inv(byte a)
 int search::a_star(node *root, int (*h)(long unsigned int))
 {
 	priority_queue<node*, vector<node*>, compare_node> q;
+	clock_t start,end;
+	float total;
+	start=clock();
+	cant_nodos1 = 0;
 
 	if (h == pdb_h)
 		pdb_init();
-	
+
 	q.push(root);
-	
 	while (!q.empty())
 	{
 		node* n = q.top();
 		q.pop();
-
+        //printf("%d ",n->stt->heur); //NOT HERE
 		if (n->is_goal()) {
-			 printf("dist:%u \n", n->stt->dist);
-		    printf("--Found--\n");
+            //printf("dist:%u \n", n->stt->dist);
+            end=clock();
+			total = ((float)end-(float)start) / CLOCKS_PER_SEC;
+			printf(": %u : %f : %f\n", cant_nodos1, total,  cant_nodos1/total);
             return FOUND;
         }
        // printf("Closed:%u, dist:%u<%u? \n",n->stt->closed,n->g,n->stt->dist);
@@ -123,10 +129,12 @@ int search::a_star(node *root, int (*h)(long unsigned int))
 
 			if (n->is_goal())
 			{
-			    printf("--Found--\n");
+			    end=clock();
+                total = ((float)end-(float)start) / CLOCKS_PER_SEC;
+                printf(": %u : %f : %f\n", cant_nodos1, total,  cant_nodos1/total);
 				return FOUND;
 			}
-
+            //++cant_nodos1; //NODOS EXPANDIDOS
 			for (int i = 4; 1 <= i; --i)
 			{
 				if (n->valid_action(i) && i != inv(n->accion))
@@ -136,6 +144,7 @@ int search::a_star(node *root, int (*h)(long unsigned int))
 					heu = np->stt->heur;
 					if (heu < INT_MAX)
 					{
+					    ++cant_nodos1; //NODOS CREADOS
                         q.push(np);
 					}
 				}
