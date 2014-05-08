@@ -66,21 +66,6 @@ node::node(node *p, byte a, byte b)
 		return;
 	}
 
-	if (this->pos_cero > 24 || this->pos_cero < 0 || pos_cero > 24 || pos_cero < 0)
-	{
-		printf("wat %d pos cero %d %d", a, pos_cero, this->pos_cero);
-	}
-
-	int count = 0;
-	for (int i = 0; i < 25; ++i)
-	{
-		if (this->val[i] <= 5)
-			++count;
-	}
-
-	if (count != 6)
-		printf("wat %d pos cero %d %d", a, pos_cero, this->pos_cero);
-
 	int val = this->val[this->pos_cero];
 	if (val != EQUIS)
 		this->g = p->g + 1;
