@@ -35,10 +35,10 @@ public:
 	inline byte get_value(int n);
 	bool valid_action(byte a);
 	void apply_action(byte a, int (*h)(long unsigned int));
-    bool operator==(const state &s) const { return val==s.val && heur==s.heur && closed==s.closed /*&& dist==s.dist*/ && pos_cero==s.pos_cero; }
+    bool operator==(const state &s) const { return val==s.val; }
     void operator=(const state &s) { val=s.val; heur=s.heur; closed=s.closed; dist=s.dist; pos_cero=s.pos_cero; }
     size_t hash() const {
-        unsigned int temp = val & UINT_MAX;
+        long unsigned int temp = val & ULONG_MAX;
         return temp;
     }
 };
