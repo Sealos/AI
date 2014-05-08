@@ -90,23 +90,27 @@ int search::a_star(node *n, int (*h)(long unsigned int))
 	if (h == pdb_h)
 		pdb_init();
 	q.push(n);
-
 	while (!q.empty())
 	{
 		n = q.top();
 		q.pop();
 
-		if (n->is_goal()) { return FOUND; }
-
+		if (n->is_goal()) {
+		    n->print();
+		    printf("--Found--\n");
+            return FOUND;
+        }
+        printf("Closed:%u, dist:%u<%u? \n",n->stt->closed,n->g,n->stt->dist);
 
 		if (!n->stt->closed || n->g < n->stt->dist)
 		{
-
 			n->stt->closed = true;
 			n->stt->dist = n->g;
 
 			if (n->is_goal())
 			{
+			    n->print();
+			    printf("--Found--\n");
 				return FOUND;
 			}
 
@@ -114,10 +118,15 @@ int search::a_star(node *n, int (*h)(long unsigned int))
 			{
 				if (n->valid_action(i))
 				{
+				    printf("HEY LISTEN! la accion fue valida!\n");
 					node *np = new node(n,i,h);
 					int heu;
 					heu = np->stt->heur;
-					if (heu < INT_MAX) { q.push(np); }
+					if (heu < INT_MAX)
+					{
+					    printf("Another one goes to queue\n");
+                        q.push(np);
+                    }
 				}
 			}
 		}

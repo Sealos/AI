@@ -201,3 +201,4 @@ void state::apply_action(byte a, int (*h)(long unsigned int))
 	set_value(0, this->pos_cero);
 	set_value(r_val, pos_cero);
 }
+
