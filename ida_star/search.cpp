@@ -70,12 +70,6 @@ search::search()
 	//ctor
 }
 
-bool compare_node::operator()(node* n1, node* n2)
-{
-	if ((n1->g + n1->stt->heur) > (n2->g + n2->stt->heur))
-		return true;
-	return false;
-}
 
 state_ida *global_state;
 

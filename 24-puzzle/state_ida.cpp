@@ -4,33 +4,12 @@
 #include <chrono>
 #include <iostream>
 
-long unsigned int ida_mask[16] =
-{
-	0xF000000000000000,
-	0x0F00000000000000,
-	0x00F0000000000000,
-	0x000F000000000000,
-	0x0000F00000000000,
-	0x00000F0000000000,
-	0x000000F000000000,
-	0x0000000F00000000,
-	0x00000000F0000000,
-	0x000000000F000000,
-	0x0000000000F00000,
-	0x00000000000F0000,
-	0x000000000000F000,
-	0x0000000000000F00,
-	0x00000000000000F0,
-	0x000000000000000F
-};
-
 state_ida::state_ida(byte *rep, byte p_cero, int (*h)(unsigned char *))
 {
 	for (int i = 0; i < 16; ++i)
 		this->val[i] = rep[i];
 
 	this->pos_cero = p_cero;
-	this->closed = false;
 	this->heur = h(this->val);
 	this->dist = 0;
 }

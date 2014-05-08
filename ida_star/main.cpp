@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <fstream>
 #include <sstream>
-#include "node.h"
 #include "pdb.h"
 #include "search.h"
 
@@ -18,7 +17,6 @@ int main(int argc, const char* argv[])
 	ifstream infile(argv[1]);
 	string line;
 	unsigned int representacion[2];
-	node *nodo;
 
 	while (std::getline(infile, line))
 	{
@@ -47,8 +45,6 @@ int main(int argc, const char* argv[])
 		rep = temp + representacion[1];
 
 
-		nodo = new node(rep, p_cero, cero);
-
         if (num<10){
             printf("00%d : ",num);
         } else if (num<100) {
@@ -57,11 +53,10 @@ int main(int argc, const char* argv[])
             printf("%d : ",num);
         }
 
-		nodo->print_l();
 		search *s = new search();
 
-		int sol = s->ida_star(rep, p_cero, manhattan_array);
-	//	int sol = s->ida_star(rep, p_cero, pdb_h_array);
+	//	int sol = s->ida_star(rep, p_cero, manhattan_array);
+		int sol = s->ida_star(rep, p_cero, pdb_h_array);
 		sol = sol + 1;
 		num = num + 1;
 	}

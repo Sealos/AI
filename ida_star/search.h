@@ -8,7 +8,6 @@
 #include <iostream>
 #include <fstream>
 #include "pdb.h"
-#include "node.h"
 #include "state_ida.h"
 
 #ifndef SND_H
@@ -25,12 +24,6 @@ public:
 	search();
 	int ida_star(long unsigned int val, byte p_cero, int (*h)(unsigned char *));
 	int bonded_dfs(int t, byte acc_pad, int (*h)(unsigned char *));
-};
-
-class compare_node
-{
-public:
-	bool operator()(node* n1, node* n2);
 };
 
 #endif // SND_H

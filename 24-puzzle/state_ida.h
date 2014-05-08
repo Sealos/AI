@@ -24,7 +24,6 @@ class state_ida
 public:
 	byte pos_cero;
 	byte heur;
-	bool closed;
 	unsigned char val[25];
 	byte dist;
 
