@@ -10,15 +10,14 @@
 
 #define MAX_VALUE	127512000
 #define N			25
-#define PERM_SIZE	6
-#define MIN_PERM	1
-#define MAX_PERM	5
 
 using namespace std;
 
 byte pdb_data[MAX_VALUE];
 
 long unsigned int counter = 0;
+
+vector<long unsigned int> factorial(20,1);
 
 long unsigned int get_rank_aux(int p[], int q[], int n)
 {
@@ -33,6 +32,23 @@ long unsigned int get_rank_aux(int p[], int q[], int n)
 	}
 }
 
+long unsigned int p_rank(int n, byte *s, byte *w, int k)
+{
+	if(n == 1 || k == 0)
+		return 0;
+	int d = s[n - 1];
+	byte tmp = s[n-1];
+	s[n - 1] = s[w[n - 1]];
+	s[w[n - 1]] = tmp;
+
+	tmp = w[n - 1];
+	w[n - 1] = w[d];
+	w[d] = tmp;
+	unsigned long int h = p_rank(n - 1, s, w, k - 1);
+	unsigned long int r = (d + (n * h));
+	return r;
+}
+
 long unsigned int get_rank(byte *p, byte *fix)
 {
 	byte odr[N] =
@@ -44,31 +60,33 @@ long unsigned int get_rank(byte *p, byte *fix)
 		20, 21, 22, 23, 24
 	};
 
-	byte actual = 0;
+	byte actual;
+	int j;
+	byte swap = 0;
 	for (int i = 0; i < N; ++i)
 	{
-		if (i >= MIN_PERM || i <= MAX_PERM || i == 0)
+		if (swap == PERM_SIZE)
+			break;
+		if (p[i] >= MIN_PERM || p[i] <= MAX_PERM || p[i] == 0)
 		{
-			byte k = fix[i] + N - PERM_SIZE;
-			printf("%d\n", k);
-			odr[k] = i;
+			for (j = 0; j < PERM_SIZE; ++j)
+				if (fix[j] == p[i])
+				{
+					byte k = j + N - PERM_SIZE;
+					actual = odr[k];
+					odr[k] = i;
+					odr[i] = actual;
+					++swap;
+					break;
+				}
 		}
-		else
-			odr[actual++] = i;
 	}
-	for(int i = 0; i< N; ++i)
-		printf("%d ", odr[i]);
-	cout << endl;
-	return 0;
-	int t[N];
-	int q[N];
-	return 0;
+
+	byte q[N];
 	for (int i = 0; i < N; ++i)
-	{
-		t[i] = odr[i];
 		q[odr[i]] = i;
-	}
-	return get_rank_aux(t, q, N);
+
+	return p_rank(N, odr, q, PERM_SIZE);
 }
 
 node::node(node *p, byte a, byte b)
@@ -232,11 +250,11 @@ bool node::valid_action(byte a)
 
 void node::print()
 {
-	printf("Pos cero: %d\n", this->pos_cero);
+	printf("Pos cero: %d, Acc %d\n", this->pos_cero, this->acc_padre);
 	for (int i = 0; i < N; ++i)
 	{
 		printf("%2d ", this->val[i]);
-		if (i % 5 == 0)
+		if (i % 5 == 0 && i != 0)
 			printf("\n");
 	}
 }
@@ -258,6 +276,10 @@ void bfs(node *p, byte *fix)
 		node *actual = Q.front();
 		Q.pop();
 		rank = get_rank(actual->val, fix);
+		if (rank > MAX_VALUE)
+		{
+			actual->print();
+		}
 		if (pdb_data[rank] > actual->g)
 		{
 			//actual->print();
@@ -289,15 +311,16 @@ void rellenar_arreglo()
 
 int main(int argc, const char** argv)
 {
+	for(int i = 1; i < 20; ++i)
+		factorial[i] = i * factorial[i-1];
 	byte val[5][N] =
 	{
 		{
 			0,
-			//1, 2, 3, 4, 5
+			1, 2, 3, 4, 5,
 			255, 255, 255, 255, 255,
 			255, 255, 255, 255, 255,
 			255, 255, 255, 255, 255,
-			3, 2, 1, 4, 5,
 			255, 255, 255, 255
 		},
 		{
@@ -342,10 +365,9 @@ int main(int argc, const char** argv)
 		{0, 0, 21, 22, 23, 24}
 	};
 	node *np = new node(val[0], 0);
-	get_rank(np->val, fix[0]);
-	/*rellenar_arreglo();
-	bfs(np, fix);
-	printf("Termine\n");
+	rellenar_arreglo();
+	bfs(np, fix[0]);
+	/*printf("Termine\n");
 	printf("Nodos generados: %lu\n", counter);
 	//np = new node(0x1f0f3f2fffffffff, 2);
 	//printf("Val: %d\n", pdb_data[np->get_rank()]);
