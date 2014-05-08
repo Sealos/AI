@@ -17,76 +17,27 @@ byte pdb_data[MAX_VALUE];
 
 long unsigned int counter = 0;
 
-vector<long unsigned int> factorial(20,1);
+vector<long unsigned int> factorial(21,1);
 
-long unsigned int get_rank_aux(int p[], int q[], int n)
+long unsigned int get_rank(byte *p)
 {
-	if (n <= (N - PERM_SIZE))
-		return 0;
-	else
+	vector<int> freq(26);
+	long unsigned int den = 1;
+	long unsigned int ret = 0;
+	for(int i = 24; i >= 0; --i)
 	{
-		int t = p[n - 1];
-		swap(p[n - 1], p[q[n - 1]]);
-		swap(q[t], q[n - 1]);
-		return t + n * get_rank_aux(p, q, n - 1);
-	}
-}
-
-long unsigned int p_rank(int n, byte *s, byte *w, int k)
-{
-	if(n == 1 || k == 0)
-		return 0;
-	int d = s[n - 1];
-	byte tmp = s[n-1];
-	s[n - 1] = s[w[n - 1]];
-	s[w[n - 1]] = tmp;
-
-	tmp = w[n - 1];
-	w[n - 1] = w[d];
-	w[d] = tmp;
-	unsigned long int h = p_rank(n - 1, s, w, k - 1);
-	unsigned long int r = (d + (n * h));
-	return r;
-}
-
-long unsigned int get_rank(byte *p, byte *fix)
-{
-	byte odr[N] =
-	{
-		0, 1, 2, 3, 4,
-		5, 6, 7, 8, 9,
-		10, 11, 12, 13, 14,
-		15, 16, 17, 18, 19,
-		20, 21, 22, 23, 24
-	};
-
-	byte actual;
-	int j;
-	byte swap = 0;
-	for (int i = 0; i < N; ++i)
-	{
-		if (swap == PERM_SIZE)
-			break;
-		if (p[i] >= MIN_PERM || p[i] <= MAX_PERM || p[i] == 0)
+		int si = p[i];
+		freq[si]++;
+		den *= freq[si];
+		for (int c = 0; c < si; ++c)
 		{
-			for (j = 0; j < PERM_SIZE; ++j)
-				if (fix[j] == p[i])
-				{
-					byte k = j + N - PERM_SIZE;
-					actual = odr[k];
-					odr[k] = i;
-					odr[i] = actual;
-					++swap;
-					break;
-				}
+			if(freq[c] > 0)
+			{
+				ret += factorial[24-i] / (den / freq[c]);
+			}
 		}
 	}
-
-	byte q[N];
-	for (int i = 0; i < N; ++i)
-		q[odr[i]] = i;
-
-	return p_rank(N, odr, q, PERM_SIZE);
+	return ret;
 }
 
 node::node(node *p, byte a, byte b)
@@ -114,6 +65,21 @@ node::node(node *p, byte a, byte b)
 		this->pos_cero = p->pos_cero;
 		return;
 	}
+
+	if (this->pos_cero > 24 || this->pos_cero < 0 || pos_cero > 24 || pos_cero < 0)
+	{
+		printf("wat %d pos cero %d %d", a, pos_cero, this->pos_cero);
+	}
+
+	int count = 0;
+	for (int i = 0; i < 25; ++i)
+	{
+		if (this->val[i] <= 5)
+			++count;
+	}
+
+	if (count != 6)
+		printf("wat %d pos cero %d %d", a, pos_cero, this->pos_cero);
 
 	int val = this->val[this->pos_cero];
 	if (val != EQUIS)
@@ -266,7 +232,7 @@ void write_bin(string fname)
 	myfile.write((const char*)&pdb_data, MAX_VALUE);
 }
 
-void bfs(node *p, byte *fix)
+void bfs(node *p)
 {
 	queue<node *> Q;
 	Q.push(p);
@@ -275,7 +241,7 @@ void bfs(node *p, byte *fix)
 	{
 		node *actual = Q.front();
 		Q.pop();
-		rank = get_rank(actual->val, fix);
+		rank = get_rank(actual->val);
 		if (rank > MAX_VALUE)
 		{
 			actual->print();
@@ -318,58 +284,49 @@ int main(int argc, const char** argv)
 		{
 			0,
 			1, 2, 3, 4, 5,
-			255, 255, 255, 255, 255,
-			255, 255, 255, 255, 255,
-			255, 255, 255, 255, 255,
-			255, 255, 255, 255
+			25, 25, 25, 25, 25,
+			25, 25, 25, 25, 25,
+			25, 25, 25, 25, 25,
+			25, 25, 25, 25
 		},
 		{
 			0,
-			255, 255, 255, 255, 255,
+			25, 25, 25, 25, 25,
 			6, 7, 8, 9, 10,
-			255, 255, 255, 255, 255,
-			255, 255, 255, 255, 255,
-			255, 255, 255, 255
+			25, 25, 25, 25, 25,
+			25, 25, 25, 25, 25,
+			25, 25, 25, 25
 		},
 		{
 			0,
-			255, 255, 255, 255, 255,
-			255, 255, 255, 255, 255,
+			25, 25, 25, 25, 25,
+			25, 25, 25, 25, 25,
 			11, 12, 13, 14, 15,
-			255, 255, 255, 255, 255,
-			255, 255, 255, 255
+			25, 25, 25, 25, 25,
+			25, 25, 25, 25
 		},
 		{
 			0,
-			255, 255, 255, 255, 255,
-			255, 255, 255, 255, 255,
-			255, 255, 255, 255, 255,
+			25, 25, 25, 25, 25,
+			25, 25, 25, 25, 25,
+			25, 25, 25, 25, 25,
 			16, 17, 18, 19, 20,
-			255, 255, 255, 255
+			25, 25, 25, 25
 		},
 		{
 			0,
-			255, 255, 255, 255, 255,
-			255, 255, 255, 255, 255,
-			255, 255, 255, 255, 255,
-			255, 255, 255, 255, 255,
+			25, 25, 25, 25, 25,
+			25, 25, 25, 25, 25,
+			25, 25, 25, 25, 25,
+			25, 25, 25, 25, 25,
 			21, 22, 23, 24
 		}
 	};
-	byte fix[5][PERM_SIZE] =
-	{
-		{0, 1, 2, 3, 4, 5},
-		{0, 6, 7, 8, 9, 10},
-		{0, 11, 12, 13, 14, 15},
-		{0, 16, 17, 18, 19, 20},
-		{0, 0, 21, 22, 23, 24}
-	};
+
 	node *np = new node(val[0], 0);
 	rellenar_arreglo();
-	bfs(np, fix[0]);
-	/*printf("Termine\n");
+	bfs(np);
+	printf("Termine\n");
 	printf("Nodos generados: %lu\n", counter);
-	//np = new node(0x1f0f3f2fffffffff, 2);
-	//printf("Val: %d\n", pdb_data[np->get_rank()]);
-	write_bin("pdb_data_DEF.bin");*/
+	write_bin("pdb_data_DEF.bin");
 }
