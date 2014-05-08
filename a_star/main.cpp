@@ -49,17 +49,13 @@ int main(int argc, const char* argv[])
 		temp = (temp << 32);
 		rep = temp + representacion[1];
 
-
-
-		//nodo = new node(rep, p_cero, cero);
 		nodo = new node(rep, p_cero,manhattan_val);
 
 		nodo->print();
 		search *s = new search();
 
 		start=clock();
-		//int sol = s->ida_star(rep, p_cero, manhattan_val);
-		//int sol = s->ida_star(rep, p_cero, pdb_h_array);
+
 		//int sol = s->a_star(nodo, pdb_h);
 		int sol = s->a_star(nodo, manhattan_val);
 

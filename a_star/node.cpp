@@ -61,7 +61,6 @@ bool node::is_goal()
 {
 	bool goal = this->stt->val == 0x0123456789ABCDEF;
 	if (goal){
-	//	mapa.clear();
 		printf("\n\n#Nodos generados: %d \n", cant_nodos);
 		cant_nodos = 0;
 	}

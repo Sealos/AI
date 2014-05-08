@@ -55,29 +55,7 @@ inline unsigned char get_value_node(long unsigned int val, unsigned char pos)
 	return value;
 }
 
-int manhattan(node *n)
-{
-	int val = 0;
-	int valor;
-	for (int i = 0; i < 16; ++i)
-	{
-		valor = n->get_value(i);
-		val += man_data[valor][i];
-	}
-	return val;
-}
 
-int manhattan_val(long unsigned int v)
-{
-	int val = 0;
-	int valor;
-	for (int i = 0; i < 16; ++i)
-	{
-		valor = get_value_node(v, i);
-		val += man_data[valor][i];
-	}
-	return val;
-}
 
 int manhattan_array(unsigned char *v)
 {
@@ -90,51 +68,6 @@ int manhattan_array(unsigned char *v)
 search::search()
 {
 	//ctor
-}
-
-int search::a_star(node *n, int (*h)(long unsigned int))
-{
-	/*priority_queue<node*, vector<node*>, compare_node> q;
-
-	unordered_map<long unsigned int, int> dist;
-
-	if (h == pdb_h)
-		pdb_init();
-	q.push(n);
-
-	while (!q.empty())
-	{
-		n = q.top();
-		q.pop();
-
-		if (n->is_goal()) { return FOUND; }
-
-
-		if (!n->stt->closed || n->g < dist[n->stt->val])
-		{
-
-			n->stt->closed = true;
-			dist[n->stt->val] = n->g;
-
-			if (n->is_goal())
-			{
-				return FOUND;
-			}
-
-			for (int i = 4; 1 <= i; --i)
-			{
-				if (n->valid_action(i))
-				{
-					node *np = new node(n,i,h);
-					int heu;
-					heu = np->stt->heur;
-					if (heu < INT_MAX) { q.push(np); }
-				}
-			}
-		}
-	}
-
-	*/return NOT_FOUND;
 }
 
 bool compare_node::operator()(node* n1, node* n2)

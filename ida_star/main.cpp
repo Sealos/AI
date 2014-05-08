@@ -48,8 +48,7 @@ int main(int argc, const char* argv[])
 
 
 		nodo = new node(rep, p_cero, cero);
-		//nodo = new node(rep, p_cero,manhattan);
-        //nodo->print();
+
         if (num<10){
             printf("00%d : ",num);
         } else if (num<100) {
@@ -63,8 +62,6 @@ int main(int argc, const char* argv[])
 
 		int sol = s->ida_star(rep, p_cero, manhattan_array);
 	//	int sol = s->ida_star(rep, p_cero, pdb_h_array);
-		//int sol = s->a_star(nodo, pdb_h);
-		//int sol = s->a_star(nodo, manhattan);
 		sol = sol + 1;
 		num = num + 1;
 	}

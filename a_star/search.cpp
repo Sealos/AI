@@ -54,18 +54,6 @@ inline unsigned char get_value_node(long unsigned int val, unsigned char pos)
 	return value;
 }
 
-int manhattan(node *n)
-{
-	int val = 0;
-	int valor;
-	for (int i = 0; i < 16; ++i)
-	{
-		valor = n->get_value(i);
-		val += man_data[valor][i];
-	}
-	return val;
-}
-
 int manhattan_val(long unsigned int v)
 {
 	int val = 0;
@@ -156,68 +144,4 @@ int search::a_star(node *root, int (*h)(long unsigned int))
 	}
 
 	return NOT_FOUND;
-}
-
-state *global_state;
-
-
-
-int search::ida_star(long unsigned int val, byte p_cero, int (*h)(long unsigned int))
-{
-	if (h == pdb_h)
-		pdb_init();
-
-	global_state = new state(val, p_cero, h);
-
-	int t = global_state->heur;
-	printf("Bound: %d\n", t);
-	while (t != INT_MAX)
-	{
-		int bound = bonded_dfs(t, 0, h);
-		if (bound == FOUND)
-		{
-			delete global_state;
-			printf("Nodos creados %d\n", cant_nodos1);
-			return FOUND;
-		}
-		t = bound;
-		printf("Bound: %d\n", t);
-	}
-	return NOT_FOUND;
-}
-
-int search::bonded_dfs(int t, byte acc_pad, int (*h)(long unsigned int))
-{
-	int f = global_state->dist + global_state->heur;
-
-	if (f > t)
-	{
-		return f;
-	}
-
-	if (goal == global_state->val) { return FOUND; }
-
-	int new_t = INT_MAX;
-	byte h_tmp;
-
-	for (int i = 1; i <= 4; ++i)
-	{
-		if (global_state->valid_action(i) && i != inv(acc_pad))
-		{
-				h_tmp = global_state->heur;
-				global_state->apply_action(i, h);
-				global_state->dist = global_state->dist + 1;
-				global_state->heur = h(global_state->val);
-				++cant_nodos1;
-				int cost = bonded_dfs(t, i, h);
-				global_state->heur = h_tmp;
-				global_state->apply_action(inv(i), h);
-				global_state->dist = global_state->dist - 1;
-
-				if (cost == FOUND)
-					return FOUND;
-				new_t = min(new_t, cost);
-		}
-	}
-	return new_t;
 }
