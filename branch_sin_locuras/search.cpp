@@ -83,66 +83,12 @@ search::search()
 	//ctor
 }
 
-int search::a_star(node *n, int (*h)(long unsigned int))
-{
-	priority_queue<node*, vector<node*>, compare_node> q;
-
-	if (h == pdb_h)
-		pdb_init();
-	q.push(n);
-	while (!q.empty())
-	{
-		n = q.top();
-		q.pop();
-
-		if (n->is_goal()) {
-		    n->print();
-		    printf("--Found--\n");
-            return FOUND;
-        }
-        printf("Closed:%u, dist:%u<%u? \n",n->stt->closed,n->g,n->stt->dist);
-
-		if (!n->stt->closed || n->g < n->stt->dist)
-		{
-			n->stt->closed = true;
-			n->stt->dist = n->g;
-
-			if (n->is_goal())
-			{
-			    n->print();
-			    printf("--Found--\n");
-				return FOUND;
-			}
-
-			for (int i = 4; 1 <= i; --i)
-			{
-				if (n->valid_action(i))
-				{
-				    printf("HEY LISTEN! la accion fue valida!\n");
-					node *np = new node(n,i,h);
-					int heu;
-					heu = np->stt->heur;
-					if (heu < INT_MAX)
-					{
-					    printf("Another one goes to queue\n");
-                        q.push(np);
-                    }
-				}
-			}
-		}
-	}
-
-	return NOT_FOUND;
-}
-
 bool compare_node::operator()(node* n1, node* n2)
 {
 	if ((n1->g + n1->stt->heur) > (n2->g + n2->stt->heur))
 		return true;
 	return false;
 }
-
-state *global_state;
 
 byte inv(byte a)
 {
@@ -160,6 +106,61 @@ byte inv(byte a)
 		return MOV_NULL;
 	}
 }
+
+int search::a_star(node *root, int (*h)(long unsigned int))
+{
+	priority_queue<node*, vector<node*>, compare_node> q;
+
+	if (h == pdb_h)
+		pdb_init();
+	
+	q.push(root);
+	
+	while (!q.empty())
+	{
+		node* n = q.top();
+		q.pop();
+
+		if (n->is_goal()) {
+			 printf("dist:%u \n", n->stt->dist);
+		    printf("--Found--\n");
+            return FOUND;
+        }
+       // printf("Closed:%u, dist:%u<%u? \n",n->stt->closed,n->g,n->stt->dist);
+
+		if (!(n->stt->closed) || (n->g < n->stt->dist))
+		{
+			n->stt->closed = true;
+			n->stt->dist = n->g;
+
+			if (n->is_goal())
+			{
+			    printf("--Found--\n");
+				return FOUND;
+			}
+
+			for (int i = 4; 1 <= i; --i)
+			{
+				if (n->valid_action(i) && i != inv(n->accion))
+				{
+					node *np = new node(n,i,h);
+					int heu;
+					heu = np->stt->heur;
+					if (heu < INT_MAX)
+					{
+                        q.push(np);
+					}
+				}
+			}
+		}
+	}
+
+	return NOT_FOUND;
+}
+
+state *global_state;
+
+
 
 int search::ida_star(long unsigned int val, byte p_cero, int (*h)(long unsigned int))
 {

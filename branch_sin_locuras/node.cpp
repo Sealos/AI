@@ -33,14 +33,11 @@ node::node(node *p, byte a, int (*h)(long unsigned int))
 	this->padre = p;
 
 	long unsigned int v = p->stt->val;
-    state *s = p->stt;
-	//state *s= find(p->stt);
+	state *s = new state(v, p->stt->pos_cero, a, h);
+	
 	if (mapa.find(s)==mapa.end()) { //Si s no esta en el conjunto mapa
-        s = new state(v, p->stt->pos_cero, a, h);
         mapa.insert(s);
-	} else {
-	    printf("the node was already here (mapa) \n");
-	}
+	} 
 	this->stt = s;
 	++cant_nodos;
 }

@@ -60,9 +60,7 @@ state::state(long unsigned int val, byte p_cero, int (*h)(long unsigned int))
 
 state::state(long unsigned int val, byte pos_cero, byte a, int (*h)(long unsigned int))
 {
-
 	this->val = val;
-	this->closed = false;
 	switch (a)
 	{
 	case MOV_ARRIBA:
@@ -85,7 +83,9 @@ state::state(long unsigned int val, byte pos_cero, byte a, int (*h)(long unsigne
 	int r_val = this->get_value(this->pos_cero);
 	set_value(0, this->pos_cero);
 	set_value(r_val, pos_cero);
+
 	this->heur = h(this->val);
+	this->closed = false;
 	this->dist = 0;
 }
 
