@@ -10,6 +10,7 @@
 
 #define MAX_VALUE	6375600
 #define N			25
+#define PERM_SIZE	5
 
 using namespace std;
 
@@ -17,25 +18,67 @@ unsigned char pdb_data[MAX_VALUE];
 
 long unsigned int counter = 0;
 
-vector<long unsigned int> factorial(22,1);
-
-long unsigned int get_rank(byte *p)
+long unsigned int p_rank(int n, byte *s, byte *w, int k)
 {
-	vector<int> freq(26);
-	long unsigned int den = 1;
-	long unsigned int ret = 0;
-	for(int i = 24; i >= 0; --i)
+	if(n == 1 || k == 0)
+		return 0;
+	int d = s[n - 1];
+	byte tmp = s[n-1];
+	s[n - 1] = s[w[n - 1]];
+	s[w[n - 1]] = tmp;
+
+	tmp = w[n - 1];
+	w[n - 1] = w[d];
+	w[d] = tmp;
+	unsigned long int h = p_rank(n - 1, s, w, k - 1);
+	unsigned long int r = (d + (n * h));
+	return r;
+}
+
+long unsigned int get_rank(byte *p, byte *fix)
+{
+	byte odr[N] =
 	{
-		int si = p[i];
-		freq[si]++;
-		den *= freq[si];
-		for (int c = 0; c < si; ++c)
+		0, 1, 2, 3, 4,
+		5, 6, 7, 8, 9,
+		10, 11, 12, 13, 14,
+		15, 16, 17, 18, 19,
+		20, 21, 22, 23, 24
+	};
+
+	byte actual = 0;
+	int j;
+	for (int i = 0; i < N; ++i)
+	{
+		if ((p[i] >= fix[1] && p[i] <= fix[4]) || p[i] == 0)
 		{
-			if(freq[c] > 0)
-				ret += factorial[24 - i] / (den / freq[c]);
+			for (j = 0; j < PERM_SIZE; ++j)
+				if (fix[j] == p[i])
+				{ 
+					odr[j + N - PERM_SIZE] = i;
+					break;
+				}
 		}
+		else
+			odr[actual++] = i;
 	}
-	return ret;
+
+	byte t[N];
+	byte q[N];
+	for (int i = 0; i < N; ++i)
+	{
+		t[i] = odr[i];
+		q[odr[i]] = i;
+	}
+
+	long unsigned int m = p_rank(N, t, q, PERM_SIZE);
+	if (m > MAX_VALUE)
+	{
+		for (int i = 0; i < N; ++i)
+			printf("%d, ", odr[i]);
+		cout << endl;
+	}
+	return m;
 }
 
 node::node(node *p, byte a, byte b)
@@ -220,7 +263,7 @@ void write_bin(string fname)
 	myfile.write((const char*)&pdb_data, MAX_VALUE);
 }
 
-void bfs(node *p)
+void bfs(node *p, byte *fix)
 {
 	queue<node *> Q;
 	Q.push(p);
@@ -229,12 +272,17 @@ void bfs(node *p)
 	{
 		node *actual = Q.front();
 		Q.pop();
-		rank = get_rank(actual->val);
+		rank = get_rank(actual->val, fix);
+		if (rank > MAX_VALUE)
+		{
+			cout << "Cualquier cosa" << endl;
+			actual->print();
+		}
 		if (pdb_data[rank] > actual->g)
 		{
-			printf("Val %d %d %lu\n", actual->g, pdb_data[rank], rank);
+			/*printf("Val %d %d %lu\n", actual->g, pdb_data[rank], rank);
 			actual->print();
-			cout << endl;
+			cout << endl;*/
 			pdb_data[rank] = actual->g;
 			++counter;
 			for (byte i = 1; i <= 4; ++i)
@@ -244,20 +292,20 @@ void bfs(node *p)
 					p = new node(actual, i, actual->accion);
 					Q.push(p);
 				}
-				else
+				/*else
 				{
 					printf("Accion no valida %d %d %lu\n", i, pdb_data[rank], rank);
 					actual->print();
 					cout << endl;
-				}
+				}*/
 			}
 		}
-		else
+		/*else
 		{
 			printf("Mayor g %d %d, %lu\n", actual->g, pdb_data[rank], rank);
 			actual->print();
 			cout << endl;
-		}
+		}*/
 
 
 		delete actual;
@@ -274,9 +322,8 @@ void rellenar_arreglo()
 
 int main(int argc, const char** argv)
 {
-	for(int i = 1; i < 22; ++i)
-		factorial[i] = i * factorial[i-1];
-	byte val[7][N] =
+
+	byte val[6][N] =
 	{
 		{
 			0,
@@ -333,11 +380,20 @@ int main(int argc, const char** argv)
 			21, 22, 23, 24
 		}
 	};
+	byte fix[6][PERM_SIZE] =
+	{
+		{0, 1, 2, 3, 4},
+		{0, 5, 6, 7, 8},
+		{0, 9 , 10, 11 ,12},
+		{0, 13, 14, 15, 16},
+		{0, 17, 18, 19, 20},
+		{0, 21, 22, 23, 24}
+	};
 
 	node *np = new node(val[0], 0);
 	rellenar_arreglo();
-	bfs(np);
+	bfs(np, fix[0]);
 	printf("Termine\n");
 	printf("Nodos generados: %lu\n", counter);
-	write_bin("pdb_data_0.bin");
+	write_bin("pdb_data_01.bin");
 }
