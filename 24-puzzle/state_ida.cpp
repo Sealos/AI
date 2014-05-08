@@ -6,7 +6,7 @@
 
 state_ida::state_ida(byte *rep, byte p_cero, int (*h)(unsigned char *))
 {
-	for (int i = 0; i < 16; ++i)
+	for (int i = 0; i < 25; ++i)
 		this->val[i] = rep[i];
 
 	this->pos_cero = p_cero;

@@ -395,5 +395,5 @@ int main(int argc, const char** argv)
 	bfs(np, fix[0]);
 	printf("Termine\n");
 	printf("Nodos generados: %lu\n", counter);
-	write_bin("pdb_data_01.bin");
+	write_bin("pdb_data_0.bin");
 }

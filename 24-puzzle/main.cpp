@@ -25,12 +25,16 @@ int main(int argc, const char* argv[])
 		int i = 0;
 
 		while (iss >> n)
+		{
+			if (n == 0)
+				p_cero = i;
 			rep[i++] = n;
+		}
 
 		search *s = new search();
 
-		int sol = s->ida_star(rep, p_cero, manhattan_array);
-		//int sol = s->ida_star(rep, p_cero, pdb_h_array);
+		//int sol = s->ida_star(rep, p_cero, manhattan_array);
+		int sol = s->ida_star(rep, p_cero, pdb_h_array);
 
 		sol = sol + 1;
 	}
