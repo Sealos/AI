@@ -51,8 +51,8 @@ int main(int argc, const char* argv[])
 
 
 
-		nodo = new node(rep, p_cero, cero);
-		//nodo = new node(rep, p_cero,manhattan);
+		//nodo = new node(rep, p_cero, cero);
+		nodo = new node(rep, p_cero,manhattan_val);
 
 		nodo->print();
 		search *s = new search();
@@ -66,7 +66,6 @@ int main(int argc, const char* argv[])
 		end=clock();
 
 		sol = sol + 1;
-		printf("--Found--\n");
 		total = ((float)end-(float)start) / CLOCKS_PER_SEC;
 		cout<< "\n Time: " << total << "s.\n";
 	}
