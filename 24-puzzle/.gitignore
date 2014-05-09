@@ -1,7 +1,0 @@
-*.o
-main
-*~
-PDB
-*.bin
-gen_pdb
-callgrind.out.*

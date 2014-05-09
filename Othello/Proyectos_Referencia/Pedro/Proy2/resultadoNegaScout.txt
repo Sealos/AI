@@ -1,0 +1,10 @@
+pedro@DonPedro-G470:~/Escritorio/Proy2$ time ./main 3 12 33
+Result of negascout: -4
+Expanded nodes: 1206704601
+Created nodes: -1269764836
+
+real	289m44.954s
+user	289m6.728s
+sys	0m6.992s
+pedro@DonPedro-G470:~/Escritorio/Proy2$ 
+
