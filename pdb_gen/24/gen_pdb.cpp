@@ -429,5 +429,5 @@ int main(int argc, const char** argv)
 		20, 21, 22, 23, 24
 	};
 	node *np = new node(odr, 0);
-	gen_case(np, 60);
+	gen_pdb();
 }
