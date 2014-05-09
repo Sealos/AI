@@ -247,12 +247,12 @@ void node::print()
 	for (int i = 0; i < N; ++i)
 	{
 		++count;
-		printf("%2d ", this->val[i]);
-		if (count == 5)
+		printf("%d ", this->val[i]);
+		/*if (count == 5)
 		{
 			count = 0;
 			printf("\n");
-		}
+		}*/
 	}
 }
 
@@ -320,9 +320,8 @@ void rellenar_arreglo()
 	}
 }
 
-int main(int argc, const char** argv)
+void gen_pdb()
 {
-
 	byte val[6][N] =
 	{
 		{
@@ -396,4 +395,39 @@ int main(int argc, const char** argv)
 	printf("Termine\n");
 	printf("Nodos generados: %lu\n", counter);
 	write_bin("pdb_data_0.bin");
+}
+
+void gen_case(node *n, int size)
+{
+	byte acc = 0;
+	byte prev = 0;
+	srand (time(NULL));
+	for(;;)
+	{
+		acc = (rand() % 3) + 1;
+		if (n->valid_action(acc))
+		{
+			prev = acc;
+			--size;
+			n = new node(n, acc, prev);
+		}
+		if (size == 0)
+			break;
+	}
+
+	n->print();
+}
+
+int main(int argc, const char** argv)
+{
+	byte odr[N] =
+	{
+		0, 1, 2, 3, 4,
+		5, 6, 7, 8, 9,
+		10, 11, 12, 13, 14,
+		15, 16, 17, 18, 19,
+		20, 21, 22, 23, 24
+	};
+	node *np = new node(odr, 0);
+	gen_case(np, 60);
 }

@@ -90,6 +90,7 @@ int search::ida_star(byte *rep, byte p_cero, int (*h)(unsigned char *))
 			delete global_state;
 			printf("--Found--\n");
 			printf("Nodos creados %d, Tiempo: %f, Nodos/s: %f\n", cant_nodos1, total,  cant_nodos1/total);
+			cant_nodos1 = 0;
 			return FOUND;
 		}
 		t = bound;
