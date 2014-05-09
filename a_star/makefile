@@ -24,6 +24,3 @@ rebuild: clean all
 
 debug: $(DEP)
 	$(CC) $(LIBS) main.cpp $(DEP) $(DFLAGS) $(LIBS) $(CPPFLAGS) -o main
-
-gen:
-	g++ -std=c++11 -D X_64 -Wall -g -O3 -O2 -lprofiler gen_pdb.cpp -lprofiler -g -O3 -O2 -o gen_pdb -lprofiler

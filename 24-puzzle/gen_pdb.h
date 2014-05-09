@@ -10,6 +10,8 @@
 #include <fstream>
 #include <list>
 #include <algorithm>
+#include <stdlib.h>
+#include <time.h>
 
 typedef unsigned char byte;
 
