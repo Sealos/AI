@@ -49,14 +49,15 @@ int main(int argc, const char* argv[])
 		nodo = new node(rep, p_cero,manhattan_val);
 
 		
-		if (num<10){
+		/*if (num<10){
             printf("00%d : ",num);
         } else if (num<100) {
             printf("0%d : ",num);
         } else {
             printf("%d : ",num);
-        }
-		//printf("%001 : ",num);
+        }*/
+		
+		printf("020 : ");
 		nodo->print_l();
 
 		search *s = new search();
