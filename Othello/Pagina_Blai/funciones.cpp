@@ -4,7 +4,7 @@
  * Inteligencia Artificial (CI5437)
  * 
  * Author:
- * 	 Stefano De Colli	09-10203 	
+ * 	 Stefano De Colli	09-10203
  *   Oskar González		09-10351
  *   Karen Troiano		09-10855
  */
