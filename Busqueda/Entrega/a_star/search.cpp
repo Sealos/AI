@@ -110,6 +110,12 @@ int search::a_star(node *root, int (*h)(long unsigned int))
 	q.push(root);
 	while (!q.empty())
 	{
+	    if ((((float)clock()-start)/CLOCKS_PER_SEC)>30.00)
+	    {
+	        printf(" NOT\n");
+	        break;
+	    }
+
 		node* n = q.top();
 		q.pop();
         //printf("%d ",n->stt->heur); //NOT HERE
