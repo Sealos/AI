@@ -42,7 +42,7 @@ int main(int argc, const char **argv) {
         state = state_t();
         for( int i = 0; i < n; ++i ) {
             bool player = i % 2 == 0; // black moves first
-            int pos = state.get_random_move(player);
+            int pos = 0;//state.get_random_move(player);
             state = state.move(player, pos);
             cout << " " << pos;
         }

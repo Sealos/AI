@@ -1,4 +1,4 @@
-DEP = funciones.o utils.o
+DEP = funciones.o
 
 all: $(DEP)
 	g++ -std=c++11 main.cc $(DEP) -g -O3 -O2 -o main
