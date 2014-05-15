@@ -1,8 +1,8 @@
 /**
  * Proyecto 2: Othello
- * 
+ *
  * Inteligencia Artificial (CI5437)
- * 
+ *
  * Author:
  * 	 Stefano De Colli	09-10203
  *   Oskar González		09-10351
@@ -14,7 +14,7 @@
 int miniMax(state_t s, int depth, bool max){
 	if (s.terminal() || depth == 0)
 		return s.value();
-	
+
 	if (max) {
 		std::vector<int> succ = s.get_succ(false);
 		if(succ.empty()){
@@ -40,14 +40,14 @@ int miniMax(state_t s, int depth, bool max){
 			return bestValue;
 		}
 	}
-	
+
 	return 0;
 }
 
 int miniMaxAB(state_t s, int depth, int alpha,int betha,  bool max){
 	if (s.terminal() || depth == 0)
 		return s.value();
-	
+
 	if (max) {
 		std::vector<int> succ = s.get_succ(false);
 		if(succ.empty()){
@@ -75,8 +75,27 @@ int miniMaxAB(state_t s, int depth, int alpha,int betha,  bool max){
 			return betha;
 		}
 	}
-	
+
 	return 0;
+}
+
+int negamax(state_t s, int depth, bool color){
+    int seed = color? 1 : -1;
+    if (s.terminal() || depth==0)
+        return seed*s.value(color);
+
+    int bestValue = _INF;
+    std::vector<int> succ = s.getsucc(!color);
+    if (succ.empty()){
+        return seed*negamax(s,depth-1,!color);
+    } else {
+        for (int i = 0; i < succ.size(); ++i) {
+            state_t new_s = s.move(!color,succ[i]);
+            bestValue = -std::max(bestValue,-negamax(new_s,deph-1,!color))
+        }
+        return bestValue;
+    }
+    return 0;
 }
 
 int negamaxAB(state_t s, int depth,int alpha, int betha, bool color){
@@ -87,11 +106,11 @@ int negamaxAB(state_t s, int depth,int alpha, int betha, bool color){
 	int bestValue = alpha;
 	int value;
 	std::vector<int> succ = s.get_succ(color);
-	
+
 	if(succ.empty()){
 			return -negamaxAB(s, depth - 1, -alpha, -betha, !color);
 	} else {
-	
+
 		for(int i = 0; i < succ.size(); ++i) {
 			state_t new_s = s.move(color, succ[i]);
 			value = -negamaxAB(new_s, depth - 1,-betha, -bestValue, !color);
@@ -101,7 +120,7 @@ int negamaxAB(state_t s, int depth,int alpha, int betha, bool color){
 				return bestValue;
 		}
 	}
-	
+
 	return bestValue;
 }
 
@@ -114,12 +133,12 @@ int negaScout(state_t s, int depth,int alpha, int betha, bool color){
 	int bestValueN = betha;
 	int value, maxi;
 	std::vector<int> succ = s.get_succ(color);
-	
+
 	for(int i = 0; i < succ.size(); ++i) {
 		state_t new_s = s.move(color, succ[i]);
 		maxi = std::max(alpha,bestValueM);
 		value = -negaScout(new_s, depth - 1, -bestValueN, -maxi, !color);
-		
+
 		if (value > bestValueM) {
 			if ( bestValueN == betha || depth < 3 || value >= betha) {
 				bestValueM = value;
@@ -127,13 +146,13 @@ int negaScout(state_t s, int depth,int alpha, int betha, bool color){
 				m = -negaScout(new_s, depth - 1, -betha, -value, !color);
 			}
 		}
-			
+
 		if (bestValueN => betha)
 			return bestValueM;
-			
+
 		bestValueN = maxi + 1;
 	}
-	
+
 	return bestValueM;
 }
 
