@@ -80,18 +80,18 @@ int miniMaxAB(state_t s, int depth, int alpha,int betha,  bool max){
 }
 
 int negamax(state_t s, int depth, bool color){
-    int seed = color? 1 : -1;
+
     if (s.terminal() || depth==0)
-        return seed*s.value(color);
+        return s.value();
 
     int bestValue = _INF;
-    std::vector<int> succ = s.getsucc(!color);
+    std::vector<int> succ = s.get_succ(color);
     if (succ.empty()){
-        return seed*negamax(s,depth-1,!color);
+        return negamax(s,depth-1,!color);
     } else {
         for (int i = 0; i < succ.size(); ++i) {
-            state_t new_s = s.move(!color,succ[i]);
-            bestValue = -std::max(bestValue,-negamax(new_s,deph-1,!color))
+            state_t new_s = s.move(color,succ[i]);
+            bestValue = -std::max(bestValue,-negamax(new_s,depth-1,!color));
         }
         return bestValue;
     }
@@ -108,7 +108,7 @@ int negamaxAB(state_t s, int depth,int alpha, int betha, bool color){
 	std::vector<int> succ = s.get_succ(color);
 
 	if(succ.empty()){
-			return -negamaxAB(s, depth - 1, -alpha, -betha, !color);
+		return -negamaxAB(s, depth - 1, -alpha, -betha, !color);
 	} else {
 
 		for(int i = 0; i < succ.size(); ++i) {
@@ -143,11 +143,11 @@ int negaScout(state_t s, int depth,int alpha, int betha, bool color){
 			if ( bestValueN == betha || depth < 3 || value >= betha) {
 				bestValueM = value;
 			} else {
-				m = -negaScout(new_s, depth - 1, -betha, -value, !color);
+				bestValueM = -negaScout(new_s, depth - 1, -betha, -value, !color);
 			}
 		}
 
-		if (bestValueN => betha)
+		if (bestValueN >= betha)
 			return bestValueM;
 
 		bestValueN = maxi + 1;

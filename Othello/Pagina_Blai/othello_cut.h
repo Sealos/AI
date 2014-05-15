@@ -20,6 +20,7 @@
 #include <iostream>
 #include <vector>
 #include <stdlib.h>
+#include <cstdlib>
 
 #define MAX(s,t)      ((s)>(t)?(s):(t))
 #define MIN(s,t)      ((s)<(t)?(s):(t))

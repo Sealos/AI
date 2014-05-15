@@ -15,6 +15,7 @@
 #include <iostream>
 #include <vector>
 #include <stdlib.h>
+#include <climits>
 
 const int _INF = INT_MIN;
 const int INF = INT_MAX;
