@@ -21,34 +21,72 @@ using namespace std;
 
 int main(int argc, const char **argv) {
     state_t state;
-    cout << "Principal variation:" << endl;
-    for( int i = 0; PV[i] != -1; ++i ) {
-        bool player = i % 2 == 0; // black moves first!
+	int depth = 0;
+	bool player = true;
+	int result = 0;
+    int opcion;
+	
+	cout << "Seleccione la profundidad:" << endl;
+	cout << endl;
+	cin >> depth;
+	
+	while(depth <= 0) {
+		cout << "Valor incorrecto de profundidad" << endl;
+		cout << "Intente nuevamente:" << endl;
+		cin >> depth;
+	}
+	
+	for( int i = 0; i < depth; ++i ) {
+        player = i % 2 == 0; // black moves first
         int pos = PV[i];
-        cout << state;
-        cout << (player ? "Black" : "White")
-             << " moves at pos = " << pos << (pos == 36 ? " (pass)" : "")
-             << endl;
         state = state.move(player, pos);
-        cout << "Board after " << i+1 << (i == 0 ? " ply:" : " plies:") << endl;
     }
-    cout << state;
-    cout << "Value of the game = " << state.value() << endl;
-    cout << "#bits per state = " << sizeof(state) * 8 << endl;
-
-    if( argc > 1 ) {
-        int n = atoi(argv[1]);
-        cout << endl << "Apply " << n << " random movements at empty board:";
-        state = state_t();
-        for( int i = 0; i < n; ++i ) {
-            bool player = i % 2 == 0; // black moves first
-            int pos = 0;//state.get_random_move(player);
-            state = state.move(player, pos);
-            cout << " " << pos;
-        }
-        cout << endl << state;
-    }
+	
+	cout << "Seleccione el algoritmo a ejecutar:" << endl;
+	cout << "0. Minimax" << endl;
+	cout << "1. Minimax con alpha beta prunning" << endl;
+	cout << "2. Negamax" << endl;
+	cout << "3. Negamax con alpha beta prunning" << endl;
+	cout << "4. Scout" << endl;
+	cout << "5. Negascout" << endl;
+	cout << endl;
+	cin >> opcion;
+	
+	
+	
+	if (opcion >= 0 && opcion <= 5)
+	{
+		switch(opcion)
+		{
+		case (0):
+			result = miniMax(state, depth, true); 
+			cout << "Resultado de Minimax: " << result << endl;
+			break;
+		case (1):
+			result =  miniMaxAB(state, depth, _INF, INF, true);
+			cout << "Resultado de Minimax con alpha beta prunning: " << result << endl;
+			break;
+		case (2):
+			result =  negamax(state, depth, player);
+			cout << "Resultado de Negamax: " << result << endl;
+			break;
+		case (3):
+			result =  negamaxAB(state, depth, _INF, INF, player);
+			cout << "Resultado de Negamax con alpha beta prunning: " << result << endl;
+			break;
+		case (4):
+			//result =  scout(state, depth, player);
+			cout << "Resultado de Scout: " << result << endl;
+			break;
+		case (5):
+			result =  negaScout(state, depth, _INF, INF, player);
+			cout << "Resultado de Negascout: " << result << endl;
+			break;
+		}
+	} else {
+		cout << "Opcion no valida" << endl;
+	}
+	
 
     return 0;
 }
-
