@@ -88,7 +88,7 @@ int negamax(state_t s, int depth, bool color){
 	int value;
     std::vector<int> succ = s.get_succ(color);
     if (succ.empty()){
-        return negamax(s,depth-1,color);
+        return negamax(s,depth-1,!color);
     } else {
         for (int i = 0; i < succ.size(); ++i) {
             state_t new_s = s.move(color,succ[i]);
