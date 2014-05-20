@@ -45,6 +45,7 @@ int miniMax(state_t s, int depth, bool max){
 }
 
 int miniMaxAB(state_t s, int depth, int alpha,int betha,  bool max){
+	
 	if (s.terminal() || depth == 0)
 		return s.value();
 
@@ -81,19 +82,21 @@ int miniMaxAB(state_t s, int depth, int alpha,int betha,  bool max){
 
 int negamax(state_t s, int depth, bool color){
 
+	int seed = color ? 1 : -1;
+	
     if (s.terminal() || depth==0)
-        return s.value();
+        return seed*s.value();
 
     int bestValue = _INF;
 	int value;
     std::vector<int> succ = s.get_succ(color);
     if (succ.empty()){
-        return negamax(s,depth-1,!color);
+		return -negamax(s,depth-1,!color);
     } else {
         for (int i = 0; i < succ.size(); ++i) {
-            state_t new_s = s.move(color,succ[i]);
+			state_t new_s = s.move(color,succ[i]);
 			value = -negamax(new_s,depth-1,!color);
-            bestValue = std::max(bestValue,value);
+			bestValue = std::max(bestValue,value);
         }
         return bestValue;
     }
@@ -102,35 +105,41 @@ int negamax(state_t s, int depth, bool color){
 
 int negamaxAB(state_t s, int depth,int alpha, int betha, bool color){
 
-	if (s.terminal() || depth == 0)
-		return s.value();
-
+	int seed = color ? 1 : -1;
+	
+    if (s.terminal() || depth==0)
+        return seed*s.value();
+	
 	int bestValue = alpha;
 	int value;
 	std::vector<int> succ = s.get_succ(color);
 
 	if(succ.empty()){
-		//std::cout << "HOLA" << std::endl;
-		return negamaxAB(s, depth - 1, alpha, betha, !color);
+		return -negamaxAB(s, depth - 1, -betha, -alpha, !color);
 	} else {
 
 		for(int i = 0; i < succ.size(); ++i) {
 			state_t new_s = s.move(color, succ[i]);
 			value = -negamaxAB(new_s, depth - 1, -betha, -bestValue, !color);
-			if (value > bestValue)
+			if (value > bestValue) {
 				bestValue = value;
-			if (bestValue >= betha)
+			}
+			if (bestValue >= betha) {
 				return bestValue;
+			}
 		}
+		
 	}
 
 	return bestValue;
 }
 
 int negaScout(state_t s, int depth,int alpha, int betha, bool color){
-
-	if (s.terminal() || depth == 0)
-		return s.value();
+	
+	int seed = color ? 1 : -1;
+	
+    if (s.terminal() || depth==0)
+        return seed*s.value();
 
 	int bestValueM = _INF;
 	int bestValueN = betha;

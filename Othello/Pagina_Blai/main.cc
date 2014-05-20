@@ -25,6 +25,7 @@ int main(int argc, const char **argv) {
 	bool player = true;
 	int result = 0;
     int opcion;
+	int seed = 0;
 	
 	cout << "Seleccione la profundidad:" << endl;
 	cout << endl;
@@ -41,6 +42,9 @@ int main(int argc, const char **argv) {
         int pos = PV[i];
         state = state.move(player, pos);
     }
+    
+	player = !player;
+	seed = player ? 1 : -1;
 	
 	cout << "Seleccione el algoritmo a ejecutar:" << endl;
 	cout << "0. Minimax" << endl;
@@ -51,9 +55,7 @@ int main(int argc, const char **argv) {
 	cout << "5. Negascout" << endl;
 	cout << endl;
 	cin >> opcion;
-	
-	
-	
+
 	if (opcion >= 0 && opcion <= 5)
 	{
 		switch(opcion)
@@ -67,11 +69,11 @@ int main(int argc, const char **argv) {
 			cout << "Resultado de Minimax con alpha beta prunning: " << result << endl;
 			break;
 		case (2):
-			result =  negamax(state, depth, player);
+			result = seed*negamax(state, 33 - depth, player);
 			cout << "Resultado de Negamax: " << result << endl;
 			break;
 		case (3):
-			result =  negamaxAB(state, depth, _INF, INF, player);
+			result = seed*negamaxAB(state, 33 - depth, _INF, INF, player);
 			cout << "Resultado de Negamax con alpha beta prunning: " << result << endl;
 			break;
 		case (4):
@@ -79,7 +81,7 @@ int main(int argc, const char **argv) {
 			cout << "Resultado de Scout: " << result << endl;
 			break;
 		case (5):
-			result =  negaScout(state, depth, _INF, INF, player);
+			result =  negaScout(state,33 - depth, _INF, INF, player);
 			cout << "Resultado de Negascout: " << result << endl;
 			break;
 		}
