@@ -20,6 +20,7 @@
 #include <vector>
 #include <stdlib.h>
 #include <cstdlib>
+#include <tr1/unordered_map>
 
 #define MAX(s,t)      ((s)>(t)?(s):(t))
 #define MIN(s,t)      ((s)<(t)?(s):(t))
@@ -470,4 +471,22 @@ inline std::ostream &operator<<(std::ostream &os, const state_t &state)
 	state.print(os);
 	return os;
 }
+
+struct stored_info_t
+{
+	// [information to be stored in hash table]
+	stored_info_t() { } // need at least one ctor without arguments
+};
+
+struct hash_function_t : public std::tr1::hash<state_t>
+{
+	size_t operator()(const state_t &state) const
+	{
+		return state.hash();
+	}
+};
+
+class hash_table_t : public std::tr1::unordered_map<state_t, stored_info_t, hash_function_t>
+{
+};
 
