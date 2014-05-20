@@ -1,0 +1,1 @@
+AStyle.exe --style=allman --indent=force-tab --recursive -k3 -xj -p -U --mode=c --lineend=linux "F:\Git\AI\Othello\Pagina_Blai\*.cpp" "F:\Git\AI\Othello\Pagina_Blai\*.cc" "F:\Git\AI\Othello\Pagina_Blai\*.h"

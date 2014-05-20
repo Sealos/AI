@@ -49,7 +49,7 @@ int main(int argc, const char **argv)
 
 	// search the hash table for state just inserted
 	hash_table_t::iterator it = my_hash_table.find(state);
-	if(it == my_hash_table.end())
+	if( it == my_hash_table.end() )
 		cout << "Element NOT FOUND in hash table" << endl;
 	else
 		cout << "Element FOUND in hash table" << endl;

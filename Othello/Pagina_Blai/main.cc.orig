@@ -39,7 +39,7 @@ int main(int argc, const char **argv)
 		cin >> depth;
 	}
 
-	for(int i = 0; i < depth; ++i)
+	for( int i = 0; i < depth; ++i )
 	{
 		player = i % 2 == 0; // black moves first
 		int pos = PV[i];
@@ -59,32 +59,32 @@ int main(int argc, const char **argv)
 	cout << endl;
 	cin >> opcion;
 
-	if(opcion >= 0 && opcion <= 5)
+	if (opcion >= 0 && opcion <= 5)
 	{
 		switch(opcion)
 		{
-		case(0):
+		case (0):
 			result = miniMax(state, depth, true);
 			cout << "Resultado de Minimax: " << result << endl;
 			break;
-		case(1):
+		case (1):
 			result =  miniMaxAB(state, depth, _INF, INF, true);
 			cout << "Resultado de Minimax con alpha beta prunning: " << result << endl;
 			break;
-		case(2):
-			result = seed * negamax(state, 33 - depth, player);
+		case (2):
+			result = seed*negamax(state, 33 - depth, player);
 			cout << "Resultado de Negamax: " << result << endl;
 			break;
-		case(3):
-			result = seed * negamaxAB(state, 33 - depth, _INF, INF, player);
+		case (3):
+			result = seed*negamaxAB(state, 33 - depth, _INF, INF, player);
 			cout << "Resultado de Negamax con alpha beta prunning: " << result << endl;
 			break;
-		case(4):
+		case (4):
 			//result =  scout(state, depth, player);
 			cout << "Resultado de Scout: " << result << endl;
 			break;
-		case(5):
-			result =  negaScout(state, 33 - depth, _INF, INF, player);
+		case (5):
+			result =  negaScout(state,33 - depth, _INF, INF, player);
 			cout << "Resultado de Negascout: " << result << endl;
 			break;
 		}
