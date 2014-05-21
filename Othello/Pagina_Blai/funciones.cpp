@@ -10,6 +10,7 @@
  */
 
 #include "funciones.h"
+#include <algorithm>
 
 int miniMax(state_t s, int depth, bool max)
 {
@@ -98,7 +99,6 @@ int miniMaxAB(state_t s, int depth, int alpha, int betha,  bool max)
 
 int negamax(state_t s, int depth, bool color)
 {
-
 	int seed = color ? 1 : -1;
 
 	if(s.terminal() || depth == 0)
@@ -126,7 +126,7 @@ int negamaxAB(state_t s, int depth, int alpha, int betha, bool color)
 {
 
 	int seed = color ? 1 : -1;
-
+	
 	if(s.terminal() || depth == 0)
 		return seed * s.value();
 
@@ -134,8 +134,12 @@ int negamaxAB(state_t s, int depth, int alpha, int betha, bool color)
 	int value;
 	std::vector<int> succ = s.get_succ(color);
 
-	if(succ.empty())
-		return -negamaxAB(s, depth - 1, -betha, -alpha, !color);
+	if(succ.empty()){
+		value = -negamaxAB(s, depth - 1, -betha, -alpha, !color);
+		//std::cout << "Paso: " << value << std::endl;
+		return value;
+		
+		}
 	else
 	{
 
@@ -143,10 +147,13 @@ int negamaxAB(state_t s, int depth, int alpha, int betha, bool color)
 		{
 			state_t new_s = s.move(color, succ[i]);
 			value = -negamaxAB(new_s, depth - 1, -betha, -bestValue, !color);
-			if(value > bestValue)
-				bestValue = value;
-			if(bestValue >= betha)
-				return bestValue;
+			bestValue = std::max(bestValue, value);
+			//std::cout << "Value: " << value << std::endl;
+			//std::cout << "bestValue: " << bestValue << std::endl;
+			//std::cout << "----------------" << std::endl;
+			if(bestValue >= betha){
+				break;
+			}
 		}
 
 	}
@@ -167,7 +174,7 @@ int negaScout(state_t s, int depth, int alpha, int betha, bool color)
 	int value, maxi;
 	std::vector<int> succ = s.get_succ(color);
 	if(succ.empty())
-		return negaScout(s, depth - 1, alpha, betha, !color);
+		return -negaScout(s, depth - 1, -betha, -alpha, !color);
 	else
 	{
 		for(int i = 0; i < succ.size(); ++i)
