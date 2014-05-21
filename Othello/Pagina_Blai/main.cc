@@ -63,19 +63,19 @@ int main(int argc, const char **argv)
 		switch(opcion)
 		{
 		case(0):
-			result = miniMax(state, depth, true);
+			result = miniMax(state, depth, player);
 			cout << "Resultado de Minimax: " << result << endl;
 			break;
 		case(1):
-			result =  miniMaxAB(state, depth, _INF, INF, true);
+			result =  miniMaxAB(state, depth, _INF, INF, player);
 			cout << "Resultado de Minimax con alpha beta prunning: " << result << endl;
 			break;
 		case(2):
-			result = seed * negamax(state, 33 - depth, player);
+			result = seed * negamax(state,depth, player);
 			cout << "Resultado de Negamax: " << result << endl;
 			break;
 		case(3):
-			result = seed * negamaxAB(state, 33 - depth, _INF, INF, player);
+			result = seed * negamaxAB(state, depth, _INF, INF, player);
 			cout << "Resultado de Negamax con alpha beta prunning: " << result << endl;
 			break;
 		case(4):
