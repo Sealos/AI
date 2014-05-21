@@ -487,7 +487,7 @@ struct hash_function_t : public std::tr1::hash<state_t>
 };
 
 // Para usar hash_table_t tabla;
-class hash_table_t : public std::tr1::unordered_map<state_t, stored_info_t, hash_function_t>
+class hash_table_t : public std::tr1::unordered_map<state_t, int, hash_function_t>
 {
 };
 

@@ -11,6 +11,8 @@
 
 #include "funciones.h"
 
+hash_table_t tabla;
+
 int miniMax(state_t s, int depth, bool max)
 {
 	if(s.terminal() || depth == 0)
@@ -24,10 +26,20 @@ int miniMax(state_t s, int depth, bool max)
 		else
 		{
 			int bestValue = _INF;
+			int val;
 			for(int i = 0; i < succ.size(); ++i)
 			{
 				state_t new_s = s.move(true, succ[i]);
-				bestValue = std::max(bestValue, miniMax(new_s, depth - 1, false));
+				hash_table_t::const_iterator it = tabla.find(new_s);
+				if (it == tabla.end())
+				{
+					val = miniMax(new_s, depth - 1, false);
+					tabla.insert(std::make_pair(new_s, val));
+				}
+				else
+					val = it->second;
+				
+				bestValue = std::max(bestValue, val);
 			}
 			return bestValue;
 		}
@@ -40,10 +52,20 @@ int miniMax(state_t s, int depth, bool max)
 		else
 		{
 			int bestValue = INF;
+			int val;
 			for(int i = 0; i < succ.size(); ++i)
 			{
 				state_t new_s = s.move(false, succ[i]);
-				bestValue = std::min(bestValue, miniMax(new_s, depth - 1, true));
+				hash_table_t::const_iterator it = tabla.find(new_s);
+				if (it == tabla.end())
+				{
+					val = miniMax(new_s, depth - 1, true);
+					tabla.insert(std::make_pair(new_s, val));
+				}
+				else
+					val = it->second;
+				
+				bestValue = std::min(bestValue, val);
 			}
 			return bestValue;
 		}
@@ -54,7 +76,6 @@ int miniMax(state_t s, int depth, bool max)
 
 int miniMaxAB(state_t s, int depth, int alpha, int betha,  bool max)
 {
-
 	if(s.terminal() || depth == 0)
 		return s.value();
 
@@ -68,6 +89,7 @@ int miniMaxAB(state_t s, int depth, int alpha, int betha,  bool max)
 			for(int i = 0; i < succ.size(); ++i)
 			{
 				state_t new_s = s.move(true, succ[i]);
+				
 				alpha = std::max(alpha, miniMaxAB(new_s, depth - 1, alpha, betha, false));
 				if(betha <= alpha)
 					break;
@@ -98,7 +120,6 @@ int miniMaxAB(state_t s, int depth, int alpha, int betha,  bool max)
 
 int negamax(state_t s, int depth, bool color)
 {
-
 	int seed = color ? 1 : -1;
 
 	if(s.terminal() || depth == 0)
