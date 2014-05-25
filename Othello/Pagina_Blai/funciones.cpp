@@ -39,7 +39,7 @@ int miniMax(state_t s, int depth, bool max)
 				}
 				else
 					val = it->second;
-				
+
 				bestValue = std::max(bestValue, val);
 			}
 			return bestValue;
@@ -65,7 +65,7 @@ int miniMax(state_t s, int depth, bool max)
 				}
 				else
 					val = it->second;
-				
+
 				bestValue = std::min(bestValue, val);
 			}
 			return bestValue;
@@ -90,7 +90,7 @@ int miniMaxAB(state_t s, int depth, int alpha, int betha,  bool max)
 			for(int i = 0; i < succ.size(); ++i)
 			{
 				state_t new_s = s.move(true, succ[i]);
-				
+
 				alpha = std::max(alpha, miniMaxAB(new_s, depth - 1, alpha, betha, false));
 				if(betha <= alpha)
 					break;
@@ -136,7 +136,18 @@ int negamax(state_t s, int depth, bool color)
 		for(int i = 0; i < succ.size(); ++i)
 		{
 			state_t new_s = s.move(color, succ[i]);
-			value = -negamax(new_s, depth - 1, !color);
+
+
+			hash_table_t::const_iterator it = tabla.find(new_s);
+            if (it == tabla.end())
+            {
+                value = -negamax(new_s, depth - 1, !color);
+                tabla.insert(std::make_pair(new_s, value));
+            }
+            else
+                value = it->second;
+
+
 			bestValue = std::max(bestValue, value);
 		}
 		return bestValue;
@@ -148,7 +159,7 @@ int negamaxAB(state_t s, int depth, int alpha, int betha, bool color)
 {
 
 	int seed = color ? 1 : -1;
-	
+
 	if(s.terminal() || depth == 0)
 		return seed * s.value();
 
@@ -160,7 +171,7 @@ int negamaxAB(state_t s, int depth, int alpha, int betha, bool color)
 		value = -negamaxAB(s, depth - 1, -betha, -alpha, !color);
 		//std::cout << "Paso: " << value << std::endl;
 		return value;
-		
+
 		}
 	else
 	{
@@ -168,7 +179,16 @@ int negamaxAB(state_t s, int depth, int alpha, int betha, bool color)
 		for(int i = 0; i < succ.size(); ++i)
 		{
 			state_t new_s = s.move(color, succ[i]);
-			value = -negamaxAB(new_s, depth - 1, -betha, -bestValue, !color);
+
+			hash_table_t::const_iterator it = tabla.find(new_s);
+            if (it == tabla.end())
+            {
+                value = -negamaxAB(new_s, depth - 1, -betha, -bestValue, !color);
+                tabla.insert(std::make_pair(new_s, value));
+            }
+            else
+                value = it->second;
+
 			bestValue = std::max(bestValue, value);
 			//std::cout << "Value: " << value << std::endl;
 			//std::cout << "bestValue: " << bestValue << std::endl;
