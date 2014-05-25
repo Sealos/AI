@@ -90,8 +90,23 @@ int miniMaxAB(state_t s, int depth, int alpha, int betha,  bool max)
 			for(int i = 0; i < succ.size(); ++i)
 			{
 				state_t new_s = s.move(true, succ[i]);
+                int val;
 
-				alpha = std::max(alpha, miniMaxAB(new_s, depth - 1, alpha, betha, false));
+
+
+                hash_table_t::const_iterator it = tabla.find(new_s);
+				if (it == tabla.end())
+				{
+					val = miniMaxAB(new_s, depth - 1, alpha, betha, false);
+					tabla.insert(std::make_pair(new_s, val));
+				}
+				else
+					val = it->second;
+
+				alpha = std::max(alpha, val);
+
+
+
 				if(betha <= alpha)
 					break;
 			}
@@ -108,7 +123,23 @@ int miniMaxAB(state_t s, int depth, int alpha, int betha,  bool max)
 			for(int i = 0; i < succ.size(); ++i)
 			{
 				state_t new_s = s.move(false, succ[i]);
-				betha = std::min(betha, miniMaxAB(new_s, depth - 1, alpha, betha, true));
+                int val;
+
+
+
+				hash_table_t::const_iterator it = tabla.find(new_s);
+				if (it == tabla.end())
+				{
+					val = miniMaxAB(new_s, depth - 1, alpha, betha, true);
+					tabla.insert(std::make_pair(new_s, val));
+				}
+				else
+					val = it->second;
+
+				betha = std::min(betha, val);
+
+
+
 				if(betha <= alpha)
 					break;
 			}
