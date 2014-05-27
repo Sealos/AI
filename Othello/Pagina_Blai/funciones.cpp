@@ -77,7 +77,6 @@ int miniMax(state_t s, int depth, bool max)
 
 int miniMaxAB(state_t s, int depth, int alpha, int betha,  bool max)
 {
-	int seed = max ? 1 : -1;
 	
 	if(s.terminal() || depth == 0)
 		return s.value();
@@ -101,7 +100,7 @@ int miniMaxAB(state_t s, int depth, int alpha, int betha,  bool max)
 					tabla.insert(std::make_pair(new_s, std::abs(val)));
 				}
 				else{
-					val = seed * it->second;
+					val = -it->second;
 				}
 
 				alpha = std::max(alpha, val);
@@ -131,7 +130,7 @@ int miniMaxAB(state_t s, int depth, int alpha, int betha,  bool max)
 					tabla.insert(std::make_pair(new_s, std::abs(val)));
 				}
 				else{
-					val = seed * it->second;
+					val = it->second;
 				}
 
 				betha = std::min(betha, val);
