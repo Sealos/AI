@@ -33,87 +33,79 @@ const int INF = INT_MAX;
 
 using namespace std;
 
+/*
+int alpha_beta_prunning(state_t n, int alpha, int beta, bool color){
+  if (n.terminal()){
+    return n.value();
+  }
+
+  vector<int> successors = n.get_succ(color);  
+  if (successors.size()>0){
+  if (color){
+    for (vector<int>::iterator sucesores =successors.begin(), limit=successors.end(); sucesores != limit;++sucesores){
+      int hijo = alpha_beta_prunning(n.move(color, *sucesores), alpha, beta, !color);
+      alpha = MAX(alpha, hijo);
+        if (alpha >= beta) { break; }
+    }
+
+    return alpha;
+
+  } else {
+
+    for (vector<int>::iterator sucesores =successors.begin(), limit=successors.end(); sucesores != limit; ++sucesores){
+        int hijo = alpha_beta_prunning(n.move(color, *sucesores), alpha, beta, !color);
+        beta = MIN(beta, hijo);
+        if (alpha >= beta) { break; }
+    }
+
+    return beta;
+  }
+  }else{
+    return alpha_beta_prunning(n,alpha,beta, !color);
+  }
+}*/
+
 // ALPHA-BETA PRUNING
 
-int alpha_beta_pruning(state_t n, int d, int a, int b, bool t) {
-	if(n.terminal() || d == 0)
-		return n.value();
-	vector<int> suc = n.get_moves(t);
-	if(suc.empty() && !n.terminal()) {	// the player pass
-		if(t)	// MAX
-			return std::max(a, alpha_beta_pruning(n, d - 1, a, b, false));
-		else	// MIN
-			return std::min(b, alpha_beta_pruning(n, d - 1, a, b, true));
-	} else {
-		if(t) {		// MAX
-			for(int i = 0; i < suc.size(); ++i) {
-				state_t new_n = n.move(t, suc[i]);
-				a = std::max(a, alpha_beta_pruning(new_n, d - 1, a, b, false));
-				if(a >= b)
-					break;
-			}
-			return a;
-		} else {	// MIN
-			for(int i = 0; i < suc.size(); ++i) {
-				state_t new_n = n.move(t, suc[i]);
-				b = std::min(b, alpha_beta_pruning(new_n, d - 1, a, b, true));
-				if(a >= b)
-					break;
-			}
-			return b;
-		}
-	}
-}
-
-int miniMaxAB(state_t &s, int depth, int alpha, int betha,  bool max)
+int miniMaxAB(state_t &s,  int alpha, int betha,  bool jugador)
 {
-	if(s.terminal() || depth == 0)
+	if(s.terminal())
 		return s.value();
 
-	if(max)
-	{
-		std::vector<int> succ = s.get_succ(true);
-		
-		if(succ.empty()) {
-			return miniMaxAB(s, depth - 1, alpha, betha, false);
-		} 
-		else {
-			for(int i = 0; i < succ.size(); ++i)
+	std::vector<int> succ = s.get_succ(jugador);
+	
+	if (succ.size() > 0) {
+	
+		if(jugador) //MAX
+		{
+			for (vector<int>::iterator suc=succ.begin(), limit=succ.end(); suc != limit;++suc)
 			{
-				state_t new_s = s.move(true, succ[i]);
-				int val = miniMaxAB(new_s, depth - 1, alpha, betha, false);
-				
-				alpha = std::max(alpha, val);
+				state_t new_s = s.move(jugador, *suc);
+				alpha = MAX(alpha, miniMaxAB(new_s, alpha, betha, !jugador));
 				
 				if(alpha >= betha)
 					break;
 			}
 			
 			return alpha;
+			
 		}
-		
-	}
-	else
-	{
-		std::vector<int> succ = s.get_succ(false);
-		
-		if(succ.empty()) {
-			return miniMaxAB(s, depth - 1, alpha, betha, true);
-		} 
-		else {
-			for(int i = 0; i < succ.size(); ++i)
+		else
+		{ //MIN
+			for (vector<int>::iterator suc =succ.begin(), limit=succ.end(); suc != limit;++suc)
 			{
-				state_t new_s = s.move(false, succ[i]);
-				int val = miniMaxAB(new_s, depth - 1, alpha, betha, true);
+				state_t new_s = s.move(jugador, *suc);
 				
-				betha = std::min(betha, val);
+				betha = MIN(betha, miniMaxAB(new_s, alpha, betha, !jugador));
 
 				if(alpha >= betha)
 					break;
 			}
 			
 			return betha;
-		}
+		} 
+	} else {
+		return miniMaxAB(s, alpha, betha, !jugador);
 	}
 
 	return 0;
@@ -139,23 +131,22 @@ int main(int argc, const char **argv) {
 		cin >> depth;
 	}
 
-
-	for(int i = 0; i < depth; ++i)
-	{
-		player = i % 2 == 0; // black moves first
-		state = state.move(player, PV[i]);
+	for(int i = 0; i < depth; ++i) {
+		bool player = i % 2 == 0; // black moves first!
+		int pos = PV[i];
+		state = state.move(player, pos);
 	}
 
-	player = !player;
+	player = (depth % 2 == 0);
 	seed = player ? 1 : -1;
 	
+	cout << "d=" << state;
 	cout << "d=" << 33 - depth << endl;
-	result =  miniMaxAB(state, 33 - depth, _INF, INF, player);
+	result =  miniMaxAB(state, _INF, INF, player);
 	cout << "Resultado de Minimax con alpha beta prunning: " << result << endl;// << state << endl << state.hash() << endl;
-	result = alpha_beta_pruning(state, 33 - depth, _INF, INF, player);
-	cout << "Resultado de con alpha beta prunning: " << result << endl;// << state << endl << state.hash() << endl;
-	
- /*   cout << "Principal variation:" << endl;
+	/*result =  alpha_beta_prunning(state, _INF, INF, player);
+	cout << "Resultado de Minimax con alpha beta prunning: " << result << endl;
+ *//*   cout << "Principal variation:" << endl;
     for( int i = 0; PV[i] != -1; ++i ) {
         bool player = i % 2 == 0; // black moves first!
         int pos = PV[i];

@@ -57,7 +57,7 @@ int main(int argc, const char **argv)
 	cout << "5. Negascout" << endl;
 	cout << endl;
 	cin >> opcion;
-
+	
 	if(opcion >= 0 && opcion <= 5)
 	{
 		switch(opcion)
@@ -67,9 +67,9 @@ int main(int argc, const char **argv)
 			cout << "Resultado de Minimax: " << result << endl;
 			break;
 		case(1):
-			cout << "d=" << depth << endl;
-			result =  miniMaxAB(state, depth, _INF, INF, player);
-			cout << "Resultado de Minimax con alpha beta prunning: " << result << endl << state << endl << state.hash() << endl;
+			cout << "d=" << 33 - depth << endl;
+			result =  miniMaxAB(state, 33 - depth, _INF, INF, player);
+			cout << "Resultado de Minimax con alpha beta prunning: " << result << endl;// << state << endl << state.hash() << endl;
 			break;
 		case(2):
 			result = seed * negamax(state,depth, player);
