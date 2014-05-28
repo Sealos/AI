@@ -67,8 +67,9 @@ int main(int argc, const char **argv)
 			cout << "Resultado de Minimax: " << result << endl;
 			break;
 		case(1):
-			result =  miniMaxAB(state, depth, _INF, INF, player);
-			cout << "Resultado de Minimax con alpha beta prunning: " << result << endl;
+			cout << "d=" << depth << endl;
+			result =  miniMaxAB(state, depth, -25, 100, player);
+			cout << "Resultado de Minimax con alpha beta prunning: " << result << endl << state << endl << state.hash() << endl;
 			break;
 		case(2):
 			result = seed * negamax(state,depth, player);
@@ -83,7 +84,7 @@ int main(int argc, const char **argv)
 			cout << "Resultado de Scout: " << result << endl;
 			break;
 		case(5):
-			result =  negaScout(state, 33 - depth, _INF, INF, player);
+			result = seed * negaScout(state, 33 - depth, _INF, INF, player);
 			cout << "Resultado de Negascout: " << result << endl;
 			break;
 		}

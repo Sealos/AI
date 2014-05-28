@@ -16,9 +16,10 @@
 #include <vector>
 #include <stdlib.h>
 #include <climits>
+#include <list>
 
-const int _INF = INT_MIN;
-const int INF = INT_MAX;
+const int _INF = -100;//INT_MIN;
+const int INF = 100;//INT_MAX;
 
 /*Declaracion de funciones utilizadas en Funciones.cpp*/
 extern int miniMax(state_t s, int depth, bool max);

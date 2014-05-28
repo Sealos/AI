@@ -20,6 +20,7 @@
 #include <vector>
 #include <stdlib.h>
 #include <cstdlib>
+#include <list>
 #include <tr1/unordered_map>
 
 #define MAX(s,t)      ((s)>(t)?(s):(t))
@@ -181,16 +182,28 @@ public:
 
 	std::vector<int> get_succ(bool color)
 	{
-		std::vector<int> valid_moves;
+		static std::vector<int> valid_moves;
+		valid_moves.clear();
 		for(int pos = 0; pos < DIM; ++pos)
 		{
 			if((color && is_black_move(pos)) ||
-					(!color && is_white_move(pos)))
+					(!color && is_white_move(pos))) {
 				valid_moves.push_back(pos);
+			}
 		}
 		return valid_moves;
 	}
 
+	std::list<int> succ(bool color){
+		std::list<int>  sucesores;
+
+		for( int pos = 0; pos < DIM; ++pos ) {
+			if((color && is_black_move(pos)) || (!color && is_white_move(pos))) {
+				sucesores.push_back(pos);
+			}
+		}
+		return sucesores;
+	}
 
 	bool operator<(const state_t &s) const
 	{
