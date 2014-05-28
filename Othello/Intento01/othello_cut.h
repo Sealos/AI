@@ -135,6 +135,36 @@ class state_t {
         }
         return valid_moves.empty() ? -1 : valid_moves[lrand48() % valid_moves.size()];
     }
+    
+    std::vector<int> get_succ(bool color)
+	{
+		static std::vector<int> valid_moves;
+		valid_moves.clear();
+		for(int pos = 0; pos < DIM; ++pos)
+		{
+			if((color && is_black_move(pos)) ||
+					(!color && is_white_move(pos))) {
+				valid_moves.push_back(pos);
+			}
+		}
+		return valid_moves;
+	}
+	
+	 /**
+	 * get_moves generates all the posible moves that the color can make
+	 * @param color the color of the player that want to make a move
+	 * @return vector of posible moves that color can make
+	 */
+    std::vector<int> get_moves(bool color) {
+        std::vector<int> valid_moves;
+        for( int pos = 0; pos < DIM; ++pos ) {
+            if( (color && is_black_move(pos)) || 
+				(!color && is_white_move(pos)) ) {
+                valid_moves.push_back(pos);
+            }
+        }
+        return valid_moves;
+    }
 
     bool operator<(const state_t &s) const {
         return (free_ < s.free_) || ((free_ == s.free_) && (pos_ < s.pos_));
@@ -201,6 +231,36 @@ inline bool state_t::outflank(bool color, int pos) const {
     }
 
     // [CHECK OVER DIAGONALS REMOVED]
+    
+    //...now, RESTORED
+
+	//check dia1
+	x = dia1[pos - 4];
+	while(*x != pos) ++x;
+	if(*(x + 1) != -1)
+	{
+		for(p = x + 1; (*p != -1) && !is_free(*p) && (color ^ is_black(*p)); ++p);
+		if((p > x + 1) && (*p != -1) && !is_free(*p)) return true;
+	}
+	if(x != dia1[pos - 4])
+	{
+		for(p = x - 1; (p >= dia1[pos - 4]) && !is_free(*p) && (color ^ is_black(*p)); --p);
+		if((p < x - 1) && (p >= dia1[pos - 4]) && !is_free(*p)) return true;
+	}
+
+	//check dia2
+	x = dia2[pos - 4];
+	while(*x != pos) ++x;
+	if(*(x + 1) != -1)
+	{
+		for(p = x + 1; (*p != -1) && !is_free(*p) && (color ^ is_black(*p)); ++p);
+		if((p > x + 1) && (*p != -1) && !is_free(*p)) return true;
+	}
+	if(x != dia1[pos - 4])
+	{
+		for(p = x - 1; (p >= dia2[pos - 4]) && !is_free(*p) && (color ^ is_black(*p)); --p);
+		if((p < x - 1) && (p >= dia2[pos - 4]) && !is_free(*p)) return true;
+	}
 
     return false;
 }
@@ -265,6 +325,48 @@ inline state_t state_t::move(bool color, int pos) const {
     }
 
     // [PROCESS OF DIAGONALS REMOVED]
+    
+    //...now, RESTORED
+
+	// Process dia1
+	x = dia1[pos - 4];
+	while(*x != pos) ++x;
+	if(*(x + 1) != -1)
+	{
+		for(p = x + 1; (*p != -1) && !is_free(*p) && (color ^ is_black(*p)); ++p);
+		if((p > x + 1) && (*p != -1) && !is_free(*p))
+		{
+			for(const int *q = x + 1; q < p; ++q) s.set_color(color, *q);
+		}
+	}
+	if(x != dia1[pos - 4])
+	{
+		for(p = x - 1; (p >= dia1[pos - 4]) && !is_free(*p) && (color ^ is_black(*p)); --p);
+		if((p < x - 1) && (p >= dia1[pos - 4]) && !is_free(*p))
+		{
+			for(const int *q = x - 1; q > p; --q) s.set_color(color, *q);
+		}
+	}
+
+	// Process dia2
+	x = dia2[pos - 4];
+	while(*x != pos) ++x;
+	if(*(x + 1) != -1)
+	{
+		for(p = x + 1; (*p != -1) && !is_free(*p) && (color ^ is_black(*p)); ++p);
+		if((p > x + 1) && (*p != -1) && !is_free(*p))
+		{
+			for(const int *q = x + 1; q < p; ++q) s.set_color(color, *q);
+		}
+	}
+	if(x != dia2[pos - 4])
+	{
+		for(p = x - 1; (p >= dia2[pos - 4]) && !is_free(*p) && (color ^ is_black(*p)); --p);
+		if((p < x - 1) && (p >= dia2[pos - 4]) && !is_free(*p))
+		{
+			for(const int *q = x - 1; q > p; --q) s.set_color(color, *q);
+		}
+	}
 
     return s;
 }
