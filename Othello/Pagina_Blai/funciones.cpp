@@ -75,7 +75,7 @@ int miniMax(state_t s, int depth, bool max)
 	return 0;
 }
 
-int miniMaxAB(state_t s, int depth, int alpha, int betha,  bool max)
+int miniMaxAB(state_t &s, int depth, int alpha, int betha,  bool max)
 {
 	int inputa = alpha, inputb = betha;
 	if(s.terminal() || depth == 0)
@@ -109,6 +109,7 @@ int miniMaxAB(state_t s, int depth, int alpha, int betha,  bool max)
 				if(betha <= alpha)
 					break;
 			}
+			if(depth==16) std::cout << "t: Value="  << s.t() << std::endl << "pos: Value="  << s.pos() << std::endl;
 			if(depth==16) std::cout << s.hash() << std::endl << "Max: Value=" << alpha << std::endl;
 			return alpha;
 		}
@@ -142,6 +143,7 @@ int miniMaxAB(state_t s, int depth, int alpha, int betha,  bool max)
 				if(betha <= alpha)
 					break;
 			}
+			if(depth==15) std::cout << "t: Value="  << s.t() << std::endl << "pos: Value="  << s.pos() << std::endl;
 			if(depth==15) std::cout << s.hash() << std::endl << "Min: Value=" << betha << ", ia=" << inputa << ", ib=" << inputb << std::endl;
             if(s.hash() == 698502 ) std::cout << s;
 			return betha;

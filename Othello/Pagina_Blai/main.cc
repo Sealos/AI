@@ -68,7 +68,7 @@ int main(int argc, const char **argv)
 			break;
 		case(1):
 			cout << "d=" << depth << endl;
-			result =  miniMaxAB(state, depth, -25, 100, player);
+			result =  miniMaxAB(state, depth, _INF, INF, player);
 			cout << "Resultado de Minimax con alpha beta prunning: " << result << endl << state << endl << state.hash() << endl;
 			break;
 		case(2):
