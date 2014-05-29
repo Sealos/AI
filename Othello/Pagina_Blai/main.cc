@@ -38,16 +38,17 @@ int main(int argc, const char **argv)
 		cin >> depth;
 	}
 
+	
 	for(int i = 0; i < depth; ++i)
 	{
 		player = i % 2 == 0; // black moves first
 		int pos = PV[i];
 		state = state.move(player, pos);
 	}
-
+	
 	player = !player;
 	seed = player ? 1 : -1;
-
+	
 	cout << "Seleccione el algoritmo a ejecutar:" << endl;
 	cout << "0. Minimax" << endl;
 	cout << "1. Minimax con alpha beta prunning" << endl;
@@ -58,6 +59,8 @@ int main(int argc, const char **argv)
 	cout << endl;
 	cin >> opcion;
 
+	cout << "d = " << 33 - depth << endl;
+	
 	if(opcion >= 0 && opcion <= 5)
 	{
 		switch(opcion)
@@ -67,7 +70,6 @@ int main(int argc, const char **argv)
 			cout << "Resultado de Minimax: " << result << endl;
 			break;
 		case(1):
-			cout << "d=" << 33 - depth << endl;
 			result =  miniMaxAB(state, 33 - depth, _INF, INF, player);
 			cout << "Resultado de Minimax con alpha beta prunning: " << result << endl;// << state << endl << state.hash() << endl;
 			break;

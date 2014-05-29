@@ -14,27 +14,27 @@
 
 hash_table_t tabla;
 
-int miniMax(state_t s, int depth, bool max)
+int miniMax(state_t s, int depth, bool jugador)
 {
-	if(s.terminal() || depth == 0)
+	if(s.terminal())
 		return s.value();
 
-	if(max)
-	{
-		std::vector<int> succ = s.get_succ(true);
+	if(jugador)
+	{//MAX
+		std::vector<int> succ = s.get_succ(jugador);
 		if(succ.empty())
-			return miniMax(s, depth - 1, false);
+			return miniMax(s, depth - 1, !jugador);
 		else
 		{
 			int bestValue = _INF;
 			int val;
 			for(int i = 0; i < succ.size(); ++i)
 			{
- 				state_t new_s = s.move(true, succ[i]);
+ 				state_t new_s = s.move(jugador, succ[i]);
 // 				hash_table_t::const_iterator it = tabla.find(new_s);
 // 				if (it == tabla.end())
 // 				{
-					val = miniMax(new_s, depth - 1, false);
+					val = miniMax(new_s, depth - 1, !jugador);
 // 					tabla.insert(std::make_pair(new_s, std::abs(val)));
 // 				}
 // 				else
@@ -46,7 +46,7 @@ int miniMax(state_t s, int depth, bool max)
 		}
 	}
 	else
-	{
+	{//MIN
 		std::vector<int> succ = s.get_succ(false);
 		if(succ.empty())
 			return miniMax(s, depth - 1, true);
@@ -147,7 +147,7 @@ int negamax(state_t s, int depth, bool color)
 {
 	int seed = color ? 1 : -1;
 
-	if(s.terminal() || depth == 0)
+	if(s.terminal())
 		return seed * s.value();
 
 
@@ -155,7 +155,7 @@ int negamax(state_t s, int depth, bool color)
 	int value;
 	std::vector<int> succ = s.get_succ(color);
 
-	if(succ.empty()) {
+	if(succ.size() <= 0) {
 		return -negamax(s, depth - 1, !color);
 	} else
 	{
@@ -173,7 +173,7 @@ int negamax(state_t s, int depth, bool color)
 // 				value = seed * it->second;
 // 			}
 
-			bestValue = std::max(bestValue, value);
+			bestValue = MAX(bestValue, value);
 		}
 	}
 	return bestValue;
@@ -222,50 +222,80 @@ int negamaxAB(state_t s, int depth, int alpha, int betha, bool color)
 	return bestValue;
 }
 
+template <typename Comparator>
+bool test(state_t s, int depth, int v, bool color,  Comparator comp){
+	
+	int seed = color ? 1 : -1;
+	
+	if (s.terminal())
+		return comp(seed * s.value(),v);
+	
+	std::vector<int> succ = s.get_succ(color);
+	
+// 	if(succ.size() <= 0){
+// 		return test(s, depth - 1, v, !color, comp); //No estoy muy seguro de esta linea...
+// 	} else {
+		for(int i = 0; i < succ.size(); ++i)
+		{
+			state_t new_s = s.move(color, succ[i]);
+			
+			if (color && (test(new_s,depth-1,v,!color,comp) == true))
+				return true;
+			
+			if (!color && (test(new_s,depth-1,v,!color,comp) == false))
+				return false;
+			
+		}
+// 	}
+	
+	if (color)
+		return false;
+	
+	return true;
+}
+
+int MAYOR (int a, int b){
+	return a > b;
+}
+
+int MENOR(int a, int b){
+	return a < b;
+}
+
 int scout(state_t s, int depth, bool color){
-    if (s.terminal()/*|| depth==0*/)
-        return s.value();
+   
+	int seed = color ? 1 : -1;
+	
+	if (s.terminal()){
+        return seed * s.value();
+	}
+    
     std::vector<int> succ = s.get_succ(color);
+	
 	if(succ.size() <= 0){
-			return scout(s, depth - 1, !color);
+		return scout(s, depth - 1, !color);
 	} else {
-	    state_t new_s = s.move(color, succ[0]);
-	    int v = scout(new_s, depth-1, !color);
-	    for(int i = 1; i < succ.size(); ++i){
-            state_t new_s = s.move(color, succ[i]);
-            std::greater<int> mayq;
-            if (color && test(new_s, depth-1, v, !color, mayq))
-                v = scout(new_s, depth-1, !color);
-            std::less<int> menq;
-            if (!color && test(new_s, depth-1, v, !color, menq))
-                v = scout(new_s, depth-1, !color);
-	    }
-	    return v;
+		
+		state_t new_s = s.move(color, succ[0]);
+		int v = scout(new_s, depth-1, !color);
+		
+		for(int i = 1; i < succ.size(); ++i){
+			state_t new_s = s.move(color, succ[i]);
+			
+			std::greater<int> mayq;
+			if (color && (test(new_s, depth-1, v, !color, mayq) == true))
+				v = scout(new_s, depth-1, !color);
+			
+			std::less<int> menq;
+			if (!color && (test(new_s, depth-1, v, !color, menq) == true))
+				v = scout(new_s, depth-1, !color);
+		}
+		
+		return v;
 	}
 	return 0;
 }
 
-template <typename Comparator>
-bool test(state_t s, int depth, int v, bool color, Comparator comp){
-    if (s.terminal()/* || depth==0*/)
-        return comp(s.value(),v);
-    std::vector<int> succ = s.get_succ(color);
-	if(succ.size() <= 0){
-			return test(s, depth - 1, v, !color, comp); //No estoy muy seguro de esta linea...
-	} else {
-	    for(int i = 0; i < succ.size(); ++i)
-		{
-			state_t new_s = s.move(color, succ[i]);
-			if (color && test(new_s,depth-1,v,!color,comp))
-                return true;
-            if (!color && !test(new_s,depth-1,v,!color,comp))
-                return false;
-		}
-	}
-    if (color)
-        return false;
-    return true;
-}
 
 int negaScout(state_t s, int depth, int alpha, int betha, bool color)
 {
@@ -290,7 +320,7 @@ int negaScout(state_t s, int depth, int alpha, int betha, bool color)
 		{
 			state_t new_s = s.move(color, succ[i]);
 
-			value = -negaScout(new_s, depth - 1, -bestValueN, -std::max(bestValueM, alpha), !color);
+			value = -negaScout(new_s, depth - 1, -bestValueN, -MAX(alpha, bestValueM), !color);
 
 			if(value > bestValueM)
 			{
@@ -303,7 +333,7 @@ int negaScout(state_t s, int depth, int alpha, int betha, bool color)
 			if(bestValueM >= betha)
 				return bestValueM;
 
-			bestValueN = std::max(alpha, bestValueM) + 1;
+			bestValueN = MAX(alpha, bestValueM) + 1;
 		}
 	}
 
