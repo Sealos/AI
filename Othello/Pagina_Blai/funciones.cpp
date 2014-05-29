@@ -222,52 +222,85 @@ int negamaxAB(state_t s, int depth, int alpha, int betha, bool color)
 	return bestValue;
 }
 
-template <typename Comparator>
-bool test(state_t s, int depth, int v, bool color,  Comparator comp){
-	
-	int seed = color ? 1 : -1;
+bool MAYOR (int a, int b){
+	return (a > b);
+}
+
+bool MENOR(int a, int b){
+	return (a < b);
+}
+
+//template <typename Comparator>
+bool test(state_t s, int depth, int v, bool color,  bool (*comp)(int, int)){
 	
 	if (s.terminal())
-		return comp(seed * s.value(),v);
+		return comp(s.value(),v);
 	
 	std::vector<int> succ = s.get_succ(color);
 	
-// 	if(succ.size() <= 0){
-// 		return test(s, depth - 1, v, !color, comp); //No estoy muy seguro de esta linea...
-// 	} else {
-		for(int i = 0; i < succ.size(); ++i)
-		{
-			state_t new_s = s.move(color, succ[i]);
-			
-			if (color && (test(new_s,depth-1,v,!color,comp) == true))
-				return true;
-			
-			if (!color && (test(new_s,depth-1,v,!color,comp) == false))
+ 	if(succ.size() <= 0){
+ 		return test(s, depth - 1, v, !color, comp); //No estoy muy seguro de esta linea...
+ 	} else {
+		
+		if (comp == MAYOR) {
+			if (color) {
+				for(int i = 0; i < succ.size(); ++i)
+				{
+					state_t new_s = s.move(color, succ[i]);
+					
+					if ((test(new_s,depth-1,v,!color,comp) == true))
+						return true;
+					
+				}
 				return false;
+			} 
+			else {
+				
+				for(int i = 0; i < succ.size(); ++i)
+				{
+					state_t new_s = s.move(color, succ[i]);
+					
+					if ((test(new_s,depth-1,v,!color,comp) == false))
+						return false;
+					
+				}
+				return true;
+			}
+		} else {
+			
+			if (color) {
+				for(int i = 0; i < succ.size(); ++i)
+				{
+					state_t new_s = s.move(color, succ[i]);
+					
+					if ((test(new_s,depth-1,v,!color,comp) == false))
+						return false;
+					
+				}
+				return true;
+			} 
+			else {
+				
+				for(int i = 0; i < succ.size(); ++i)
+				{
+					state_t new_s = s.move(color, succ[i]);
+					
+					if ((test(new_s,depth-1,v,!color,comp) == true))
+						return true;
+					
+				}
+				return false;
+			}
 			
 		}
-// 	}
-	
-	if (color)
-		return false;
-	
-	return true;
-}
+ 	}
 
-int MAYOR (int a, int b){
-	return a > b;
-}
-
-int MENOR(int a, int b){
-	return a < b;
 }
 
 int scout(state_t s, int depth, bool color){
    
-	int seed = color ? 1 : -1;
-	
 	if (s.terminal()){
-        return seed * s.value();
+        return s.value();
 	}
     
     std::vector<int> succ = s.get_succ(color);
@@ -282,12 +315,12 @@ int scout(state_t s, int depth, bool color){
 		for(int i = 1; i < succ.size(); ++i){
 			state_t new_s = s.move(color, succ[i]);
 			
-			std::greater<int> mayq;
-			if (color && (test(new_s, depth-1, v, !color, mayq) == true))
+			//std::greater<int> mayq;
+			if (color && test(new_s, depth-1, v, !color, MAYOR))
 				v = scout(new_s, depth-1, !color);
 			
-			std::less<int> menq;
-			if (!color && (test(new_s, depth-1, v, !color, menq) == true))
+			//std::less<int> menq;
+			if (!color && test(new_s, depth-1, v, !color, MENOR))
 				v = scout(new_s, depth-1, !color);
 		}
 		

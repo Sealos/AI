@@ -82,7 +82,7 @@ int main(int argc, const char **argv)
 			cout << "Resultado de Negamax con alpha beta prunning: " << result << endl;
 			break;
 		case(4):
-			result = seed * scout(state, depth, player);
+			result = scout(state, depth, player);
 			cout << "Resultado de Scout: " << result << endl;
 			break;
 		case(5):
