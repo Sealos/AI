@@ -485,17 +485,30 @@ inline std::ostream &operator<<(std::ostream &os, const state_t &state)
 	return os;
 }
 
-#define NO_EXISTE	-1
-#define COTA_ALPHA	0
-#define COTA_BETA	1
-#define COTA_EXACTA	2
+#define NO_EXISTE	0
+#define COTA_ALPHA	1
+#define COTA_BETA	2
+#define COTA_EXACTA	3
 
 struct stored_info_t
 {
+	unsigned char depth;
+	unsigned char cota;
+	char value;
+
 	stored_info_t()
 	{
 
 	}
+
+	stored_info_t(unsigned char depth_, unsigned char cota_, char value_)
+	{
+		depth = depth_;
+		cota = cota_;
+		value = value_;
+	}
+
+
 };
 
 struct hash_function_t : public std::tr1::hash<state_t>
@@ -513,4 +526,32 @@ class hash_table_t : public std::tr1::unordered_map<state_t, int, hash_function_
 
 class hash_table_ : public std::tr1::unordered_map<state_t, stored_info_t, hash_function_t>
 {
+	std::pair<unsigned char, int> find_value(const state_t state);
+	void update_value(const state_t state, int value_);
+	void update_cota(const state_t state, unsigned char cota_);
 };
+
+inline std::pair<unsigned char, int> hash_table_::find_value(const state_t state)
+{
+	hash_table_::iterator it = this->find(state);
+	if (it != this->end())
+	{
+		return std::make_pair(it->second.cota, it->second.value);
+	}
+	else
+		return std::make_pair(NO_EXISTE, 0);
+}
+
+inline void hash_table_::update_value(const state_t state, int value_)
+{
+	hash_table_::iterator it = this->find(state);
+	if (it != this->end())
+		it->second.value = value_;
+}
+
+inline void hash_table_::update_cota(const state_t state, unsigned char cota_)
+{
+	hash_table_::iterator it = this->find(state);
+	if (it != this->end())
+		it->second.cota = cota_;
+}
