@@ -81,11 +81,11 @@ int miniMaxAB(state_t s, int depth, int alpha, int betha,  bool jugador)
 		return s.value();
 
 	std::vector<int> succ = s.get_succ(jugador);
-	
+
 	if(succ.size() <= 0){
 			return miniMaxAB(s, depth - 1, alpha, betha, !jugador);
 	}
-	
+
 	if(jugador)//MAX
 	{
 		for(int i = 0; i < succ.size(); ++i)
@@ -136,7 +136,7 @@ int miniMaxAB(state_t s, int depth, int alpha, int betha,  bool jugador)
 			if(betha <= alpha)
 				break;
 		}
-		
+
 		return betha;
 	}
 
@@ -154,7 +154,7 @@ int negamax(state_t s, int depth, bool color)
 	int bestValue = _INF;
 	int value;
 	std::vector<int> succ = s.get_succ(color);
-	
+
 	if(succ.empty()) {
 		return -negamax(s, depth - 1, !color);
 	} else
@@ -172,7 +172,7 @@ int negamax(state_t s, int depth, bool color)
 // 			else {
 // 				value = seed * it->second;
 // 			}
-			
+
 			bestValue = std::max(bestValue, value);
 		}
 	}
@@ -188,7 +188,7 @@ int negamaxAB(state_t s, int depth, int alpha, int betha, bool color)
 
 	int bestValue = alpha;
 	int value;
-	std::vector<int> succ = s.get_succ(color);	
+	std::vector<int> succ = s.get_succ(color);
 
 	if(succ.size() <= 0){
 		return  -negamaxAB(s, depth - 1, -betha, -alpha, !color);
@@ -208,7 +208,7 @@ int negamaxAB(state_t s, int depth, int alpha, int betha, bool color)
 //  			else {
 //  				value = seed * it->second;
 //  		}
-// 			
+//
 			if (value > bestValue) {
 				bestValue = value;
 			}
@@ -222,6 +222,51 @@ int negamaxAB(state_t s, int depth, int alpha, int betha, bool color)
 	return bestValue;
 }
 
+int scout(state_t s, int depth, bool color){
+    if (s.terminal()/*|| depth==0*/)
+        return s.value();
+    std::vector<int> succ = s.get_succ(color);
+	if(succ.size() <= 0){
+			return scout(s, depth - 1, !color);
+	} else {
+	    state_t new_s = s.move(color, succ[0]);
+	    int v = scout(new_s, depth-1, !color);
+	    for(int i = 1; i < succ.size(); ++i){
+            state_t new_s = s.move(color, succ[i]);
+            std::greater<int> mayq;
+            if (color && test(new_s, depth-1, v, !color, mayq))
+                v = scout(new_s, depth-1, !color);
+            std::less<int> menq;
+            if (!color && test(new_s, depth-1, v, !color, menq))
+                v = scout(new_s, depth-1, !color);
+	    }
+	    return v;
+	}
+	return 0;
+}
+
+template <typename Comparator>
+bool test(state_t s, int depth, int v, bool color, Comparator comp){
+    if (s.terminal()/* || depth==0*/)
+        return comp(s.value(),v);
+    std::vector<int> succ = s.get_succ(color);
+	if(succ.size() <= 0){
+			return test(s, depth - 1, v, !color, comp); //No estoy muy seguro de esta linea...
+	} else {
+	    for(int i = 0; i < succ.size(); ++i)
+		{
+			state_t new_s = s.move(color, succ[i]);
+			if (color && test(new_s,depth-1,v,!color,comp))
+                return true;
+            if (!color && !test(new_s,depth-1,v,!color,comp))
+                return false;
+		}
+	}
+    if (color)
+        return false;
+    return true;
+}
+
 int negaScout(state_t s, int depth, int alpha, int betha, bool color)
 {
 
@@ -233,9 +278,9 @@ int negaScout(state_t s, int depth, int alpha, int betha, bool color)
 	int bestValueM = _INF;
 	int bestValueN = betha;
 	int value;
-	
+
 	std::vector<int> succ = s.get_succ(color);
-	
+
 	if(succ.size() <= 0){
 		return -negaScout(s, depth - 1, -betha, -alpha, !color);
 	}
@@ -244,9 +289,9 @@ int negaScout(state_t s, int depth, int alpha, int betha, bool color)
 		for(int i = 0; i < succ.size(); ++i)
 		{
 			state_t new_s = s.move(color, succ[i]);
-			
+
 			value = -negaScout(new_s, depth - 1, -bestValueN, -std::max(bestValueM, alpha), !color);
-			
+
 			if(value > bestValueM)
 			{
 				if((bestValueN == betha) || (depth < 3) || (value >= betha))

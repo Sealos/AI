@@ -57,7 +57,7 @@ int main(int argc, const char **argv)
 	cout << "5. Negascout" << endl;
 	cout << endl;
 	cin >> opcion;
-	
+
 	if(opcion >= 0 && opcion <= 5)
 	{
 		switch(opcion)
@@ -80,7 +80,7 @@ int main(int argc, const char **argv)
 			cout << "Resultado de Negamax con alpha beta prunning: " << result << endl;
 			break;
 		case(4):
-			//result =  scout(state, depth, player);
+			result = seed * scout(state, depth, player);
 			cout << "Resultado de Scout: " << result << endl;
 			break;
 		case(5):

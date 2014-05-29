@@ -26,4 +26,7 @@ extern int miniMax(state_t s, int depth, bool max);
 extern int miniMaxAB(state_t s, int depth, int alpha, int betha,  bool max);
 extern int negamax(state_t s, int depth, bool color);
 extern int negamaxAB(state_t s, int depth, int alpha, int betha, bool color);
+extern int scout(state_t s, int depth, bool color);
+template <typename Comparator>
+extern bool test(state_t s, int depth, int v, bool color, Comparator comp);
 extern int negaScout(state_t s, int depth, int alpha, int betha, bool color);
