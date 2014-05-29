@@ -31,14 +31,14 @@ int miniMax(state_t s, int depth, bool jugador)
 			for(int i = 0; i < succ.size(); ++i)
 			{
  				state_t new_s = s.move(jugador, succ[i]);
-// 				hash_table_t::const_iterator it = tabla.find(new_s);
-// 				if (it == tabla.end())
-// 				{
+ 				hash_table_t::const_iterator it = tabla.find(new_s);
+ 				if (it == tabla.end())
+ 				{
 					val = miniMax(new_s, depth - 1, !jugador);
-// 					tabla.insert(std::make_pair(new_s, std::abs(val)));
-// 				}
-// 				else
-// 					val = it->second;
+ 					tabla.insert(std::make_pair(new_s, val));
+ 				}
+ 				else
+ 					val = it->second;
 
 				bestValue = std::max(bestValue, val);
 			}
@@ -47,24 +47,24 @@ int miniMax(state_t s, int depth, bool jugador)
 	}
 	else
 	{//MIN
-		std::vector<int> succ = s.get_succ(false);
+		std::vector<int> succ = s.get_succ(jugador);
 		if(succ.empty())
-			return miniMax(s, depth - 1, true);
+			return miniMax(s, depth - 1, !jugador);
 		else
 		{
 			int bestValue = INF;
 			int val;
 			for(int i = 0; i < succ.size(); ++i)
 			{
-				state_t new_s = s.move(false, succ[i]);
-// 				hash_table_t::const_iterator it = tabla.find(new_s);
-// 				if (it == tabla.end())
-// 				{
-					val = miniMax(new_s, depth - 1, true);
-// 					tabla.insert(std::make_pair(new_s, std::abs(val)));
-// 				}
-// 				else
-// 					val = -it->second;
+				state_t new_s = s.move(jugador, succ[i]);
+ 				hash_table_t::const_iterator it = tabla.find(new_s);
+ 				if (it == tabla.end())
+ 				{
+					val = miniMax(new_s, depth - 1, !jugador);
+ 					tabla.insert(std::make_pair(new_s, val));
+ 				}
+ 				else
+ 					val = it->second;
 
 				bestValue = std::min(bestValue, val);
 			}
@@ -83,7 +83,7 @@ int miniMaxAB(state_t s, int depth, int alpha, int betha,  bool jugador)
 	std::vector<int> succ = s.get_succ(jugador);
 
 	if(succ.size() <= 0){
-			return miniMaxAB(s, depth - 1, alpha, betha, !jugador);
+		return miniMaxAB(s, depth - 1, alpha, betha, !jugador);
 	}
 
 	if(jugador)//MAX
@@ -92,17 +92,17 @@ int miniMaxAB(state_t s, int depth, int alpha, int betha,  bool jugador)
 		{
 			state_t new_s = s.move(jugador, succ[i]);
 			int val;
-
-//                 hash_table_t::const_iterator it = tabla.find(new_s);
-// 				if (it == tabla.end())
-// 				{
+			
+			hash_table_t::const_iterator it = tabla.find(new_s);
+			
+			if (it == tabla.end())
+			{
 				val = miniMaxAB(new_s, depth - 1, alpha, betha, !jugador);
-				//if(depth == 16) std::cout << "Max: i=" << i << ", val=" << val << std::endl;
-// 					tabla.insert(std::make_pair(new_s, std::abs(val)));
-// 				}
-// 				else{
-// 					val = it->second;
-// 				}
+				tabla.insert(std::make_pair(new_s, val));
+			}
+			else{
+				val = it->second;
+			}
 
 			alpha = MAX(alpha, val);
 
@@ -119,17 +119,15 @@ int miniMaxAB(state_t s, int depth, int alpha, int betha,  bool jugador)
 			state_t new_s = s.move(jugador, succ[i]);
 			int val;
 
-// 				hash_table_t::const_iterator it = tabla.find(new_s);
-// 				if (it == tabla.end())
-// 				{
-				val = miniMaxAB(new_s, depth - 1, alpha, betha, !jugador);
-				//if(depth == 15) std::cout << "Min: i=" << i << ", val=" << val << std::endl;
-
-				// 					tabla.insert(std::make_pair(new_s, std::abs(val)));
-// 				}
-// 				else{
-// 					val = -it->second;
-// 				}
+ 				hash_table_t::const_iterator it = tabla.find(new_s);
+ 				if (it == tabla.end())
+ 				{
+					val = miniMaxAB(new_s, depth - 1, alpha, betha, !jugador);
+					tabla.insert(std::make_pair(new_s, val));
+ 				}
+ 				else{
+ 					val = it->second;
+ 				}
 
 			betha = MIN(betha, val);
 
@@ -150,7 +148,6 @@ int negamax(state_t s, int depth, bool color)
 	if(s.terminal())
 		return seed * s.value();
 
-
 	int bestValue = _INF;
 	int value;
 	std::vector<int> succ = s.get_succ(color);
@@ -163,15 +160,15 @@ int negamax(state_t s, int depth, bool color)
 		{
 			state_t new_s = s.move(color, succ[i]);
 
-// 			hash_table_t::const_iterator it = tabla.find(new_s);
-// 			if (it == tabla.end())
-// 			{
+ 			hash_table_t::const_iterator it = tabla.find(new_s);
+ 			if (it == tabla.end())
+ 			{
 				value = -negamax(new_s, depth - 1, !color);
-// 				tabla.insert(std::make_pair(new_s, std::abs(value)));
-// 			}
-// 			else {
-// 				value = seed * it->second;
-// 			}
+ 				tabla.insert(std::make_pair(new_s, value));
+ 			}
+ 			else {
+ 				value = it->second;
+ 			}
 
 			bestValue = MAX(bestValue, value);
 		}
@@ -191,7 +188,16 @@ int negamaxAB(state_t s, int depth, int alpha, int betha, bool color)
 	std::vector<int> succ = s.get_succ(color);
 
 	if(succ.size() <= 0){
-		return  -negamaxAB(s, depth - 1, -betha, -alpha, !color);
+		hash_table_t::const_iterator it = tabla.find(s);
+  			if (it == tabla.end())
+  			{
+ 				value = -negamaxAB(s, depth - 1, -betha, -alpha, !color);
+				tabla.insert(std::make_pair(s, value));
+  			}
+  			else {
+  				value = it->second;
+  		}
+		return value; 
 	}
 	else {
 
@@ -199,16 +205,16 @@ int negamaxAB(state_t s, int depth, int alpha, int betha, bool color)
 		{
 			state_t new_s = s.move(color, succ[i]);
 
-// 			hash_table_t::const_iterator it = tabla.find(new_s);
-//  			if (it == tabla.end())
-//  			{
+ 			hash_table_t::const_iterator it = tabla.find(new_s);
+  			if (it == tabla.end())
+  			{
  				value = -negamaxAB(new_s, depth - 1, -betha, -bestValue, !color);
-/* */				tabla.insert(std::make_pair(new_s, std::abs(value)));
-//  			}
-//  			else {
-//  				value = seed * it->second;
-//  		}
-//
+				tabla.insert(std::make_pair(new_s, value));
+  			}
+  			else {
+  				value = it->second;
+  		}
+
 			if (value > bestValue) {
 				bestValue = value;
 			}
