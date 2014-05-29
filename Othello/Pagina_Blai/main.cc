@@ -27,6 +27,51 @@ int main(int argc, const char **argv)
 	int opcion;
 	int seed = 0;
 
+	if (argc == 3)
+	{
+		opcion = stoi(argv[1]);
+		depth = stoi(argv[2]);
+	
+	for(int i = 0; i < depth; ++i)
+	{
+		player = i % 2 == 0; // black moves first
+		int pos = PV[i];
+		state = state.move(player, pos);
+	}
+	
+	player = !player;
+	seed = player ? 1 : -1;
+
+		switch(opcion)
+		{
+		case(0):
+			result = miniMax(state, depth, player);
+			//cout << "Resultado de Minimax: " << result << endl;
+			break;
+		case(1):
+			result =  miniMaxAB(state, depth, _INF, INF, player);
+			//cout << "Resultado de Minimax con alpha beta prunning: " << result << endl;// << state << endl << state.hash() << endl;
+			break;
+		case(2):
+			result = seed * negamax(state,depth, player);
+			//cout << "Resultado de Negamax: " << result << endl;
+			break;
+		case(3):
+			result = seed * negamaxAB(state, depth, _INF, INF, player);
+			//cout << "Resultado de Negamax con alpha beta prunning: " << result << endl;
+			break;
+		case(4):
+			result = scout(state, depth, player);
+			//cout << "Resultado de Scout: " << result << endl;
+			break;
+		case(5):
+			result = seed * negaScout(state, depth, _INF, INF, player);
+			//cout << "Resultado ede Negascout: " << result << endl;
+			break;
+		}
+		return 0;
+	}
+
 	cout << "Seleccione la profundidad:" << endl;
 	cout << endl;
 	cin >> depth;
