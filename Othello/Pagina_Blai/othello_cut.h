@@ -187,20 +187,20 @@ public:
 		for(int pos = 0; pos < DIM; ++pos)
 		{
 			if((color && is_black_move(pos)) ||
-					(!color && is_white_move(pos))) {
+					(!color && is_white_move(pos)))
 				valid_moves.push_back(pos);
-			}
 		}
 		return valid_moves;
 	}
 
-	std::list<int> succ(bool color){
+	std::list<int> succ(bool color)
+	{
 		std::list<int>  sucesores;
 
-		for( int pos = 0; pos < DIM; ++pos ) {
-			if((color && is_black_move(pos)) || (!color && is_white_move(pos))) {
+		for(int pos = 0; pos < DIM; ++pos)
+		{
+			if((color && is_black_move(pos)) || (!color && is_white_move(pos)))
 				sucesores.push_back(pos);
-			}
 		}
 		return sucesores;
 	}
@@ -485,10 +485,17 @@ inline std::ostream &operator<<(std::ostream &os, const state_t &state)
 	return os;
 }
 
+#define NO_EXISTE	-1
+#define COTA_ALPHA	0
+#define COTA_BETA	1
+#define COTA_EXACTA	2
+
 struct stored_info_t
 {
-	// [information to be stored in hash table]
-	stored_info_t() { } // need at least one ctor without arguments
+	stored_info_t()
+	{
+
+	}
 };
 
 struct hash_function_t : public std::tr1::hash<state_t>
@@ -504,3 +511,6 @@ class hash_table_t : public std::tr1::unordered_map<state_t, int, hash_function_
 {
 };
 
+class hash_table_ : public std::tr1::unordered_map<state_t, stored_info_t, hash_function_t>
+{
+};

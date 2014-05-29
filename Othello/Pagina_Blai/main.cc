@@ -15,6 +15,7 @@
  */
 
 #include "funciones.h"
+#include <stdlib.h>
 
 using namespace std;
 
@@ -27,20 +28,20 @@ int main(int argc, const char **argv)
 	int opcion;
 	int seed = 0;
 
-	if (argc == 3)
+	if(argc == 3)
 	{
-		opcion = stoi(argv[1]);
-		depth = stoi(argv[2]);
-	
-	for(int i = 0; i < depth; ++i)
-	{
-		player = i % 2 == 0; // black moves first
-		int pos = PV[i];
-		state = state.move(player, pos);
-	}
-	
-	player = !player;
-	seed = player ? 1 : -1;
+		opcion = strtol(argv[1], 0, 10);
+		depth = strtol(argv[2], 0, 10);
+
+		for(int i = 0; i < depth; ++i)
+		{
+			player = i % 2 == 0; // black moves first
+			int pos = PV[i];
+			state = state.move(player, pos);
+		}
+
+		player = !player;
+		seed = player ? 1 : -1;
 
 		switch(opcion)
 		{
@@ -53,7 +54,7 @@ int main(int argc, const char **argv)
 			//cout << "Resultado de Minimax con alpha beta prunning: " << result << endl;// << state << endl << state.hash() << endl;
 			break;
 		case(2):
-			result = seed * negamax(state,depth, player);
+			result = seed * negamax(state, depth, player);
 			//cout << "Resultado de Negamax: " << result << endl;
 			break;
 		case(3):
@@ -83,17 +84,17 @@ int main(int argc, const char **argv)
 		cin >> depth;
 	}
 
-	
+
 	for(int i = 0; i < depth; ++i)
 	{
 		player = i % 2 == 0; // black moves first
 		int pos = PV[i];
 		state = state.move(player, pos);
 	}
-	
+
 	player = !player;
 	seed = player ? 1 : -1;
-	
+
 	cout << "Seleccione el algoritmo a ejecutar:" << endl;
 	cout << "0. Minimax" << endl;
 	cout << "1. Minimax con alpha beta prunning" << endl;
@@ -105,7 +106,7 @@ int main(int argc, const char **argv)
 	cin >> opcion;
 
 	cout << "d = " << 33 - depth << endl;
-	
+
 	if(opcion >= 0 && opcion <= 5)
 	{
 		switch(opcion)
@@ -119,7 +120,7 @@ int main(int argc, const char **argv)
 			cout << "Resultado de Minimax con alpha beta prunning: " << result << endl;// << state << endl << state.hash() << endl;
 			break;
 		case(2):
-			result = seed * negamax(state,depth, player);
+			result = seed * negamax(state, depth, player);
 			cout << "Resultado de Negamax: " << result << endl;
 			break;
 		case(3):
