@@ -93,20 +93,10 @@ int miniMaxAB(state_t s, int depth, int alpha, int betha,  bool jugador)
 		for(int i = 0; i < succ.size(); ++i)
 		{
 			state_t new_s = s.move(jugador, succ[i]);
-			int val;
-
-			hash_table_t::const_iterator it = tabla.find(new_s);
-
-			if(it == tabla.end())
-			{
-				val = miniMaxAB(new_s, depth - 1, alpha, betha, !jugador);
-				tabla.insert(std::make_pair(new_s, val));
-			}
-			else
-				val = it->second;
-
+			int val = miniMaxAB(new_s, depth - 1, alpha, betha, !jugador);
+			
 			alpha = MAX(alpha, val);
-
+			
 			if(betha <= alpha)
 				break;
 		}
@@ -118,17 +108,8 @@ int miniMaxAB(state_t s, int depth, int alpha, int betha,  bool jugador)
 		for(int i = 0; i < succ.size(); ++i)
 		{
 			state_t new_s = s.move(jugador, succ[i]);
-			int val;
-
-			hash_table_t::const_iterator it = tabla.find(new_s);
-			if(it == tabla.end())
-			{
-				val = miniMaxAB(new_s, depth - 1, alpha, betha, !jugador);
-				tabla.insert(std::make_pair(new_s, val));
-			}
-			else
-				val = it->second;
-
+			int val = miniMaxAB(new_s, depth - 1, alpha, betha, !jugador);
+			
 			betha = MIN(betha, val);
 
 			if(betha <= alpha)
@@ -188,14 +169,7 @@ int negamaxAB(state_t s, int depth, int alpha, int betha, bool color)
 
 	if(succ.size() <= 0)
 	{
-// 		hash_table_t::const_iterator it = tabla.find(s);
-// 		if(it == tabla.end())
-// 		{
-			value = -negamaxAB(s, depth - 1, -betha, -alpha, !color);
-// 			tabla.insert(std::make_pair(s, value));
-// 		}
-// 		else
-// 			value = it->second;
+		value = -negamaxAB(s, depth - 1, -betha, -alpha, !color);
 		return value;
 	}
 	else
@@ -204,16 +178,9 @@ int negamaxAB(state_t s, int depth, int alpha, int betha, bool color)
 		for(int i = 0; i < succ.size(); ++i)
 		{
 			state_t new_s = s.move(color, succ[i]);
-
-// 			hash_table_t::const_iterator it = tabla.find(new_s);
-// 			if(it == tabla.end())
-// 			{
-				value = -negamaxAB(new_s, depth - 1, -betha, -bestValue, !color);
-// 				tabla.insert(std::make_pair(new_s, value));
-// 			}
-// 			else
-// 				value = it->second;
-
+			
+			value = -negamaxAB(new_s, depth - 1, -betha, -bestValue, !color);
+			
 			if(value > bestValue)
 				bestValue = value;
 			if(bestValue >= betha)
