@@ -188,14 +188,14 @@ int negamaxAB(state_t s, int depth, int alpha, int betha, bool color)
 
 	if(succ.size() <= 0)
 	{
-		hash_table_t::const_iterator it = tabla.find(s);
-		if(it == tabla.end())
-		{
+// 		hash_table_t::const_iterator it = tabla.find(s);
+// 		if(it == tabla.end())
+// 		{
 			value = -negamaxAB(s, depth - 1, -betha, -alpha, !color);
-			tabla.insert(std::make_pair(s, value));
-		}
-		else
-			value = it->second;
+// 			tabla.insert(std::make_pair(s, value));
+// 		}
+// 		else
+// 			value = it->second;
 		return value;
 	}
 	else
@@ -205,14 +205,14 @@ int negamaxAB(state_t s, int depth, int alpha, int betha, bool color)
 		{
 			state_t new_s = s.move(color, succ[i]);
 
-			hash_table_t::const_iterator it = tabla.find(new_s);
-			if(it == tabla.end())
-			{
+// 			hash_table_t::const_iterator it = tabla.find(new_s);
+// 			if(it == tabla.end())
+// 			{
 				value = -negamaxAB(new_s, depth - 1, -betha, -bestValue, !color);
-				tabla.insert(std::make_pair(new_s, value));
-			}
-			else
-				value = it->second;
+// 				tabla.insert(std::make_pair(new_s, value));
+// 			}
+// 			else
+// 				value = it->second;
 
 			if(value > bestValue)
 				bestValue = value;
@@ -327,17 +327,26 @@ int scout(state_t s, int depth, bool color)
 	{
 
 		state_t new_s = s.move(color, succ[0]);
-		int v = scout(new_s, depth - 1, !color);
+		//int v = scout(new_s, depth - 1, !color);
 
+		int v;
+		hash_table_t::const_iterator it = tabla.find(new_s);
+			if(it == tabla.end())
+			{
+				v = scout(new_s, depth - 1, !color);
+				tabla.insert(std::make_pair(new_s, v));
+			}
+			else
+				v = it->second;
+
+		
 		for(int i = 1; i < succ.size(); ++i)
 		{
 			state_t new_s = s.move(color, succ[i]);
-
-			//std::greater<int> mayq;
+			
 			if(color && test(new_s, depth - 1, v, !color, MAYOR))
 				v = scout(new_s, depth - 1, !color);
 
-			//std::less<int> menq;
 			if(!color && test(new_s, depth - 1, v, !color, MENOR))
 				v = scout(new_s, depth - 1, !color);
 		}
