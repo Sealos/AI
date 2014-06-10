@@ -6,11 +6,9 @@ import pprint
 n = 0
 
 #9*9*9 variables
-def encode(puzzle):
-	file_out = sys.argv[3]
+def encode(puzzle, f):
 	variables = [[[0 for _ in range(n)] for _ in range(n)] for _ in range(n)]
 	num = 0
-	f = open(file_out, 'w')
 	for i in range(n):
 		for j in range(n):
 			for num in range(n):
@@ -21,10 +19,49 @@ def encode(puzzle):
 					s = "-" + str(val) + " 0\n"
 				f.write(s)
 
+def clo_one_number_per_pos(f):
+	s = ""
+	dif = ""
+	# Al menos 1
+	for i in range(n):
+		for j in range(n):
+			for num in range(n):
+				var = n3_to_n(i, j, num) + 1
+				for n_num in range(num, n):
+					n_var = n3_to_n(i, j, n_num) + 1
+					if (var != n_var):
+						dif = dif + "-" + str(var) + " -" + str(n_var) + " 0\n"
+				s = s + str(var) + " "
+			s = s + "0\n"
+			f.write(s)
+			f.write(dif)
+			s = ""
+			dif = ""
+
+
+def clo_one_number_per_grid(f):
+	for i in range(n):
+		for j in range(n):
+
+def clo_one_number_per_row(f):
+	return None
+
+def clo_one_number_per_collum(f):
+	return None
+
+
+def clo_fixed(f):
+	clo_one_number_per_pos(f)
+	clo_one_number_per_grid(f)
+	clo_one_number_per_row(f)
+	clo_one_number_per_collum(f)
+
 def parse(puzzle):
 	count = 0
 	x = 0
 	y = 0
+	file_out = sys.argv[3]
+	f = open(file_out, 'w')
 	tablero = [[0 for _ in range(n)] for _ in range(n)]
 	puzzle = puzzle.rstrip('\n')
 	for char in puzzle:
@@ -34,8 +71,9 @@ def parse(puzzle):
 		x = count // n
 		y = count % n
 	pprint.pprint(tablero)
-	encode(tablero)
-	#add_fixed_closures()
+	encode(tablero, f)
+	clo_fixed(f)
+	f.close()
 	print()
 
 def open_file(file):
@@ -43,6 +81,8 @@ def open_file(file):
 	for line in f:
 		if (len(line) > 1):
 			parse(line)
+	f.close()
+
 
 def n_to_n3(v_number):
 	num = v_number % n
