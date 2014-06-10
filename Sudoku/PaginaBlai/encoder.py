@@ -7,25 +7,19 @@ n = 0
 
 #9*9*9 variables
 def encode(puzzle):
-	f = sys.argv[3]
+	file_out = sys.argv[3]
 	variables = [[[0 for _ in range(n)] for _ in range(n)] for _ in range(n)]
 	num = 0
-	open(f, 'w')
+	f = open(file_out, 'w')
 	for i in range(n):
 		for j in range(n):
 			for num in range(n):
 				val = n3_to_n(i, j, num)
 				if (num == puzzle[i][j]):
-					s = str(val) + " 0\n"
+					s = str(val) + " 0" + str(i) + " " + str(j) + " " + str(num) + " " + str(val) + "\n"
 				else:
-					s = "-" + str(val) + " 0\n"
-				print(s)
+					s = "-" + str(val) + " 0" + str(i) + " " + str(j) + " " + str(num) + " " + str(val) + "\n"
 				f.write(s)
-			"""
-			num = puzzle[i][j]
-			if (num != 0):
-				variables[i][j][num - 1] = True
-			"""
 
 
 
@@ -41,7 +35,7 @@ def parse(puzzle):
 		count = count + 1
 		x = count // n
 		y = count % n
-	#pprint.pprint(tablero)
+	pprint.pprint(tablero)
 	encode(tablero)
 	#add_fixed_closures()
 	print()
@@ -65,7 +59,7 @@ def n3_to_n(x, y, num):
 	s2 = n * n
 	s1 = n * s2
 
-	return x + y * n + num * n * n
+	return x*n*n + y*n + num
 
 def main(argc = 0, argv = None):
 	if (len(argv) != 4):
