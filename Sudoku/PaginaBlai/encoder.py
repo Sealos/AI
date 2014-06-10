@@ -14,14 +14,12 @@ def encode(puzzle):
 	for i in range(n):
 		for j in range(n):
 			for num in range(n):
-				val = n3_to_n(i, j, num)
+				val = n3_to_n(i, j, num) + 1
 				if (num == puzzle[i][j]):
 					s = str(val) + " 0\n"
 				else:
 					s = "-" + str(val) + " 0\n"
 				f.write(s)
-
-
 
 def parse(puzzle):
 	count = 0
