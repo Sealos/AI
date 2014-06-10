@@ -22,7 +22,6 @@ def encode(puzzle, f):
 def clo_one_number_per_pos(f):
 	s = ""
 	dif = ""
-	# Al menos 1
 	for i in range(n):
 		for j in range(n):
 			for num in range(n):
@@ -40,15 +39,43 @@ def clo_one_number_per_pos(f):
 
 
 def clo_one_number_per_grid(f):
-	for i in range(n):
-		for j in range(n):
+	return None
 
 def clo_one_number_per_row(f):
-	return None
+	s = ""
+	dif = ""
+	for j in range(n):
+		for num in range(n):
+			for i in range(n):
+				var = n3_to_n(i, j, num) + 1
+				for n_i in range(i, n):
+					n_var = n3_to_n(n_i, j, num) + 1
+					if (var != n_var):
+						dif = dif + "-" + str(var) + " -" + str(n_var) + " 0\n"
+				s = s + str(var) + " "
+			s = s + "0\n"
+			f.write(s)
+			f.write(dif)
+			s = ""
+			dif = ""
 
 def clo_one_number_per_collum(f):
-	return None
-
+	s = ""
+	dif = ""
+	for i in range(n):
+		for num in range(n):
+			for j in range(n):
+				var = n3_to_n(i, j, num) + 1
+				for n_j in range(j, n):
+					n_var = n3_to_n(i, n_j, num) + 1
+					if (var != n_var):
+						dif = dif + "-" + str(var) + " -" + str(n_var) + " 0\n"
+				s = s + str(var) + " "
+			s = s + "0\n"
+			f.write(s)
+			f.write(dif)
+			s = ""
+			dif = ""
 
 def clo_fixed(f):
 	clo_one_number_per_pos(f)
