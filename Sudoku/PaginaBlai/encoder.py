@@ -5,6 +5,18 @@ import pprint
 
 n = 0
 
+def primes(n):
+	primfac = []
+	d = 2
+	while d*d <= n:
+		while (n % d) == 0:
+			primfac.append(d)  # supposing you want multiple factors repeated
+			n /= d
+		d += 1
+	if (n > 1):
+		primfac.append(n)
+	return primfac
+
 #9*9*9 variables
 def encode(puzzle, f):
 	variables = [[[0 for _ in range(n)] for _ in range(n)] for _ in range(n)]
