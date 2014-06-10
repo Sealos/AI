@@ -40,7 +40,7 @@ def n3_to_n(x, y, num):
 
 	return x + y * n + num * n * n
 
-def main(argc = 0, argv = None):
+def main(argc = 0, argv = None):	
 	if (len(argv) != 4):
 		exit(1)
 	print(str(argc))
