@@ -16,9 +16,9 @@ def encode(puzzle):
 			for num in range(n):
 				val = n3_to_n(i, j, num)
 				if (num == puzzle[i][j]):
-					s = str(val) + " 0" + str(i) + " " + str(j) + " " + str(num) + " " + str(val) + "\n"
+					s = str(val) + " 0\n"
 				else:
-					s = "-" + str(val) + " 0" + str(i) + " " + str(j) + " " + str(num) + " " + str(val) + "\n"
+					s = "-" + str(val) + " 0\n"
 				f.write(s)
 
 
@@ -54,11 +54,9 @@ def n_to_n3(v_number):
 	x = rest
 	return [x, y, num]
 
-# (n x n x n) -> n
 def n3_to_n(x, y, num):
 	s2 = n * n
 	s1 = n * s2
-
 	return x*n*n + y*n + num
 
 def main(argc = 0, argv = None):
