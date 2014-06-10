@@ -6,20 +6,19 @@ n = 0
 tablero = None
 variables = None
 
-def n_to_n3(v_number, value = False	):
-	x = v_number % n
+def n_to_n3(v_number):
+	num = v_number % n
 	rest = v_number // n
 	y = rest % n
 	rest = rest // n
-	num = rest
+	x = rest
 	return [x, y, num]
 
-# (n x n x n) -> n
-def n3_to_n(x, y, num, value = False):
+def n3_to_n(x, y, num):
 	s2 = n * n
 	s1 = n * s2
+	return x*n*n + y*n + num
 
-	return x + y * n + num * n * n
 
 def main(argv = None):
 	if (len(sys.argv) > 0):
