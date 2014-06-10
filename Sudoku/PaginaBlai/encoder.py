@@ -47,11 +47,11 @@ def open_file(file):
 			parse(line)
 
 def n_to_n3(v_number):
-	x = v_number % n
+	num = v_number % n
 	rest = v_number // n
 	y = rest % n
 	rest = rest // n
-	num = rest
+	x = rest
 	return [x, y, num]
 
 # (n x n x n) -> n
