@@ -19,16 +19,26 @@ def n3_to_n(x, y, num):
 	s1 = n * s2
 	return x*n*n + y*n + num
 
+def open_file(file):
+	f = open(file)
+	first = f.readline()
+	if (first == 'SAT\n'):
+		for line in f:
+			print(line)
+	else:
+		print("UNSAT")	
+	f.close()
 
 def main(argv = None):
-	if (len(sys.argv) > 0):
+	if (len(argv) == 4):
 		global n
 		n = int(sys.argv[1])
+		file_in = argv[2]
+		file_out = argv[3]
+		open_file(file_in)
 	else:
 		exit(1)
-
-
-
+	
 #ran = range(0, n)
 
 main(sys.argv)
