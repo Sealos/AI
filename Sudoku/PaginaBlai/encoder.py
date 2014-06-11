@@ -17,6 +17,7 @@ def primes(n):
 		primfac.append(n)
 	return primfac
 
+	
 #9*9*9 variables
 def encode(puzzle, f):
 	variables = [[[0 for _ in range(n)] for _ in range(n)] for _ in range(n)]
@@ -48,9 +49,24 @@ def clo_one_number_per_pos(f):
 			s = ""
 			dif = ""
 
-
 def clo_one_number_per_grid(f):
-	return None
+	s = ""
+	dif = ""
+	for num in range(n):
+		for n_i in range(0, n):
+			for n_j in range(0, n):
+				for i in range(n):
+					for j in range(n):
+						var = n3_to_n(i, j, num) + 1
+						for k in range(j+1, n):
+							n_var = n3_to_n(3*n_i + i, 3*n_j + j, num) + 1
+							dif = dif + "-" + str(var) + " -" + str(n_var) + " 0\n"
+						s = s + str(var) + " "
+					s = s + "0\n"
+					f.write(s)
+					f.write(dif)
+					s = ""
+					dif = ""
 
 def clo_one_number_per_row(f):
 	s = ""
@@ -129,8 +145,6 @@ def n_to_n3(v_number):
 	return [x, y, num]
 
 def n3_to_n(x, y, num):
-	s2 = n * n
-	s1 = n * s2
 	return x*n*n + y*n + num
 
 def main(argc = 0, argv = None):	
