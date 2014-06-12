@@ -17,7 +17,7 @@ def primes(n):
 		primfac.append(n)
 	return primfac
 
-	
+
 #9*9*9 variables
 def encode(puzzle, f):
 	variables = [[[0 for _ in range(n)] for _ in range(n)] for _ in range(n)]
@@ -28,17 +28,15 @@ def encode(puzzle, f):
 				val = n3_to_n(i, j, num) + 1
 				if (num == puzzle[i][j]):
 					s = str(val) + " 0\n"
-				else:
-					s = "-" + str(val) + " 0\n"
-				f.write(s)
+					#f.write(s)
 
 
 def clo_one_number_per_pos(f):
 	s = ""
 	dif = ""
-	for i in range(1, n):
-		for j in range(1, n):
-			for num in range(1, n):
+	for i in range(n):
+		for j in range(n):
+			for num in range(n):
 				var = n3_to_n(i, j, num) + 1
 				for n_num in range(num + 1, n):
 					n_var = n3_to_n(i, j, n_num) + 1
@@ -53,6 +51,7 @@ def clo_one_number_per_pos(f):
 def clo_one_number_per_grid(f):
 	clo_one_number_per_grid_1(f)
 	clo_one_number_per_grid_2(f)
+	clo_one_number_per_grid_3(f)
 
 def clo_one_number_per_grid_1(f):
 	s = ""
@@ -92,13 +91,33 @@ def clo_one_number_per_grid_2(f):
 					f.write(dif)
 					s = ""
 					dif = ""
-	
-def clo_one_number_per_row(f):
+
+def clo_one_number_per_grid_3(f):
 	s = ""
 	dif = ""
-	for j in range(1, n):
-		for num in range(1, n):
-			for i in range(1, n - 1):
+	for num in range(1, n):
+		for n_i in range(0, 2):
+			for n_j in range(0, 2):
+				for i in range(1,3):
+					for j in range(1,3):
+						var = n3_to_n(3*n_i + i, 3*n_j + j, num) + 1
+						for k in range(i+1, n):
+							for l in range(1,3):
+								n_var = n3_to_n((3*n_i + k), (3*n_j + l), num) + 1
+								dif = dif + "-" + str(var) + " -" + str(n_var) + " 0\n"
+						s = s + str(var) + " "
+					s = s + "0\n"
+					f.write(s)
+					f.write(dif)
+					s = ""
+					dif = ""
+
+def clo_one_number_per_collum(f):
+	s = ""
+	dif = ""
+	for j in range(n):
+		for num in range(n):
+			for i in range(n):
 				var = n3_to_n(i, j, num) + 1
 				for n_i in range(i + 1, n):
 					n_var = n3_to_n(n_i, j, num) + 1
@@ -110,12 +129,12 @@ def clo_one_number_per_row(f):
 			s = ""
 			dif = ""
 
-def clo_one_number_per_collum(f):
+def clo_one_number_per_row(f):
 	s = ""
 	dif = ""
-	for i in range(1, n):
-		for num in range(1, n):
-			for j in range(1, n - 1):
+	for i in range(n):
+		for num in range(n):
+			for j in range(n):
 				var = n3_to_n(i, j, num) + 1
 				for n_j in range(j + 1, n):
 					n_var = n3_to_n(i, n_j, num) + 1
@@ -129,7 +148,7 @@ def clo_one_number_per_collum(f):
 
 def clo_fixed(f):
 	clo_one_number_per_pos(f)
-	clo_one_number_per_grid(f)
+	#clo_one_number_per_grid(f)
 	clo_one_number_per_row(f)
 	clo_one_number_per_collum(f)
 
@@ -171,7 +190,7 @@ def n_to_n3(v_number):
 def n3_to_n(x, y, num):
 	return x*n*n + y*n + num
 
-def main(argc = 0, argv = None):	
+def main(argc = 0, argv = None):
 	if (len(argv) != 4):
 		exit(1)
 	global n

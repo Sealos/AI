@@ -1,11 +1,9 @@
 #!/usr/bin/python
 
 import sys
+import pprint
 
 n = 0
-tablero = None
-variables = None
-
 def n_to_n3(v_number):
 	num = v_number % n
 	rest = v_number // n
@@ -15,18 +13,25 @@ def n_to_n3(v_number):
 	return [x, y, num]
 
 def n3_to_n(x, y, num):
-	s2 = n * n
-	s1 = n * s2
 	return x*n*n + y*n + num
+
+def print_sudoku(puzzle):
+	print(len(puzzle))
+	tablero = [[-1 for _ in range(n)] for _ in range(n)]
+	for var in puzzle:
+		l = n_to_n3(int(var) - 1)
+		tablero[l[0]][l[1]] = l[2]
+	pprint.pprint(tablero)
 
 def open_file(file):
 	f = open(file)
 	first = f.readline()
 	if (first == 'SAT\n'):
-		for line in f:
-			print(line)
+		res = f.readline().split()
+		l = [i for i in res if i[0] != '-']
+		print_sudoku(l[:-1])
 	else:
-		print("UNSAT")	
+		print("UNSAT")
 	f.close()
 
 def main(argv = None):
@@ -38,10 +43,7 @@ def main(argv = None):
 		open_file(file_in)
 	else:
 		exit(1)
-	
+
 #ran = range(0, n)
 
 main(sys.argv)
-
-#tablero = [[[0 for _ in range(n)] for _ in range(n)]
-#variables = [[[0 for _ in range(n)] for _ in range(n)] for _ in range(n)]
