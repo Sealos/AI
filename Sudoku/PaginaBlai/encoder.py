@@ -1,26 +1,11 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 import sys
 import pprint
-
 n = 0
-
-def primes(n):
-	primfac = []
-	d = 2
-	while d*d <= n:
-		while (n % d) == 0:
-			primfac.append(d)  # supposing you want multiple factors repeated
-			n /= d
-		d += 1
-	if (n > 1):
-		primfac.append(n)
-	return primfac
-
 
 #9*9*9 variables
 def encode(puzzle, f):
-	pprint.pprint(puzzle)
 	num = 0
 	for i in range(n):
 		for j in range(n):
@@ -152,7 +137,6 @@ def parse(puzzle):
 	encode(tablero, f)
 	clo_fixed(f)
 	f.close()
-	print()
 
 def open_file(file):
 	f = open(file)
@@ -165,7 +149,7 @@ def n3_to_n(x, y, num):
 	return x*n*n + y*n + num
 
 def main(argc = 0, argv = None):
-	if (len(argv) != 4):
+	if (argc != 4):
 		exit(1)
 	global n
 	n = int(argv[1])

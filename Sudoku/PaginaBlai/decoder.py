@@ -1,7 +1,6 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 import sys
-import pprint
 
 n = 0
 def n_to_n3(v_number):
@@ -13,12 +12,14 @@ def n_to_n3(v_number):
 	return [x, y, num]
 
 def print_sudoku(puzzle):
-	print(len(puzzle))
 	tablero = [[-1 for _ in range(n)] for _ in range(n)]
 	for var in puzzle:
 		l = n_to_n3(int(var) - 1)
 		tablero[l[0]][l[1]] = l[2] + 1
-	pprint.pprint(tablero)
+
+	for i in range(n):
+		for j in range(n):
+			print(str(tablero[i][j]), end = "")
 
 def open_file(file):
 	f = open(file)
@@ -32,15 +33,12 @@ def open_file(file):
 	f.close()
 
 def main(argv = None):
-	if (len(argv) == 4):
+	if (len(argv) == 3):
 		global n
 		n = int(sys.argv[1])
 		file_in = argv[2]
-		file_out = argv[3]
 		open_file(file_in)
 	else:
 		exit(1)
-
-#ran = range(0, n)
 
 main(sys.argv)
