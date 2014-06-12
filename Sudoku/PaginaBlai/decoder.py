@@ -12,15 +12,12 @@ def n_to_n3(v_number):
 	x = rest
 	return [x, y, num]
 
-def n3_to_n(x, y, num):
-	return x*n*n + y*n + num
-
 def print_sudoku(puzzle):
 	print(len(puzzle))
 	tablero = [[-1 for _ in range(n)] for _ in range(n)]
 	for var in puzzle:
 		l = n_to_n3(int(var) - 1)
-		tablero[l[0]][l[1]] = l[2]
+		tablero[l[0]][l[1]] = l[2] + 1
 	pprint.pprint(tablero)
 
 def open_file(file):

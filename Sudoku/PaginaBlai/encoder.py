@@ -20,15 +20,15 @@ def primes(n):
 
 #9*9*9 variables
 def encode(puzzle, f):
-	variables = [[[0 for _ in range(n)] for _ in range(n)] for _ in range(n)]
+	pprint.pprint(puzzle)
 	num = 0
 	for i in range(n):
 		for j in range(n):
 			for num in range(n):
 				val = n3_to_n(i, j, num) + 1
-				if (num == puzzle[i][j]):
+				if (num == puzzle[i][j] - 1):
 					s = str(val) + " 0\n"
-					#f.write(s)
+					f.write(s)
 
 
 def clo_one_number_per_pos(f):
@@ -55,62 +55,45 @@ def clo_one_number_per_grid(f):
 
 def clo_one_number_per_grid_1(f):
 	s = ""
-	dif = ""
-	for num in range(1, n):
-		for n_i in range(0, 2):
-			for n_j in range(0, 2):
-				for i in range(1,3):
-					for j in range(1,3):
-						var = n3_to_n(3*n_i + i, 3*n_j + j, num) + 1
-						for k in range(j+1, n):
-							n_var = n3_to_n(3*n_i + i, 3*n_j + k, num) + 1
-							dif = dif + "-" + str(var) + " -" + str(n_var) + " 0\n"
-						s = s + str(var) + " "
-					s = s + "0\n"
-					f.write(s)
-					f.write(dif)
-					s = ""
-					dif = ""
+	for num in range(n):
+		for i in range(3):
+			for j in range(3):
+				for x in range(3):
+					for y in range(3):
+						var = n3_to_n(3*i + x, 3*j + y, num) + 1
+						for k in range(y + 1, 3):
+							n_var = n3_to_n(3*i + x, 3*j + k, num) + 1
+							s = "-" + str(var) + " -" + str(n_var) + " 0\n"
+							f.write(s)
+
 
 def clo_one_number_per_grid_2(f):
 	s = ""
-	dif = ""
-	for num in range(1, n):
-		for n_i in range(0, 2):
-			for n_j in range(0, 2):
-				for i in range(1,3):
-					for j in range(1,3):
-						var = n3_to_n(3*n_i + i, 3*n_j + j, num) + 1
-						for k in range(i+1, n):
-							for l in range(1,3):
-								n_var = n3_to_n((3*n_i + k), (3*n_j + l), num) + 1
-								dif = dif + "-" + str(var) + " -" + str(n_var) + " 0\n"
-						s = s + str(var) + " "
-					s = s + "0\n"
-					f.write(s)
-					f.write(dif)
-					s = ""
-					dif = ""
+	for num in range(n):
+		for i in range(3):
+			for j in range(3):
+				for x in range(3):
+					for y in range(3):
+						var = n3_to_n(3*i + x, 3*j + y, num) + 1
+						for k in range(x + 1, 3):
+							for l in range(3):
+								n_var = n3_to_n(3*i + k, 3*j + l, num) + 1
+								s = "-" + str(var) + " -" + str(n_var) + " 0\n"
+								f.write(s)
 
 def clo_one_number_per_grid_3(f):
 	s = ""
-	dif = ""
-	for num in range(1, n):
-		for n_i in range(0, 2):
-			for n_j in range(0, 2):
-				for i in range(1,3):
-					for j in range(1,3):
-						var = n3_to_n(3*n_i + i, 3*n_j + j, num) + 1
-						for k in range(i+1, n):
-							for l in range(1,3):
-								n_var = n3_to_n((3*n_i + k), (3*n_j + l), num) + 1
-								dif = dif + "-" + str(var) + " -" + str(n_var) + " 0\n"
+	for i in range(3):
+		for j in range(3):
+			for x in range(3):
+				for y in range(3):
+					for num in range(n):
+						var = n3_to_n(3*i + x, 3*j + y, num) + 1
 						s = s + str(var) + " "
 					s = s + "0\n"
 					f.write(s)
-					f.write(dif)
 					s = ""
-					dif = ""
+
 
 def clo_one_number_per_collum(f):
 	s = ""
@@ -148,7 +131,7 @@ def clo_one_number_per_row(f):
 
 def clo_fixed(f):
 	clo_one_number_per_pos(f)
-	#clo_one_number_per_grid(f)
+	clo_one_number_per_grid(f)
 	clo_one_number_per_row(f)
 	clo_one_number_per_collum(f)
 
@@ -166,7 +149,6 @@ def parse(puzzle):
 		count = count + 1
 		x = count // n
 		y = count % n
-	pprint.pprint(tablero)
 	encode(tablero, f)
 	clo_fixed(f)
 	f.close()
@@ -178,14 +160,6 @@ def open_file(file):
 		if (len(line) > 1):
 			parse(line)
 	f.close()
-
-def n_to_n3(v_number):
-	num = v_number % n
-	rest = v_number // n
-	y = rest % n
-	rest = rest // n
-	x = rest
-	return [x, y, num]
 
 def n3_to_n(x, y, num):
 	return x*n*n + y*n + num
@@ -199,4 +173,4 @@ def main(argc = 0, argv = None):
 	file_out = argv[3]
 	open_file(file_in)
 
-exit(main(len(sys.argv), sys.argv))
+main(len(sys.argv), sys.argv)
